@@ -309,7 +309,7 @@
 <td><p>Apply a function on an object of <cite>input_type</cite> or mapping, or sequence of objects of <cite>input_type</cite>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ignite.utils.to_onehot" title="ignite.utils.to_onehot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_onehot</span></code></a></p></td>
-<td><p>Convert a tensor of indices of any shape <cite>(N, …)</cite> to a tensor of one-hot indicators of shape <a href="#id1"><span class="problematic" id="id2">`</span></a>(N, num_classes, …) and of type uint8.</p></td>
+<td><p>Convert a tensor of indices of any shape <cite>(N, …)</cite> to a tensor of one-hot indicators of shape <cite>(N, num_classes, …)</cite> and of type uint8.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ignite.utils.setup_logger" title="ignite.utils.setup_logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_logger</span></code></a></p></td>
 <td><p>Setups logger: name, level, format etc.</p></td>
@@ -441,8 +441,8 @@ If None, distributed_rank is initialized to the rank of process.</p></li>
 <dt id="ignite.utils.to_onehot">
 <code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">to_onehot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">indices</span></em>, <em class="sig-param"><span class="n">num_classes</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#to_onehot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.to_onehot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a tensor of indices of any shape <cite>(N, …)</cite> to a
-tensor of one-hot indicators of shape <cite>(N, num_classes, …) and of type uint8. Output’s device is equal to the
-input’s device</cite>.</p>
+tensor of one-hot indicators of shape <cite>(N, num_classes, …)</cite> and of type uint8. Output’s device is equal to the
+input’s device`.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

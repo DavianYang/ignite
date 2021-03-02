@@ -1042,9 +1042,9 @@ rates and what can be an optimal learning rate.</p>
 <code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">trainer</em>, <em class="sig-param">to_save</em>, <em class="sig-param">output_transform=&lt;function FastaiLRFinder.&lt;lambda&gt;&gt;</em>, <em class="sig-param">num_iter=None</em>, <em class="sig-param">end_lr=10.0</em>, <em class="sig-param">step_mode='exp'</em>, <em class="sig-param">smooth_f=0.05</em>, <em class="sig-param">diverge_th=5.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/handlers/lr_finder.html#FastaiLRFinder.attach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.handlers.lr_finder.FastaiLRFinder.attach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attaches lr_finder to a given trainer. It also resets model and optimizer at the end of the run.</p>
 <p>Usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>to_save = {&quot;model&quot;: model, &quot;optimizer&quot;: optimizer}
-with lr_finder.attach(trainer, to_save=to_save) as trainer_with_lr_finder:
-    trainer_with_lr_finder.run(dataloader)`
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">to_save</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="n">optimizer</span><span class="p">}</span>
+<span class="k">with</span> <span class="n">lr_finder</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">to_save</span><span class="o">=</span><span class="n">to_save</span><span class="p">)</span> <span class="k">as</span> <span class="n">trainer_with_lr_finder</span><span class="p">:</span>
+    <span class="n">trainer_with_lr_finder</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
