@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/handlers/lr_finder.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/handlers/lr_finder.html">v0.4.4</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -484,11 +485,11 @@
 <span class="sd">            pip install matplotlib</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            skip_start (int, optional): number of batches to trim from the start.</span>
+<span class="sd">            skip_start: number of batches to trim from the start.</span>
 <span class="sd">                Default: 10.</span>
-<span class="sd">            skip_end (int, optional): number of batches to trim from the start.</span>
+<span class="sd">            skip_end: number of batches to trim from the start.</span>
 <span class="sd">                Default: 5.</span>
-<span class="sd">            log_lr (bool, optional): True to plot the learning rate in a logarithmic</span>
+<span class="sd">            log_lr: True to plot the learning rate in a logarithmic</span>
 <span class="sd">                scale; otherwise, plotted in a linear scale. Default: True.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -558,30 +559,30 @@
 
 <span class="sd">            to_save = {&quot;model&quot;: model, &quot;optimizer&quot;: optimizer}</span>
 <span class="sd">            with lr_finder.attach(trainer, to_save=to_save) as trainer_with_lr_finder:</span>
-<span class="sd">                trainer_with_lr_finder.run(dataloader)`</span>
+<span class="sd">                trainer_with_lr_finder.run(dataloader)</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            trainer (Engine): lr_finder is attached to this trainer. Please, keep in mind that all attached handlers</span>
+<span class="sd">            trainer: lr_finder is attached to this trainer. Please, keep in mind that all attached handlers</span>
 <span class="sd">                will be executed.</span>
-<span class="sd">            to_save (Mapping): dictionary with optimizer and other objects that needs to be restored after running</span>
+<span class="sd">            to_save: dictionary with optimizer and other objects that needs to be restored after running</span>
 <span class="sd">                the LR finder. For example, `to_save={&#39;optimizer&#39;: optimizer, &#39;model&#39;: model}`. All objects should</span>
 <span class="sd">                implement `state_dict` and `load_state_dict` methods.</span>
-<span class="sd">            output_transform (callable, optional): function that transforms the trainer&#39;s `state.output` after each</span>
+<span class="sd">            output_transform: function that transforms the trainer&#39;s `state.output` after each</span>
 <span class="sd">                iteration. It must return the loss of that iteration.</span>
-<span class="sd">            num_iter (int, optional): number of iterations for lr schedule between base lr and end_lr. Default, it will</span>
+<span class="sd">            num_iter: number of iterations for lr schedule between base lr and end_lr. Default, it will</span>
 <span class="sd">                run for `trainer.state.epoch_length * trainer.state.max_epochs`.</span>
-<span class="sd">            end_lr (float, optional): upper bound for lr search. Default, 10.0.</span>
-<span class="sd">            step_mode (str, optional): &quot;exp&quot; or &quot;linear&quot;, which way should the lr be increased from optimizer&#39;s initial</span>
+<span class="sd">            end_lr: upper bound for lr search. Default, 10.0.</span>
+<span class="sd">            step_mode: &quot;exp&quot; or &quot;linear&quot;, which way should the lr be increased from optimizer&#39;s initial</span>
 <span class="sd">                lr to `end_lr`. Default, &quot;exp&quot;.</span>
-<span class="sd">            smooth_f (float, optional): loss smoothing factor in range `[0, 1)`. Default, 0.05</span>
-<span class="sd">            diverge_th (float, optional): Used for stopping the search when `current loss &gt; diverge_th * best_loss`.</span>
+<span class="sd">            smooth_f: loss smoothing factor in range `[0, 1)`. Default, 0.05</span>
+<span class="sd">            diverge_th: Used for stopping the search when `current loss &gt; diverge_th * best_loss`.</span>
 <span class="sd">                Default, 5.0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            trainer_with_lr_finder (trainer used for finding the lr)</span>
 
 <span class="sd">        Note:</span>
 <span class="sd">            lr_finder cannot be attached to more than one trainer at a time.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            trainer_with_lr_finder: trainer used for finding the lr</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_save</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument to_save should be a mapping, but given </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_save</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -651,16 +652,16 @@
 <span class="sd">    iterations.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer): wrapped optimizer.</span>
-<span class="sd">        end_lr (float, optional): the initial learning rate which is the lower</span>
+<span class="sd">        optimizer: wrapped optimizer.</span>
+<span class="sd">        end_lr: the initial learning rate which is the lower</span>
 <span class="sd">            boundary of the test. Default: 10.</span>
-<span class="sd">        num_iter (int, optional): the number of iterations over which the test</span>
+<span class="sd">        num_iter: the number of iterations over which the test</span>
 <span class="sd">            occurs. Default: 100.</span>
-<span class="sd">        last_epoch (int): the index of last epoch. Default: -1.</span>
+<span class="sd">        last_epoch: the index of last epoch. Default: -1.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">end_lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">end_lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_lr</span> <span class="o">=</span> <span class="n">end_lr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_iter</span> <span class="o">=</span> <span class="n">num_iter</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ExponentialLR</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">)</span>
@@ -931,8 +932,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/engine/engine.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/engine/engine.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -290,6 +291,7 @@
   <h1>Source code for ignite.engine.engine</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
@@ -310,14 +312,14 @@
     <span class="sd">&quot;&quot;&quot;Runs a given ``process_function`` over each batch of a dataset, emitting events as it goes.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        process_function (callable): A function receiving a handle to the engine and the current batch</span>
+<span class="sd">        process_function: A function receiving a handle to the engine and the current batch</span>
 <span class="sd">            in each iteration, and returns data to be stored in the engine&#39;s state.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        state (State): object that is used to pass internal and user-defined state between event handlers.</span>
+<span class="sd">        state: object that is used to pass internal and user-defined state between event handlers.</span>
 <span class="sd">            It is created with the engine and its attributes (e.g. ``state.iteration``, ``state.epoch`` etc) are reset</span>
 <span class="sd">            on every :meth:`~ignite.engine.engine.Engine.run`.</span>
-<span class="sd">        last_event_name (Events): last event name triggered by the engine.</span>
+<span class="sd">        last_event_name: last event name triggered by the engine.</span>
 
 <span class="sd">    Examples:</span>
 
@@ -443,9 +445,9 @@
 <span class="sd">        By default, the events from :class:`~ignite.engine.events.Events` are registered.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            *event_names (iterable): Defines the name of the event being supported. New events can be a str</span>
+<span class="sd">            event_names: Defines the name of the event being supported. New events can be a str</span>
 <span class="sd">                or an object derived from :class:`~ignite.engine.events.EventEnum`. See example below.</span>
-<span class="sd">            event_to_attr (dict, optional): A dictionary to map an event to a state attribute.</span>
+<span class="sd">            event_to_attr: A dictionary to map an event to a state attribute.</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -542,18 +544,18 @@
 <span class="sd">            event_name: An event or a list of events to attach the handler. Valid events are</span>
 <span class="sd">                from :class:`~ignite.engine.events.Events` or any ``event_name`` added by</span>
 <span class="sd">                :meth:`~ignite.engine.engine.Engine.register_events`.</span>
-<span class="sd">            handler (callable): the callable event handler that should be invoked. No restrictions on its signature.</span>
+<span class="sd">            handler: the callable event handler that should be invoked. No restrictions on its signature.</span>
 <span class="sd">                The first argument can be optionally `engine`, the :class:`~ignite.engine.engine.Engine` object,</span>
 <span class="sd">                handler is bound to.</span>
-<span class="sd">            *args: optional args to be passed to ``handler``.</span>
-<span class="sd">            **kwargs: optional keyword args to be passed to ``handler``.</span>
+<span class="sd">            args: optional args to be passed to ``handler``.</span>
+<span class="sd">            kwargs: optional keyword args to be passed to ``handler``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :class:`~ignite.engine.events.RemovableEventHandle`, which can be used to remove the handler.</span>
 
 <span class="sd">        Note:</span>
 <span class="sd">            Note that other arguments can be passed to the handler in addition to the `*args` and  `**kwargs`</span>
 <span class="sd">            passed here, for example during :attr:`~ignite.engine.events.Events.EXCEPTION_RAISED`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            :class:`~ignite.engine.RemovableEventHandle`, which can be used to remove the handler.</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -617,7 +619,7 @@
         <span class="sd">&quot;&quot;&quot;Check if the specified event has the specified handler.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            handler (callable): the callable event handler.</span>
+<span class="sd">            handler: the callable event handler.</span>
 <span class="sd">            event_name: The event the handler attached to. Set this</span>
 <span class="sd">                to ``None`` to search all events.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -643,7 +645,7 @@
         <span class="sd">&quot;&quot;&quot;Remove event handler `handler` from registered handlers of the engine</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            handler (callable): the callable event handler that should be removed</span>
+<span class="sd">            handler: the callable event handler that should be removed</span>
 <span class="sd">            event_name: The event the handler attached to.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -665,8 +667,8 @@
 <span class="sd">        Args:</span>
 <span class="sd">            event_name: An event to attach the handler to. Valid events are from :class:`~ignite.engine.events.Events`</span>
 <span class="sd">                or any ``event_name`` added by :meth:`~ignite.engine.engine.Engine.register_events`.</span>
-<span class="sd">            *args: optional args to be passed to `handler`.</span>
-<span class="sd">            **kwargs: optional keyword args to be passed to `handler`.</span>
+<span class="sd">            args: optional args to be passed to `handler`.</span>
+<span class="sd">            kwargs: optional keyword args to be passed to `handler`.</span>
 
 <span class="sd">        Example usage:</span>
 
@@ -796,14 +798,14 @@
 <div class="viewcode-block" id="Engine.load_state_dict"><a class="viewcode-back" href="../../../engine.html#ignite.engine.engine.Engine.load_state_dict">[docs]</a>    <span class="k">def</span> <span class="nf">load_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Setups engine from `state_dict`.</span>
 
-<span class="sd">        State dictionary should contain keys: `iteration` or `epoch` and `max_epochs`, `epoch_length`.</span>
+<span class="sd">        State dictionary should contain keys: `iteration` or `epoch`, `max_epochs` and `epoch_length`.</span>
 <span class="sd">        If `engine.state_dict_user_keys` contains keys, they should be also present in the state dictionary.</span>
 <span class="sd">        Iteration and epoch values are 0-based: the first iteration or epoch is zero.</span>
 
-<span class="sd">        This method does not remove any custom attributs added by user.</span>
+<span class="sd">        This method does not remove any custom attributes added by user.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            state_dict (Mapping): a dict with parameters</span>
+<span class="sd">            state_dict: a dict with parameters</span>
 
 <span class="sd">        .. code-block:: python</span>
 
@@ -845,14 +847,21 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_is_done</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">iteration</span> <span class="o">==</span> <span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span>  <span class="c1"># type: ignore[operator]</span>
+        <span class="n">is_done_iters</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">max_iters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iteration</span> <span class="o">&gt;=</span> <span class="n">state</span><span class="o">.</span><span class="n">max_iters</span>
+        <span class="n">is_done_count</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iteration</span> <span class="o">&gt;=</span> <span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span>
+        <span class="p">)</span>
+        <span class="n">is_done_epochs</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">&gt;=</span> <span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span>
+        <span class="k">return</span> <span class="n">is_done_iters</span> <span class="ow">or</span> <span class="n">is_done_count</span> <span class="ow">or</span> <span class="n">is_done_epochs</span>
 
 <div class="viewcode-block" id="Engine.set_data"><a class="viewcode-back" href="../../../engine.html#ignite.engine.engine.Engine.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">DataLoader</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Method to set data. After calling the method the next batch passed to `processing_function` is</span>
 <span class="sd">        from newly provided data. Please, note that epoch length is not modified.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (Iterable): Collection of batches allowing repeated iteration (e.g., list or `DataLoader`).</span>
+<span class="sd">            data: Collection of batches allowing repeated iteration (e.g., list or `DataLoader`).</span>
 
 <span class="sd">        Example usage:</span>
 <span class="sd">            User can switch data provider during the training:</span>
@@ -887,32 +896,32 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span>
         <span class="n">max_epochs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_iters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">epoch_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">State</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Runs the `process_function` over the passed data.</span>
 
 <span class="sd">        Engine has a state and the following logic is applied in this function:</span>
 
-<span class="sd">        - At the first call, new state is defined by `max_epochs`, `epoch_length` if provided. A timer for</span>
-<span class="sd">            total and per-epoch time is initialized when Events.STARTED is handled.</span>
+<span class="sd">        - At the first call, new state is defined by `max_epochs`, `max_iters`, `epoch_length`, if provided.</span>
+<span class="sd">          A timer for total and per-epoch time is initialized when Events.STARTED is handled.</span>
 <span class="sd">        - If state is already defined such that there are iterations to run until `max_epochs` and no input arguments</span>
 <span class="sd">          provided, state is kept and used in the function.</span>
 <span class="sd">        - If state is defined and engine is &quot;done&quot; (no iterations to run until `max_epochs`), a new state is defined.</span>
 <span class="sd">        - If state is defined, engine is NOT &quot;done&quot;, then input arguments if provided override defined state.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (Iterable): Collection of batches allowing repeated iteration (e.g., list or `DataLoader`).</span>
-<span class="sd">            max_epochs (int, optional): Max epochs to run for (default: None).</span>
+<span class="sd">            data: Collection of batches allowing repeated iteration (e.g., list or `DataLoader`).</span>
+<span class="sd">            max_epochs: Max epochs to run for (default: None).</span>
 <span class="sd">                If a new state should be created (first run or run again from ended engine), it&#39;s default value is 1.</span>
 <span class="sd">                If run is resuming from a state, provided `max_epochs` will be taken into account and should be larger</span>
 <span class="sd">                than `engine.state.max_epochs`.</span>
-<span class="sd">            epoch_length (int, optional): Number of iterations to count as one epoch. By default, it can be set as</span>
+<span class="sd">            epoch_length: Number of iterations to count as one epoch. By default, it can be set as</span>
 <span class="sd">                `len(data)`. If `data` is an iterator and `epoch_length` is not set, then it will be automatically</span>
 <span class="sd">                determined as the iteration on which data iterator raises `StopIteration`.</span>
 <span class="sd">                This argument should not change if run is resuming from a state.</span>
-<span class="sd">            seed (int, optional): Deprecated argument since v0.4.0 and will be removed in v0.5.0.</span>
-<span class="sd">                Please, use `torch.manual_seed` or :meth:`~ignite.utils.manual_seed`.</span>
+<span class="sd">            max_iters: Number of iterations to run for.</span>
+<span class="sd">                `max_iters` and `max_epochs` are mutually exclusive; only one of the two arguments should be provided.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            State: output state.</span>
@@ -941,12 +950,6 @@
 <span class="sd">                trainer.run(train_loader, max_epochs=2)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;Argument seed is deprecated. It will be removed in 0.5.0. &quot;</span>
-                <span class="s2">&quot;Please, use torch.manual_seed or ignite.utils.manual_seed&quot;</span>
-            <span class="p">)</span>
-
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument data should be iterable&quot;</span><span class="p">)</span>
 
@@ -970,16 +973,27 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_done</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">):</span>
             <span class="c1"># Create new state</span>
-            <span class="k">if</span> <span class="n">max_epochs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">epoch_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">epoch_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data_length</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">epoch_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">epoch_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input data has zero size. Please provide non-empty data&quot;</span><span class="p">)</span>
 
+            <span class="k">if</span> <span class="n">max_iters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">max_epochs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">max_epochs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Arguments max_iters and max_epochs are mutually exclusive.&quot;</span>
+                        <span class="s2">&quot;Please provide only max_epochs or max_iters.&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">epoch_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">max_epochs</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_iters</span> <span class="o">/</span> <span class="n">epoch_length</span><span class="p">)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span> <span class="o">=</span> <span class="n">max_epochs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_iters</span> <span class="o">=</span> <span class="n">max_iters</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="o">=</span> <span class="n">epoch_length</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Engine run starting with max_epochs=</span><span class="si">{</span><span class="n">max_epochs</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1025,7 +1039,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fire_event</span><span class="p">(</span><span class="n">Events</span><span class="o">.</span><span class="n">STARTED</span><span class="p">)</span>
-            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_terminate</span><span class="p">:</span>  <span class="c1"># type: ignore[operator]</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_done</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_terminate</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_fire_event</span><span class="p">(</span><span class="n">Events</span><span class="o">.</span><span class="n">EPOCH_STARTED</span><span class="p">)</span>
 
@@ -1097,12 +1111,18 @@
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="c1"># Define epoch length and stop the epoch</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="o">=</span> <span class="n">iter_counter</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_iters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_iters</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span><span class="p">)</span>
                         <span class="k">break</span>
 
                     <span class="c1"># Should exit while loop if we can not iterate</span>
                     <span class="k">if</span> <span class="n">should_exit</span><span class="p">:</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_done</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">):</span>
-                            <span class="n">total_iters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span>  <span class="c1"># type: ignore[operator]</span>
+                            <span class="n">total_iters</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span>
+                                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_iters</span>
+                            <span class="p">)</span>
 
                             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                                 <span class="s2">&quot;Data iterator can not provide data anymore but required total number of &quot;</span>
@@ -1133,6 +1153,10 @@
                     <span class="k">break</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">iter_counter</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_iters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">iteration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">max_iters</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">should_terminate</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">break</span>
 
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -1402,8 +1426,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

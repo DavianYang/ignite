@@ -136,7 +136,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -198,7 +198,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -214,6 +214,7 @@
             <dd><a href="v0.4.1/distributed.html">v0.4.1</a></dd>
             <dd><a href="v0.4.2/distributed.html">v0.4.2</a></dd>
             <dd><a href="v0.4.3/distributed.html">v0.4.3</a></dd>
+            <dd><a href="v0.4.4/distributed.html">v0.4.4</a></dd>
             <dd><a href="v0.4rc.0.post1/distributed.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -372,9 +373,9 @@ in the code. For more details, please, see <a class="reference internal" href="#
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sampler</strong> (<em>Sampler</em>) – Input torch data sampler.</p></li>
-<li><p><strong>num_replicas</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of processes participating in distributed training.</p></li>
-<li><p><strong>rank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Rank of the current process within <code class="docutils literal notranslate"><span class="pre">num_replicas</span></code>.</p></li>
+<li><p><strong>sampler</strong> – Input torch data sampler.</p></li>
+<li><p><strong>num_replicas</strong> – Number of processes participating in distributed training.</p></li>
+<li><p><strong>rank</strong> – Rank of the current process within <code class="docutils literal notranslate"><span class="pre">num_replicas</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -414,9 +415,8 @@ sampler is compatible with distributed configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<em>Dataset</em>) – input torch dataset</p></li>
-<li><p><strong>**kwargs</strong> – keyword arguments for <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader">torch DataLoader</a>.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>dataset</strong> (<em>torch.utils.data.dataset.Dataset</em>) – input torch dataset</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – keyword arguments for <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader">torch DataLoader</a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -456,13 +456,12 @@ all available backends from <a class="reference internal" href="#ignite.distribu
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.nn.Module</em></a>) – model to adapt.</p></li>
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – model to adapt.</p></li>
 <li><p><strong>sync_bn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, applies <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.SyncBatchNorm.html#torch.nn.SyncBatchNorm.convert_sync_batchnorm">torch convert_sync_batchnorm</a> to the model for native torch
 distributed only. Default, False. Note, if using Nvidia/Apex, batchnorm conversion should be
 applied before calling <code class="docutils literal notranslate"><span class="pre">amp.initialize</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – kwargs to model’s wrapping class: <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html">torch DistributedDataParallel</a> or <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.DataParallel.html">torch DataParallel</a>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – kwargs to model’s wrapping class: <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html">torch DistributedDataParallel</a> or <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.DataParallel.html">torch DataParallel</a>
 if applicable. Please, make sure to use acceptable kwargs for given backend.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -501,7 +500,7 @@ its state is broadcasted from rank 0 to all other processes.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>optimizer</strong> (<em>Optimizer</em>) – input torch optimizer</p>
+<dd class="field-odd"><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – input torch optimizer</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Optimizer</p>
@@ -652,26 +651,25 @@ python main.py --node_rank<span class="o">=</span><span class="m">1</span>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – backend to use: <cite>nccl</cite>, <cite>gloo</cite>, <cite>xla-tpu</cite>, <cite>horovod</cite>. If None, no distributed
+<li><p><strong>backend</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – backend to use: <cite>nccl</cite>, <cite>gloo</cite>, <cite>xla-tpu</cite>, <cite>horovod</cite>. If None, no distributed
 configuration.</p></li>
-<li><p><strong>nproc_per_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – optional argument, number of processes per
+<li><p><strong>nproc_per_node</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – optional argument, number of processes per
 node to specify. If not None, <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> will spawn <code class="docutils literal notranslate"><span class="pre">nproc_per_node</span></code>
 processes that run input function with its arguments.</p></li>
-<li><p><strong>nnodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – optional argument, number of nodes participating in distributed configuration.
+<li><p><strong>nnodes</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – optional argument, number of nodes participating in distributed configuration.
 If not None, <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> will spawn <code class="docutils literal notranslate"><span class="pre">nproc_per_node</span></code>
 processes that run input function with its arguments. Total world size is <cite>nproc_per_node * nnodes</cite>.
 This option is only supported by native torch distributed module. For other modules, please setup
 <code class="docutils literal notranslate"><span class="pre">spawn_kwargs</span></code> with backend specific arguments.</p></li>
-<li><p><strong>node_rank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – optional argument, current machine index. Mandatory argument if <code class="docutils literal notranslate"><span class="pre">nnodes</span></code> is
+<li><p><strong>node_rank</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – optional argument, current machine index. Mandatory argument if <code class="docutils literal notranslate"><span class="pre">nnodes</span></code> is
 specified and larger than one.
 This option is only supported by native torch distributed module. For other modules, please setup
 <code class="docutils literal notranslate"><span class="pre">spawn_kwargs</span></code> with backend specific arguments.</p></li>
-<li><p><strong>master_addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – optional argument, master node TCP/IP address for torch native backends
+<li><p><strong>master_addr</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – optional argument, master node TCP/IP address for torch native backends
 (<cite>nccl</cite>, <cite>gloo</cite>). Mandatory argument if <code class="docutils literal notranslate"><span class="pre">nnodes</span></code> is specified and larger than one.</p></li>
-<li><p><strong>master_port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – optional argument, master node port for torch native backends
+<li><p><strong>master_port</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – optional argument, master node port for torch native backends
 (<cite>nccl</cite>, <cite>gloo</cite>). Mandatory argument if <code class="docutils literal notranslate"><span class="pre">master_addr</span></code> is specified.</p></li>
-<li><p><strong>**spawn_kwargs</strong> – kwargs to <code class="docutils literal notranslate"><span class="pre">idist.spawn</span></code> function.</p></li>
-<li><p><strong>spawn_kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>spawn_kwargs</strong> (<em>Any</em>) – kwargs to <code class="docutils literal notranslate"><span class="pre">idist.spawn</span></code> function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -700,10 +698,8 @@ This option is only supported by native torch distributed module. For other modu
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> (<em>Callable</em>) – function to execute. First argument of the function should be <cite>local_rank</cite> - local process
 index.</p></li>
-<li><p><strong>*args</strong> – positional arguments of <code class="docutils literal notranslate"><span class="pre">func</span></code> (without <cite>local_rank</cite>).</p></li>
-<li><p><strong>**kwargs</strong> – keyword arguments of <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p></li>
-<li><p><strong>args</strong> (<em>Any</em>) – </p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>args</strong> (<em>Any</em>) – positional arguments of <code class="docutils literal notranslate"><span class="pre">func</span></code> (without <cite>local_rank</cite>).</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – keyword arguments of <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -811,7 +807,7 @@ group or spawn multiple processes.</p>
 <dd><p>Helper method to perform all gather operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tensor</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em> or </em><em>number</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – tensor or number or str to collect across participating processes.</p>
+<dd class="field-odd"><p><strong>tensor</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – tensor or number or str to collect across participating processes.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>torch.Tensor of shape <code class="docutils literal notranslate"><span class="pre">(world_size</span> <span class="pre">*</span> <span class="pre">tensor.shape[0],</span> <span class="pre">tensor.shape[1],</span> <span class="pre">...)</span></code> if input is a tensor or
@@ -831,9 +827,9 @@ List of strings if input is a string</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tensor</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em> or </em><em>number</em>) – tensor or number to collect across participating processes.</p></li>
+<li><p><strong>tensor</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – tensor or number to collect across participating processes.</p></li>
 <li><p><strong>op</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – reduction operation, “SUM” by default. Possible values: “SUM”, “PRODUCT”, “MIN”, “MAX”, “AND”, “OR”.
-Please, several values are not supported for the backend like “horovod”.</p></li>
+Horovod backend supports only “SUM”, “AVERAGE”, “ADASUM”, “MIN”, “MAX”, “PRODUCT”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -897,7 +893,7 @@ Please, several values are not supported for the backend like “horovod”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tensor</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em> or </em><em>number</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – tensor or number or str to broadcast to participating processes.
+<li><p><strong>tensor</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – tensor or number or str to broadcast to participating processes.
 Make sure to respect dtype of torch tensor input for all processes, otherwise execution will crash.</p></li>
 <li><p><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – source rank. Default, 0.</p></li>
 </ul>
@@ -1081,14 +1077,13 @@ Returns 1 if no distributed configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – backend: <cite>nccl</cite>, <cite>gloo</cite>, <cite>xla-tpu</cite>, <cite>horovod</cite>.</p></li>
-<li><p><strong>**kwargs</strong> – <p>acceptable kwargs according to provided backend:</p>
+<li><p><strong>backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – backend: <cite>nccl</cite>, <cite>gloo</cite>, <cite>xla-tpu</cite>, <cite>horovod</cite>.</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – <p>acceptable kwargs according to provided backend:</p>
 <ul>
 <li><p>”nccl” or “gloo” : timeout(=timedelta(minutes=30)).</p></li>
 <li><p>”horovod” : comm(=None), more info: <a class="reference external" href="https://horovod.readthedocs.io/en/latest/api.html#horovod.torch.init">hvd_init</a>.</p></li>
 </ul>
 </p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1274,14 +1269,14 @@ distributed configuration defined by <code class="docutils literal notranslate">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – backend to use: <cite>nccl</cite>, <cite>gloo</cite>, <cite>xla-tpu</cite>, <cite>horovod</cite></p></li>
-<li><p><strong>fn</strong> (<em>function</em>) – function to called as the entrypoint of the spawned process.
+<li><p><strong>fn</strong> (<em>Callable</em>) – function to called as the entrypoint of the spawned process.
 This function must be defined at the top level of a module so it can be pickled and spawned.
 This is a requirement imposed by multiprocessing. The function is called as <code class="docutils literal notranslate"><span class="pre">fn(i,</span> <span class="pre">*args,</span> <span class="pre">**kwargs_dict)</span></code>,
 where <cite>i</cite> is the process index and args is the passed through tuple of arguments.</p></li>
-<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – arguments passed to <cite>fn</cite>.</p></li>
-<li><p><strong>kwargs_dict</strong> (<em>Mapping</em>) – kwargs passed to <cite>fn</cite>.</p></li>
+<li><p><strong>args</strong> (<em>Tuple</em>) – arguments passed to <cite>fn</cite>.</p></li>
+<li><p><strong>kwargs_dict</strong> (<em>Optional</em><em>[</em><em>Mapping</em><em>]</em>) – kwargs passed to <cite>fn</cite>.</p></li>
 <li><p><strong>nproc_per_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of processes to spawn on a single node. Default, 1.</p></li>
-<li><p><strong>**kwargs</strong> – <p>acceptable kwargs according to provided backend:</p>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – <p>acceptable kwargs according to provided backend:</p>
 <ul>
 <li><div class="line-block">
 <div class="line">”nccl” or “gloo” : <cite>nnodes</cite> (default, 1), <cite>node_rank</cite> (default, 0), <cite>master_addr</cite></div>
@@ -1300,7 +1295,6 @@ where <cite>i</cite> is the process index and args is the passed through tuple o
 </li>
 </ul>
 </p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1610,8 +1604,8 @@ This may have a negative performance impact.</p>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

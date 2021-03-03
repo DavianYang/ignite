@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/metrics/fbeta.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/metrics/fbeta.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -314,15 +315,15 @@
 <span class="sd">    where :math:`\beta` is a positive real factor.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        beta (float): weight of precision in harmonic mean</span>
-<span class="sd">        average (bool, optional): if True, F-beta score is computed as the unweighted average (across all classes</span>
+<span class="sd">        beta: weight of precision in harmonic mean</span>
+<span class="sd">        average: if True, F-beta score is computed as the unweighted average (across all classes</span>
 <span class="sd">            in multiclass case), otherwise, returns a tensor with F-beta score for each class in multiclass case.</span>
-<span class="sd">        precision (Precision, optional): precision object metric with `average=False` to compute F-beta score</span>
-<span class="sd">        recall (Precision, optional): recall object metric with `average=False` to compute F-beta score</span>
-<span class="sd">        output_transform (callable, optional): a callable that is used to transform the</span>
+<span class="sd">        precision: precision object metric with `average=False` to compute F-beta score</span>
+<span class="sd">        recall: recall object metric with `average=False` to compute F-beta score</span>
+<span class="sd">        output_transform: a callable that is used to transform the</span>
 <span class="sd">            :class:`~ignite.engine.engine.Engine`&#39;s ``process_function``&#39;s output into the</span>
 <span class="sd">            form expected by the metric. It is used only if precision or recall are not provided.</span>
-<span class="sd">        device (str or torch.device): specifies which device updates are accumulated on. Setting the metric&#39;s</span>
+<span class="sd">        device: specifies which device updates are accumulated on. Setting the metric&#39;s</span>
 <span class="sd">            device to be the same as your ``update`` arguments ensures the ``update`` method is non-blocking. By</span>
 <span class="sd">            default, CPU.</span>
 
@@ -624,8 +625,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

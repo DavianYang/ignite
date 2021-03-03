@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/handlers/time_profilers.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/handlers/time_profilers.html">v0.4.4</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -556,6 +557,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to store the unaggregated profiling results to a csv file</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            output_path: file output path containing a filename</span>
+
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            profiler.write_results(&#39;path_to_dir/awesome_filename.csv&#39;)</span>
@@ -634,6 +638,9 @@
     <span class="k">def</span> <span class="nf">print_results</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to print the aggregated results from the profiler</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            results: the aggregated results from the profiler</span>
 
 <span class="sd">        .. code-block:: python</span>
 
@@ -853,12 +860,17 @@
         <span class="c1"># revert back the wrapped handlers with original handlers at the end</span>
         <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="n">Events</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detach_profiler_handlers</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="HandlersTimeProfiler.attach"><a class="viewcode-back" href="../../../../contrib/handlers.html#ignite.contrib.handlers.time_profilers.HandlersTimeProfiler.attach">[docs]</a>    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Attach HandlersTimeProfiler to the given engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            engine: the instance of Engine to attach</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">Engine</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument engine should be ignite.engine.Engine, but given </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">engine</span><span class="o">.</span><span class="n">has_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_as_first_started</span><span class="p">):</span>
-            <span class="n">engine</span><span class="o">.</span><span class="n">_event_handlers</span><span class="p">[</span><span class="n">Events</span><span class="o">.</span><span class="n">STARTED</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_as_first_started</span><span class="p">,</span> <span class="p">(</span><span class="n">engine</span><span class="p">,),</span> <span class="p">{}))</span>
+            <span class="n">engine</span><span class="o">.</span><span class="n">_event_handlers</span><span class="p">[</span><span class="n">Events</span><span class="o">.</span><span class="n">STARTED</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_as_first_started</span><span class="p">,</span> <span class="p">(</span><span class="n">engine</span><span class="p">,),</span> <span class="p">{}))</span></div>
 
 <div class="viewcode-block" id="HandlersTimeProfiler.get_results"><a class="viewcode-back" href="../../../../contrib/handlers.html#ignite.contrib.handlers.time_profilers.HandlersTimeProfiler.get_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -916,6 +928,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to store the unaggregated profiling results to a csv file</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            output_path: file output path containing a filename</span>
+
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            profiler.write_results(&#39;path_to_dir/awesome_filename.csv&#39;)</span>
@@ -964,6 +979,9 @@
     <span class="k">def</span> <span class="nf">print_results</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to print the aggregated results from the profiler</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            results: the aggregated results from the profiler</span>
 
 <span class="sd">        .. code-block:: python</span>
 
@@ -1318,8 +1336,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

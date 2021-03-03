@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/handlers/base_logger.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/handlers/base_logger.html">v0.4.4</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -395,7 +396,7 @@
 <span class="sd">    Helper handler to log model&#39;s weights as scalars.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument model should be of type torch.nn.Module, but given </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -440,14 +441,14 @@
         <span class="sd">&quot;&quot;&quot;Attach the logger to the engine and execute `log_handler` function at `event_name` events.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): engine object.</span>
-<span class="sd">            log_handler (callable): a logging handler to execute</span>
+<span class="sd">            engine: engine object.</span>
+<span class="sd">            log_handler: a logging handler to execute</span>
 <span class="sd">            event_name: event to attach the logging handler to. Valid events are from</span>
-<span class="sd">                :class:`~ignite.engine.events.Events` or class:`~ignite.engine.events.EventsList` or any `event_name`</span>
+<span class="sd">                :class:`~ignite.engine.events.Events` or :class:`~ignite.engine.events.EventsList` or any `event_name`</span>
 <span class="sd">                added by :meth:`~ignite.engine.engine.Engine.register_events`.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :class:`~ignite.engine.RemovableEventHandle`, which can be used to remove the handler.</span>
+<span class="sd">            :class:`~ignite.engine.events.RemovableEventHandle`, which can be used to remove the handler.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">EventsList</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">event_name</span><span class="p">:</span>
@@ -468,15 +469,15 @@
         <span class="sd">&quot;&quot;&quot;Shortcut method to attach `OutputHandler` to the logger.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): engine object.</span>
+<span class="sd">            engine: engine object.</span>
 <span class="sd">            event_name: event to attach the logging handler to. Valid events are from</span>
 <span class="sd">                :class:`~ignite.engine.events.Events` or any `event_name` added by</span>
 <span class="sd">                :meth:`~ignite.engine.engine.Engine.register_events`.</span>
-<span class="sd">            *args: args to initialize `OutputHandler`</span>
-<span class="sd">            **kwargs: kwargs to initialize `OutputHandler`</span>
+<span class="sd">            args: args to initialize `OutputHandler`</span>
+<span class="sd">            kwargs: kwargs to initialize `OutputHandler`</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :class:`~ignite.engine.RemovableEventHandle`, which can be used to remove the handler.</span>
+<span class="sd">            :class:`~ignite.engine.events.RemovableEventHandle`, which can be used to remove the handler.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_output_handler</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">event_name</span><span class="o">=</span><span class="n">event_name</span><span class="p">)</span>
 
@@ -486,15 +487,15 @@
         <span class="sd">&quot;&quot;&quot;Shortcut method to attach `OptimizerParamsHandler` to the logger.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): engine object.</span>
+<span class="sd">            engine: engine object.</span>
 <span class="sd">            event_name: event to attach the logging handler to. Valid events are from</span>
 <span class="sd">                :class:`~ignite.engine.events.Events` or any `event_name` added by</span>
 <span class="sd">                :meth:`~ignite.engine.engine.Engine.register_events`.</span>
-<span class="sd">            *args: args to initialize `OptimizerParamsHandler`</span>
-<span class="sd">            **kwargs: kwargs to initialize `OptimizerParamsHandler`</span>
+<span class="sd">            args: args to initialize `OptimizerParamsHandler`</span>
+<span class="sd">            kwargs: kwargs to initialize `OptimizerParamsHandler`</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :class:`~ignite.engine.RemovableEventHandle`, which can be used to remove the handler.</span>
+<span class="sd">            :class:`~ignite.engine.events.RemovableEventHandle`, which can be used to remove the handler.</span>
 
 <span class="sd">        .. versionchanged:: 0.4.3</span>
 <span class="sd">            Added missing return statement.</span>
@@ -779,8 +780,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

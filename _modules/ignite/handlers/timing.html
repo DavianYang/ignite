@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/handlers/timing.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/handlers/timing.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -300,7 +301,7 @@
     <span class="sd">&quot;&quot;&quot; Timer object can be used to measure (average) time between events.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        average (bool, optional): if True, then when ``.value()`` method is called, the returned value</span>
+<span class="sd">        average: if True, then when ``.value()`` method is called, the returned value</span>
 <span class="sd">            will be equal to total time measured, divided by the value of internal counter.</span>
 
 <span class="sd">    Attributes:</span>
@@ -366,7 +367,7 @@
 <span class="sd">        ...              step=Events.ITERATION_COMPLETED)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">average</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">average</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_average</span> <span class="o">=</span> <span class="n">average</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
@@ -382,20 +383,14 @@
         <span class="sd">&quot;&quot;&quot; Register callbacks to control the timer.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine):</span>
-<span class="sd">                Engine that this timer will be attached to.</span>
-<span class="sd">            start (Events):</span>
-<span class="sd">                Event which should start (reset) the timer.</span>
-<span class="sd">            pause (Events):</span>
-<span class="sd">                Event which should pause the timer.</span>
-<span class="sd">            resume (Events, optional):</span>
-<span class="sd">                Event which should resume the timer.</span>
-<span class="sd">            step (Events, optional):</span>
-<span class="sd">                Event which should call the `step` method of the counter.</span>
+<span class="sd">            engine: Engine that this timer will be attached to.</span>
+<span class="sd">            start: Event which should start (reset) the timer.</span>
+<span class="sd">            pause: Event which should pause the timer.</span>
+<span class="sd">            resume: Event which should resume the timer.</span>
+<span class="sd">            step: Event which should call the `step` method of the counter.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self (Timer)</span>
-
+<span class="sd">            this timer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">)</span>
@@ -706,8 +701,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

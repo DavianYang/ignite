@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ignite.contrib.handlers.custom_events &mdash; ignite master documentation</title>
+  <title>ignite.contrib.metrics.cohen_kappa &mdash; ignite master documentation</title>
   
 
   
@@ -19,7 +19,7 @@
   
   
   
-    <link rel="canonical" href="https://pytorch.org/ignite/index.html_modules/ignite/contrib/handlers/custom_events.html"/>
+    <link rel="canonical" href="https://pytorch.org/ignite/index.html_modules/ignite/contrib/metrics/cohen_kappa.html"/>
   
 
   
@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,27 +196,28 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
-            <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
-            <dd><a href="../../../../v0.1.2/index.html">v0.1.2</a></dd>
-            <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
-            <dd><a href="../../../../v0.2.1/index.html">v0.2.1</a></dd>
-            <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
-            <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
-            <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
-            <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/handlers/custom_events.html">v0.4.3</a></dd>
-            <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
+            <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../../../../v0.1.1/index.html">v0.1.1</a></dd>
+            <dd><a href="../../../../../v0.1.2/index.html">v0.1.2</a></dd>
+            <dd><a href="../../../../../v0.2.0/index.html">v0.2.0</a></dd>
+            <dd><a href="../../../../../v0.2.1/index.html">v0.2.1</a></dd>
+            <dd><a href="../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+            <dd><a href="../../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
+            <dd><a href="../../../../../v0.4.1/index.html">v0.4.1</a></dd>
+            <dd><a href="../../../../../v0.4.2/index.html">v0.4.2</a></dd>
+            <dd><a href="../../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="cohen_kappa.html">v0.4.4</a></dd>
+            <dd><a href="../../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../../master/index.html">master</a></dd>
+            <dd><a href="../../../../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>
@@ -257,7 +258,7 @@
         
           <li><a href="../../../index.html">Module code</a> &gt;</li>
         
-      <li>ignite.contrib.handlers.custom_events</li>
+      <li>ignite.contrib.metrics.cohen_kappa</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
@@ -285,132 +286,82 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <h1>Source code for ignite.contrib.handlers.custom_events</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+  <h1>Source code for ignite.contrib.metrics.cohen_kappa</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">EventEnum</span><span class="p">,</span> <span class="n">Events</span><span class="p">,</span> <span class="n">State</span>
+<span class="kn">import</span> <span class="nn">torch</span>
 
-
-<div class="viewcode-block" id="CustomPeriodicEvent"><a class="viewcode-back" href="../../../../contrib/handlers.html#ignite.contrib.handlers.custom_events.CustomPeriodicEvent">[docs]</a><span class="k">class</span> <span class="nc">CustomPeriodicEvent</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;DEPRECATED. Use filtered events instead.</span>
-<span class="sd">    Handler to define a custom periodic events as a number of elapsed iterations/epochs</span>
-<span class="sd">    for an engine.</span>
-
-<span class="sd">    When custom periodic event is created and attached to an engine, the following events are fired:</span>
-<span class="sd">    1) K iterations is specified:</span>
-<span class="sd">    - `Events.ITERATIONS_&lt;K&gt;_STARTED`</span>
-<span class="sd">    - `Events.ITERATIONS_&lt;K&gt;_COMPLETED`</span>
-
-<span class="sd">    1) K epochs is specified:</span>
-<span class="sd">    - `Events.EPOCHS_&lt;K&gt;_STARTED`</span>
-<span class="sd">    - `Events.EPOCHS_&lt;K&gt;_COMPLETED`</span>
+<span class="kn">from</span> <span class="nn">ignite.metrics</span> <span class="kn">import</span> <span class="n">EpochMetric</span>
 
 
-<span class="sd">    Examples:</span>
+<div class="viewcode-block" id="CohenKappa"><a class="viewcode-back" href="../../../../contrib/metrics.html#ignite.contrib.metrics.CohenKappa">[docs]</a><span class="k">class</span> <span class="nc">CohenKappa</span><span class="p">(</span><span class="n">EpochMetric</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute different types of Cohen&#39;s Kappa: Non-Wieghted, Linear, Quadratic.</span>
+<span class="sd">    Accumulating predictions and the ground-truth during an epoch and applying</span>
+<span class="sd">    `sklearn.metrics.cohen_kappa_score &lt;https://scikit-learn.org/stable/modules/</span>
+<span class="sd">    generated/sklearn.metrics.cohen_kappa_score.html&gt;`_ .</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        output_transform: a callable that is used to transform the</span>
+<span class="sd">            :class:`~ignite.engine.engine.Engine`&#39;s ``process_function``&#39;s output into the</span>
+<span class="sd">            form expected by the metric. This can be useful if, for example, you have a multi-output model and</span>
+<span class="sd">            you want to compute the metric with respect to one of the outputs.</span>
+<span class="sd">        weights: a string is used to define the type of Cohen&#39;s Kappa whether Non-Weighted or Linear</span>
+<span class="sd">            or Quadratic. Default, None.</span>
+<span class="sd">        check_compute_fn: Default False. If True, `cohen_kappa_score</span>
+<span class="sd">            &lt;https://scikit-learn.org/stable/modules/generated/sklearn.metrics.cohen_kappa_score.html&gt;`_</span>
+<span class="sd">            is run on the first batch of data to ensure there are</span>
+<span class="sd">            no issues. User will be warned in case there are any issues computing the function.</span>
+<span class="sd">        device: optional device specification for internal storage.</span>
 
 <span class="sd">    .. code-block:: python</span>
 
-<span class="sd">        from ignite.engine import Engine, Events</span>
-<span class="sd">        from ignite.contrib.handlers import CustomPeriodicEvent</span>
+<span class="sd">        def activated_output_transform(output):</span>
+<span class="sd">            y_pred, y = output</span>
+<span class="sd">            return y_pred, y</span>
 
-<span class="sd">        # Let&#39;s define an event every 1000 iterations</span>
-<span class="sd">        cpe1 = CustomPeriodicEvent(n_iterations=1000)</span>
-<span class="sd">        cpe1.attach(trainer)</span>
+<span class="sd">        weights = None or linear or quadratic</span>
 
-<span class="sd">        # Let&#39;s define an event every 10 epochs</span>
-<span class="sd">        cpe2 = CustomPeriodicEvent(n_epochs=10)</span>
-<span class="sd">        cpe2.attach(trainer)</span>
-
-<span class="sd">        @trainer.on(cpe1.Events.ITERATIONS_1000_COMPLETED)</span>
-<span class="sd">        def on_every_1000_iterations(engine):</span>
-<span class="sd">            # run a computation after 1000 iterations</span>
-<span class="sd">            # ...</span>
-<span class="sd">            print(engine.state.iterations_1000)</span>
-
-<span class="sd">        @trainer.on(cpe2.Events.EPOCHS_10_STARTED)</span>
-<span class="sd">        def on_every_10_epochs(engine):</span>
-<span class="sd">            # run a computation every 10 epochs</span>
-<span class="sd">            # ...</span>
-<span class="sd">            print(engine.state.epochs_10)</span>
-
-
-<span class="sd">    Args:</span>
-<span class="sd">        n_iterations (int, optional): number iterations of the custom periodic event</span>
-<span class="sd">        n_epochs (int, optional): number iterations of the custom periodic event. Argument is optional, but only one,</span>
-<span class="sd">            either n_iterations or n_epochs should defined.</span>
+<span class="sd">        cohen_kappa = CohenKappa(activated_output_transform, weights)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">output_transform</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+        <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">check_compute_fn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span>
+    <span class="p">):</span>
 
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;CustomPeriodicEvent is deprecated since 0.4.0 and will be removed in 0.5.0. Use filtered events instead.&quot;</span><span class="p">,</span>
-            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">cohen_kappa_score</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;This contrib module requires sklearn to be installed.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;quadratic&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Kappa Weighting type must be None or linear or quadratic.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># initalize weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cohen_kappa_compute</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cohen_kappa_fn</span><span class="p">()</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CohenKappa</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cohen_kappa_compute</span><span class="p">,</span>
+            <span class="n">output_transform</span><span class="o">=</span><span class="n">output_transform</span><span class="p">,</span>
+            <span class="n">check_compute_fn</span><span class="o">=</span><span class="n">check_compute_fn</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">n_iterations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_iterations</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument n_iterations should be an integer&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">n_iterations</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Argument n_iterations should be positive&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get_cohen_kappa_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">cohen_kappa_score</span>
 
-        <span class="k">if</span> <span class="n">n_epochs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument n_epochs should be an integer&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">n_epochs</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Argument n_epochs should be positive&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">y_targets</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">y_preds</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="n">y_true</span> <span class="o">=</span> <span class="n">y_targets</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_preds</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">cohen_kappa_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">n_iterations</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n_epochs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">n_iterations</span> <span class="ow">and</span> <span class="n">n_epochs</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either n_iterations or n_epochs should be defined&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">n_iterations</span><span class="p">:</span>
-            <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;iterations&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span> <span class="o">=</span> <span class="s2">&quot;iteration&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">n_iterations</span>
-
-        <span class="k">if</span> <span class="n">n_epochs</span><span class="p">:</span>
-            <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;epochs&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span> <span class="o">=</span> <span class="s2">&quot;epoch&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">n_epochs</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
-        <span class="n">event_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
-        <span class="nb">setattr</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="s2">&quot;Events&quot;</span><span class="p">,</span>
-            <span class="n">EventEnum</span><span class="p">(</span><span class="s2">&quot;Events&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_STARTED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_COMPLETED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">)])),</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Update State.event_to_attr</span>
-        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">:</span>
-            <span class="n">State</span><span class="o">.</span><span class="n">event_to_attr</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span>
-
-        <span class="c1"># Create aliases</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_started</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_STARTED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_completed</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_COMPLETED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">_on_started</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_on_periodic_event_started</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">engine</span><span class="o">.</span><span class="n">fire_event</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_started</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_on_periodic_event_completed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">engine</span><span class="o">.</span><span class="n">fire_event</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_completed</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
-        <span class="n">engine</span><span class="o">.</span><span class="n">register_events</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">)</span>
-
-        <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="n">Events</span><span class="o">.</span><span class="n">STARTED</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_started</span><span class="p">)</span>
-        <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span>
-            <span class="nb">getattr</span><span class="p">(</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_STARTED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="o">.</span><span class="n">upper</span><span class="p">())),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_periodic_event_started</span>
-        <span class="p">)</span>
-        <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span>
-            <span class="nb">getattr</span><span class="p">(</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_COMPLETED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="o">.</span><span class="n">upper</span><span class="p">())),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_periodic_event_completed</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">wrapper</span></div>
 </pre></div>
 
              </article>
@@ -673,8 +624,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

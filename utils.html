@@ -136,7 +136,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -198,7 +198,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -214,6 +214,7 @@
             <dd><a href="v0.4.1/utils.html">v0.4.1</a></dd>
             <dd><a href="v0.4.2/utils.html">v0.4.2</a></dd>
             <dd><a href="v0.4.3/utils.html">v0.4.3</a></dd>
+            <dd><a href="v0.4.4/utils.html">v0.4.4</a></dd>
             <dd><a href="v0.4rc.0.post1/utils.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -305,10 +306,10 @@
 <td><p>Apply a function on a tensor or mapping, or sequence of tensors.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ignite.utils.apply_to_type" title="ignite.utils.apply_to_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_to_type</span></code></a></p></td>
-<td><p>Apply a function on a object of <cite>input_type</cite> or mapping, or sequence of objects of <cite>input_type</cite>.</p></td>
+<td><p>Apply a function on an object of <cite>input_type</cite> or mapping, or sequence of objects of <cite>input_type</cite>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ignite.utils.to_onehot" title="ignite.utils.to_onehot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_onehot</span></code></a></p></td>
-<td><p>Convert a tensor of indices of any shape <cite>(N, …)</cite> to a tensor of one-hot indicators of shape <a href="#id1"><span class="problematic" id="id2">`</span></a>(N, num_classes, …) and of type uint8.</p></td>
+<td><p>Convert a tensor of indices of any shape <cite>(N, …)</cite> to a tensor of one-hot indicators of shape <cite>(N, num_classes, …)</cite> and of type uint8.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ignite.utils.setup_logger" title="ignite.utils.setup_logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_logger</span></code></a></p></td>
 <td><p>Setups logger: name, level, format etc.</p></td>
@@ -320,13 +321,13 @@
 </table>
 <span class="target" id="module-ignite.utils"></span><dl class="py function">
 <dt id="ignite.utils.apply_to_tensor">
-<code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">apply_to_tensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_</span></em>, <em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#apply_to_tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.apply_to_tensor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">apply_to_tensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#apply_to_tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.apply_to_tensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a function on a tensor or mapping, or sequence of tensors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.9)"><em>collections.abc.Sequence</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.9)"><em>collections.abc.Mapping</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a><em>]</em>) – </p></li>
-<li><p><strong>func</strong> (<em>Callable</em>) – </p></li>
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.9)"><em>collections.abc.Sequence</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.9)"><em>collections.abc.Mapping</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a><em>]</em>) – input tensor or mapping, or sequence of tensors.</p></li>
+<li><p><strong>func</strong> (<em>Callable</em>) – the function to apply on <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -337,14 +338,14 @@
 
 <dl class="py function">
 <dt id="ignite.utils.apply_to_type">
-<code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">apply_to_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_</span></em>, <em class="sig-param"><span class="n">input_type</span></em>, <em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#apply_to_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.apply_to_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a function on a object of <cite>input_type</cite> or mapping, or sequence of objects of <cite>input_type</cite>.</p>
+<code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">apply_to_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">input_type</span></em>, <em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#apply_to_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.apply_to_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function on an object of <cite>input_type</cite> or mapping, or sequence of objects of <cite>input_type</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_</strong> (<em>Union</em><em>[</em><em>Any</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.9)"><em>collections.abc.Sequence</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.9)"><em>collections.abc.Mapping</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a><em>]</em>) – </p></li>
-<li><p><strong>input_type</strong> (<em>Union</em><em>[</em><em>Type</em><em>, </em><em>Tuple</em><em>[</em><em>Type</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>func</strong> (<em>Callable</em>) – </p></li>
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>Any</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.9)"><em>collections.abc.Sequence</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.9)"><em>collections.abc.Mapping</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a><em>]</em>) – object or mapping or sequence.</p></li>
+<li><p><strong>input_type</strong> (<em>Union</em><em>[</em><em>Type</em><em>, </em><em>Tuple</em><em>[</em><em>Type</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – data type of <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
+<li><p><strong>func</strong> (<em>Callable</em>) – the function to apply on <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -355,14 +356,15 @@
 
 <dl class="py function">
 <dt id="ignite.utils.convert_tensor">
-<code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">convert_tensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_</span></em>, <em class="sig-param"><span class="n">device</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">non_blocking</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#convert_tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.convert_tensor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">convert_tensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">device</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">non_blocking</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#convert_tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.convert_tensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move tensors to relevant device.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.9)"><em>collections.abc.Sequence</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.9)"><em>collections.abc.Mapping</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a><em>]</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.9)"><em>collections.abc.Sequence</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.9)"><em>collections.abc.Mapping</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a><em>]</em>) – input tensor or mapping, or sequence of tensors.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – device type to move <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – convert a CPU Tensor with pinned memory to a CUDA Tensor
+asynchronously with respect to the host if possible</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -395,12 +397,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – new name for the logger. If None, the standard logger is used.</p></li>
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – new name for the logger. If None, the standard logger is used.</p></li>
 <li><p><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – logging level, e.g. CRITICAL, ERROR, WARNING, INFO, DEBUG.</p></li>
-<li><p><strong>stream</strong> (<em>TextIO</em><em>, </em><em>optional</em>) – logging stream. If None, the standard stream is used (sys.stderr).</p></li>
+<li><p><strong>stream</strong> (<em>Optional</em><em>[</em><em>TextIO</em><em>]</em>) – logging stream. If None, the standard stream is used (sys.stderr).</p></li>
 <li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – logging format. By default, <cite>%(asctime)s %(name)s %(levelname)s: %(message)s</cite>.</p></li>
-<li><p><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – Optional logging file path. If not None, logs are written to the file.</p></li>
-<li><p><strong>distributed_rank</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Optional, rank in distributed configuration to avoid logger setup for workers.
+<li><p><strong>filepath</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – Optional logging file path. If not None, logs are written to the file.</p></li>
+<li><p><strong>distributed_rank</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Optional, rank in distributed configuration to avoid logger setup for workers.
 If None, distributed_rank is initialized to the rank of process.</p></li>
 </ul>
 </dd>
@@ -439,22 +441,22 @@ If None, distributed_rank is initialized to the rank of process.</p></li>
 <dt id="ignite.utils.to_onehot">
 <code class="sig-prename descclassname">ignite.utils.</code><code class="sig-name descname">to_onehot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">indices</span></em>, <em class="sig-param"><span class="n">num_classes</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/utils.html#to_onehot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.utils.to_onehot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a tensor of indices of any shape <cite>(N, …)</cite> to a
-tensor of one-hot indicators of shape <cite>(N, num_classes, …) and of type uint8. Output’s device is equal to the
-input’s device</cite>.</p>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.4.3: </span>This functions is now torchscriptable.</p>
-</div>
+tensor of one-hot indicators of shape <cite>(N, num_classes, …)</cite> and of type uint8. Output’s device is equal to the
+input’s device`.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>indices</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a>) – </p></li>
-<li><p><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – </p></li>
+<li><p><strong>indices</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.Tensor</em></a>) – input tensor to convert.</p></li>
+<li><p><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of classes for one-hot tensor.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))">torch.Tensor</a></p>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.4.3: </span>This functions is now torchscriptable.</p>
+</div>
 </dd></dl>
 
 </div>
@@ -732,8 +734,8 @@ input’s device</cite>.</p>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

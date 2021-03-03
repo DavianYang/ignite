@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/distributed/auto.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/distributed/auto.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -338,8 +339,8 @@
 <span class="sd">        )</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        dataset (Dataset): input torch dataset</span>
-<span class="sd">        **kwargs: keyword arguments for `torch DataLoader`_.</span>
+<span class="sd">        dataset: input torch dataset</span>
+<span class="sd">        kwargs: keyword arguments for `torch DataLoader`_.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        `torch DataLoader`_ or `XLA MpDeviceLoader`_ for XLA devices</span>
@@ -442,11 +443,11 @@
 <span class="sd">        model = idist.auto_model(model)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model (torch.nn.Module): model to adapt.</span>
-<span class="sd">        sync_bn (bool): if True, applies `torch convert_sync_batchnorm`_ to the model for native torch</span>
+<span class="sd">        model: model to adapt.</span>
+<span class="sd">        sync_bn: if True, applies `torch convert_sync_batchnorm`_ to the model for native torch</span>
 <span class="sd">            distributed only. Default, False. Note, if using Nvidia/Apex, batchnorm conversion should be</span>
 <span class="sd">            applied before calling ``amp.initialize``.</span>
-<span class="sd">        **kwargs: kwargs to model&#39;s wrapping class: `torch DistributedDataParallel`_ or `torch DataParallel`_</span>
+<span class="sd">        kwargs: kwargs to model&#39;s wrapping class: `torch DistributedDataParallel`_ or `torch DataParallel`_</span>
 <span class="sd">            if applicable. Please, make sure to use acceptable kwargs for given backend.</span>
 
 <span class="sd">    Returns:</span>
@@ -529,7 +530,7 @@
 <span class="sd">        optimizer = idist.auto_optim(optimizer)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (Optimizer): input torch optimizer</span>
+<span class="sd">        optimizer: input torch optimizer</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Optimizer</span>
@@ -564,9 +565,9 @@
 <span class="sd">        Input sampler is assumed to have a constant size.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        sampler (Sampler): Input torch data sampler.</span>
-<span class="sd">        num_replicas (int, optional): Number of processes participating in distributed training.</span>
-<span class="sd">        rank (int, optional): Rank of the current process within ``num_replicas``.</span>
+<span class="sd">        sampler: Input torch data sampler.</span>
+<span class="sd">        num_replicas: Number of processes participating in distributed training.</span>
+<span class="sd">        rank: Rank of the current process within ``num_replicas``.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -891,8 +892,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

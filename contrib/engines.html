@@ -136,7 +136,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -198,7 +198,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -214,6 +214,7 @@
             <dd><a href="../v0.4.1/contrib/engines.html">v0.4.1</a></dd>
             <dd><a href="../v0.4.2/contrib/engines.html">v0.4.2</a></dd>
             <dd><a href="../v0.4.3/contrib/engines.html">v0.4.3</a></dd>
+            <dd><a href="../v0.4.4/contrib/engines.html">v0.4.4</a></dd>
             <dd><a href="../v0.4rc.0.post1/contrib/engines.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -385,22 +386,25 @@ time steps of the sequence, while backpropagating through the same
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<cite>torch.nn.Module</cite>) – the model to train.</p></li>
-<li><p><strong>optimizer</strong> (<cite>torch.optim.Optimizer</cite>) – the optimizer to use.</p></li>
-<li><p><strong>loss_fn</strong> (<em>torch.nn loss function</em>) – the loss function to use.</p></li>
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – the model to train.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – the optimizer to use.</p></li>
+<li><p><strong>loss_fn</strong> (<em>torch.nn.modules.module.Module</em>) – the loss function to use.</p></li>
 <li><p><strong>tbtt_step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the length of time chunks (last one may be smaller).</p></li>
 <li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – axis representing the time dimension.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – device type specification (default: None).
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – device type specification (default: None).
 Applies to batches.</p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True and this copy is between CPU and GPU,
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True and this copy is between CPU and GPU,
 the copy may occur asynchronously with respect to the host. For other cases,
 this argument has no effect.</p></li>
-<li><p><strong>prepare_batch</strong> (<em>callable</em><em>, </em><em>optional</em>) – function that receives <cite>batch</cite>, <cite>device</cite>,
+<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – function that receives <cite>batch</cite>, <cite>device</cite>,
 <cite>non_blocking</cite> and outputs tuple of tensors <cite>(batch_x, batch_y)</cite>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">ignite.engine.engine.Engine</a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a trainer engine with supervised update function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">ignite.engine.engine.Engine</a></p>
 </dd>
 </dl>
 <div class="admonition warning">
@@ -414,26 +418,6 @@ The <cite>model</cite> should be moved by the user before creating an optimizer.
 <li><p><a class="reference external" href="https://github.com/pytorch/pytorch/issues/7844#issuecomment-503713840">PyTorch’s Explanation</a></p></li>
 </ul>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a trainer engine with supervised update function.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">Engine</a></p>
-</dd>
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – </p></li>
-<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – </p></li>
-<li><p><strong>loss_fn</strong> (<em>torch.nn.modules.module.Module</em>) – </p></li>
-<li><p><strong>tbtt_step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – </p></li>
-<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – </p></li>
-<li><p><strong>device</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – </p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
-<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – </p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 </div>
@@ -448,8 +432,8 @@ Metric value should increase in order to keep training and not early stop.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>patience</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of events to wait if no improvement and then stop the training.</p></li>
-<li><p><strong>evaluator</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – evaluation engine used to provide the score</p></li>
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine to stop the run if no improvement.</p></li>
+<li><p><strong>evaluator</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – evaluation engine used to provide the score</p></li>
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine to stop the run if no improvement.</p></li>
 <li><p><strong>metric_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – metric name to use for score evaluation. This metric should be present in
 <cite>evaluator.state.metrics</cite>.</p></li>
 </ul>
@@ -473,22 +457,21 @@ Models with highest metric value will be retained. The logic of how to store obj
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>save_handler</strong> (callable or <a class="reference internal" href="../handlers.html#ignite.handlers.checkpoint.BaseSaveHandler" title="ignite.handlers.checkpoint.BaseSaveHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSaveHandler</span></code></a>) – Method or callable class to
+<li><p><strong>save_handler</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><a class="reference internal" href="../handlers.html#ignite.handlers.checkpoint.BaseSaveHandler" title="ignite.handlers.checkpoint.BaseSaveHandler"><em>ignite.handlers.checkpoint.BaseSaveHandler</em></a><em>]</em>) – Method or callable class to
 use to save engine and other provided objects. Function receives two objects: checkpoint as a dictionary
 and filename. If <code class="docutils literal notranslate"><span class="pre">save_handler</span></code> is callable class, it can
 inherit of <a class="reference internal" href="../handlers.html#ignite.handlers.checkpoint.BaseSaveHandler" title="ignite.handlers.checkpoint.BaseSaveHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSaveHandler</span></code></a> and optionally implement <code class="docutils literal notranslate"><span class="pre">remove</span></code> method
 to keep a fixed number of saved checkpoints. In case if user needs to save engine’s checkpoint on a disk,
 <code class="docutils literal notranslate"><span class="pre">save_handler</span></code> can be defined with <a class="reference internal" href="../handlers.html#ignite.handlers.DiskSaver" title="ignite.handlers.DiskSaver"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiskSaver</span></code></a>.</p></li>
-<li><p><strong>evaluator</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – evaluation engine used to provide the score</p></li>
-<li><p><strong>models</strong> (<em>nn.Module</em><em> or </em><em>Mapping</em>) – model or dictionary with the object to save. Objects should have
+<li><p><strong>evaluator</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – evaluation engine used to provide the score</p></li>
+<li><p><strong>models</strong> (<em>Union</em><em>[</em><em>torch.nn.modules.module.Module</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.nn.modules.module.Module</em><em>]</em><em>]</em>) – model or dictionary with the object to save. Objects should have
 implemented <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> and <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code> methods.</p></li>
 <li><p><strong>metric_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – metric name to use for score evaluation. This metric should be present in
 <cite>evaluator.state.metrics</cite>.</p></li>
-<li><p><strong>n_saved</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – number of best models to store</p></li>
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em>, </em><em>optional</em>) – trainer engine to fetch the epoch when saving the best model.</p></li>
-<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – score name prefix: <cite>{tag}_{metric_name}</cite>. By default, tag is “val”.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code>.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>n_saved</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of best models to store</p></li>
+<li><p><strong>trainer</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em>) – trainer engine to fetch the epoch when saving the best model.</p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – score name prefix: <cite>{tag}_{metric_name}</cite>. By default, tag is “val”.</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -510,15 +493,14 @@ Models with highest metric value will be retained.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output path to indicate where to save best models</p></li>
-<li><p><strong>evaluator</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – evaluation engine used to provide the score</p></li>
-<li><p><strong>model</strong> (<em>nn.Module</em>) – model to store</p></li>
+<li><p><strong>evaluator</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – evaluation engine used to provide the score</p></li>
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – model to store</p></li>
 <li><p><strong>metric_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – metric name to use for score evaluation. This metric should be present in
 <cite>evaluator.state.metrics</cite>.</p></li>
-<li><p><strong>n_saved</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – number of best models to store</p></li>
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em>, </em><em>optional</em>) – trainer engine to fetch the epoch when saving the best model.</p></li>
-<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – score name prefix: <cite>{tag}_{metric_name}</cite>. By default, tag is “val”.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code>.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>n_saved</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of best models to store</p></li>
+<li><p><strong>trainer</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em>) – trainer engine to fetch the epoch when saving the best model.</p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – score name prefix: <cite>{tag}_{metric_name}</cite>. By default, tag is “val”.</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -570,15 +552,14 @@ Models with highest metric value will be retained.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine</p></li>
-<li><p><strong>optimizers</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.optim.Optimizer</em></a><em> or </em><em>dict of torch.optim.Optimizer</em><em>, </em><em>optional</em>) – single or dictionary of
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine</p></li>
+<li><p><strong>optimizers</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>torch.optim.optimizer.Optimizer</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.optim.optimizer.Optimizer</em><em>]</em><em>]</em><em>]</em>) – single or dictionary of
 torch optimizers. If a dictionary, keys are used as tags arguments for logging.</p></li>
-<li><p><strong>evaluators</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em> or </em><em>dict of Engine</em><em>, </em><em>optional</em>) – single or dictionary of evaluators. If a dictionary,
+<li><p><strong>evaluators</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em><em>]</em><em>]</em>) – single or dictionary of evaluators. If a dictionary,
 keys are used as tags arguments for logging.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – interval for loggers attached to iteration events. To log every iteration,
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – interval for loggers attached to iteration events. To log every iteration,
 value can be set to 1 or None.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct the logger.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct the logger.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -592,7 +573,7 @@ value can be set to 1 or None.</p></li>
 
 <dl class="py function">
 <dt id="ignite.contrib.engines.common.setup_common_distrib_training_handlers">
-<code class="sig-prename descclassname">ignite.contrib.engines.common.</code><code class="sig-name descname">setup_common_distrib_training_handlers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trainer</span></em>, <em class="sig-param"><span class="n">train_sampler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">to_save</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_every_iters</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lr_scheduler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_gpu_stats</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_names</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_pbars</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_pbar_on_iters</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">log_every_iters</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">device</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop_on_nan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">clear_cuda_cache</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_handler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ignite.contrib.engines.common.setup_common_distrib_training_handlers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ignite.contrib.engines.common.</code><code class="sig-name descname">setup_common_distrib_training_handlers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trainer</span></em>, <em class="sig-param"><span class="n">train_sampler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">to_save</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_every_iters</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lr_scheduler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_gpu_stats</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_names</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_pbars</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_pbar_on_iters</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">log_every_iters</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">stop_on_nan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">clear_cuda_cache</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_handler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ignite.contrib.engines.common.setup_common_distrib_training_handlers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper method to setup trainer with common handlers (it also supports distributed configuration):</p>
 <blockquote>
 <div><ul class="simple">
@@ -606,37 +587,35 @@ value can be set to 1 or None.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine. Output of trainer’s <cite>update_function</cite> should be a dictionary
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine. Output of trainer’s <cite>update_function</cite> should be a dictionary
 or sequence or a single tensor.</p></li>
-<li><p><strong>train_sampler</strong> (<em>torch.utils.data.DistributedSampler</em><em>, </em><em>optional</em>) – Optional distributed sampler used to call
+<li><p><strong>train_sampler</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.distributed.DistributedSampler" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.utils.data.distributed.DistributedSampler</em></a><em>]</em>) – Optional distributed sampler used to call
 <cite>set_epoch</cite> method on epoch started event.</p></li>
-<li><p><strong>to_save</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – dictionary with objects to save in the checkpoint. This argument is passed to
+<li><p><strong>to_save</strong> (<em>Optional</em><em>[</em><em>Mapping</em><em>]</em>) – dictionary with objects to save in the checkpoint. This argument is passed to
 <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a> instance.</p></li>
-<li><p><strong>save_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – saving interval. By default, <cite>to_save</cite> objects are stored
+<li><p><strong>save_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – saving interval. By default, <cite>to_save</cite> objects are stored
 each 1000 iterations.</p></li>
-<li><p><strong>output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – output path to indicate where <cite>to_save</cite> objects are stored. Argument is mutually
+<li><p><strong>output_path</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – output path to indicate where <cite>to_save</cite> objects are stored. Argument is mutually
 exclusive with <code class="docutils literal notranslate"><span class="pre">save_handler</span></code>.</p></li>
-<li><p><strong>lr_scheduler</strong> (ParamScheduler or subclass of <cite>torch.optim.lr_scheduler._LRScheduler</cite>) – learning rate scheduler
+<li><p><strong>lr_scheduler</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="handlers.html#ignite.contrib.handlers.param_scheduler.ParamScheduler" title="ignite.contrib.handlers.param_scheduler.ParamScheduler"><em>ignite.contrib.handlers.param_scheduler.ParamScheduler</em></a><em>, </em><em>torch.optim.lr_scheduler._LRScheduler</em><em>]</em><em>]</em>) – learning rate scheduler
 as native torch LRScheduler or ignite’s parameter scheduler.</p></li>
-<li><p><strong>with_gpu_stats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, <code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code> is attached to the
+<li><p><strong>with_gpu_stats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, <a class="reference internal" href="metrics.html#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code></a> is attached to the
 trainer. This requires <cite>pynvml</cite> package to be installed.</p></li>
-<li><p><strong>output_names</strong> (<em>list/tuple</em><em>, </em><em>optional</em>) – list of names associated with <cite>update_function</cite> output dictionary.</p></li>
-<li><p><strong>with_pbars</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, two progress bars on epochs and optionally on iterations are attached.
+<li><p><strong>output_names</strong> (<em>Optional</em><em>[</em><em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em><em>]</em>) – list of names associated with <cite>update_function</cite> output dictionary.</p></li>
+<li><p><strong>with_pbars</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, two progress bars on epochs and optionally on iterations are attached.
 Default, True.</p></li>
-<li><p><strong>with_pbar_on_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, a progress bar on iterations is attached to the trainer.
+<li><p><strong>with_pbar_on_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, a progress bar on iterations is attached to the trainer.
 Default, True.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – logging interval for <code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code> and for
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – logging interval for <a class="reference internal" href="metrics.html#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code></a> and for
 epoch-wise progress bar. Default, 100.</p></li>
-<li><p><strong>stop_on_nan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, <a class="reference internal" href="../handlers.html#ignite.handlers.TerminateOnNan" title="ignite.handlers.TerminateOnNan"><code class="xref py py-class docutils literal notranslate"><span class="pre">TerminateOnNan</span></code></a> handler is added to the trainer.
+<li><p><strong>stop_on_nan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, <a class="reference internal" href="../handlers.html#ignite.handlers.TerminateOnNan" title="ignite.handlers.TerminateOnNan"><code class="xref py py-class docutils literal notranslate"><span class="pre">TerminateOnNan</span></code></a> handler is added to the trainer.
 Default, True.</p></li>
-<li><p><strong>clear_cuda_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, <cite>torch.cuda.empty_cache()</cite> is called every end of epoch.
+<li><p><strong>clear_cuda_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, <cite>torch.cuda.empty_cache()</cite> is called every end of epoch.
 Default, True.</p></li>
-<li><p><strong>save_handler</strong> (callable or <a class="reference internal" href="../handlers.html#ignite.handlers.checkpoint.BaseSaveHandler" title="ignite.handlers.checkpoint.BaseSaveHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSaveHandler</span></code></a>, optional) – Method or callable
-class to use to store <code class="docutils literal notranslate"><span class="pre">to_save</span></code>. See <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code> for more details.
+<li><p><strong>save_handler</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Callable</em><em>, </em><a class="reference internal" href="../handlers.html#ignite.handlers.checkpoint.BaseSaveHandler" title="ignite.handlers.checkpoint.BaseSaveHandler"><em>ignite.handlers.checkpoint.BaseSaveHandler</em></a><em>]</em><em>]</em>) – Method or callable
+class to use to store <code class="docutils literal notranslate"><span class="pre">to_save</span></code>. See <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a> for more details.
 Argument is mutually exclusive with <code class="docutils literal notranslate"><span class="pre">output_path</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code>.</p></li>
-<li><p><strong>device</strong> (<em>str of torch.device</em><em>, </em><em>optional</em>) – deprecated argument, it will be removed in v0.5.0.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -647,7 +626,7 @@ Argument is mutually exclusive with <code class="docutils literal notranslate"><
 
 <dl class="py function">
 <dt id="ignite.contrib.engines.common.setup_common_training_handlers">
-<code class="sig-prename descclassname">ignite.contrib.engines.common.</code><code class="sig-name descname">setup_common_training_handlers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trainer</span></em>, <em class="sig-param"><span class="n">train_sampler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">to_save</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_every_iters</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lr_scheduler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_gpu_stats</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_names</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_pbars</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_pbar_on_iters</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">log_every_iters</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">device</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop_on_nan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">clear_cuda_cache</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_handler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/engines/common.html#setup_common_training_handlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.engines.common.setup_common_training_handlers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ignite.contrib.engines.common.</code><code class="sig-name descname">setup_common_training_handlers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trainer</span></em>, <em class="sig-param"><span class="n">train_sampler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">to_save</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_every_iters</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lr_scheduler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_gpu_stats</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_names</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_pbars</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_pbar_on_iters</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">log_every_iters</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">stop_on_nan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">clear_cuda_cache</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_handler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/engines/common.html#setup_common_training_handlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.engines.common.setup_common_training_handlers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper method to setup trainer with common handlers (it also supports distributed configuration):</p>
 <blockquote>
 <div><ul class="simple">
@@ -661,37 +640,35 @@ Argument is mutually exclusive with <code class="docutils literal notranslate"><
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine. Output of trainer’s <cite>update_function</cite> should be a dictionary
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine. Output of trainer’s <cite>update_function</cite> should be a dictionary
 or sequence or a single tensor.</p></li>
-<li><p><strong>train_sampler</strong> (<em>torch.utils.data.DistributedSampler</em><em>, </em><em>optional</em>) – Optional distributed sampler used to call
+<li><p><strong>train_sampler</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.distributed.DistributedSampler" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.utils.data.distributed.DistributedSampler</em></a><em>]</em>) – Optional distributed sampler used to call
 <cite>set_epoch</cite> method on epoch started event.</p></li>
-<li><p><strong>to_save</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – dictionary with objects to save in the checkpoint. This argument is passed to
+<li><p><strong>to_save</strong> (<em>Optional</em><em>[</em><em>Mapping</em><em>]</em>) – dictionary with objects to save in the checkpoint. This argument is passed to
 <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a> instance.</p></li>
-<li><p><strong>save_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – saving interval. By default, <cite>to_save</cite> objects are stored
+<li><p><strong>save_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – saving interval. By default, <cite>to_save</cite> objects are stored
 each 1000 iterations.</p></li>
-<li><p><strong>output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – output path to indicate where <cite>to_save</cite> objects are stored. Argument is mutually
+<li><p><strong>output_path</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – output path to indicate where <cite>to_save</cite> objects are stored. Argument is mutually
 exclusive with <code class="docutils literal notranslate"><span class="pre">save_handler</span></code>.</p></li>
-<li><p><strong>lr_scheduler</strong> (ParamScheduler or subclass of <cite>torch.optim.lr_scheduler._LRScheduler</cite>) – learning rate scheduler
+<li><p><strong>lr_scheduler</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="handlers.html#ignite.contrib.handlers.param_scheduler.ParamScheduler" title="ignite.contrib.handlers.param_scheduler.ParamScheduler"><em>ignite.contrib.handlers.param_scheduler.ParamScheduler</em></a><em>, </em><em>torch.optim.lr_scheduler._LRScheduler</em><em>]</em><em>]</em>) – learning rate scheduler
 as native torch LRScheduler or ignite’s parameter scheduler.</p></li>
-<li><p><strong>with_gpu_stats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, <code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code> is attached to the
+<li><p><strong>with_gpu_stats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, <a class="reference internal" href="metrics.html#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code></a> is attached to the
 trainer. This requires <cite>pynvml</cite> package to be installed.</p></li>
-<li><p><strong>output_names</strong> (<em>list/tuple</em><em>, </em><em>optional</em>) – list of names associated with <cite>update_function</cite> output dictionary.</p></li>
-<li><p><strong>with_pbars</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, two progress bars on epochs and optionally on iterations are attached.
+<li><p><strong>output_names</strong> (<em>Optional</em><em>[</em><em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em><em>]</em>) – list of names associated with <cite>update_function</cite> output dictionary.</p></li>
+<li><p><strong>with_pbars</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, two progress bars on epochs and optionally on iterations are attached.
 Default, True.</p></li>
-<li><p><strong>with_pbar_on_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, a progress bar on iterations is attached to the trainer.
+<li><p><strong>with_pbar_on_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, a progress bar on iterations is attached to the trainer.
 Default, True.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – logging interval for <code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code> and for
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – logging interval for <a class="reference internal" href="metrics.html#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">GpuInfo</span></code></a> and for
 epoch-wise progress bar. Default, 100.</p></li>
-<li><p><strong>stop_on_nan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, <a class="reference internal" href="../handlers.html#ignite.handlers.TerminateOnNan" title="ignite.handlers.TerminateOnNan"><code class="xref py py-class docutils literal notranslate"><span class="pre">TerminateOnNan</span></code></a> handler is added to the trainer.
+<li><p><strong>stop_on_nan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, <a class="reference internal" href="../handlers.html#ignite.handlers.TerminateOnNan" title="ignite.handlers.TerminateOnNan"><code class="xref py py-class docutils literal notranslate"><span class="pre">TerminateOnNan</span></code></a> handler is added to the trainer.
 Default, True.</p></li>
-<li><p><strong>clear_cuda_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, <cite>torch.cuda.empty_cache()</cite> is called every end of epoch.
+<li><p><strong>clear_cuda_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, <cite>torch.cuda.empty_cache()</cite> is called every end of epoch.
 Default, True.</p></li>
-<li><p><strong>save_handler</strong> (callable or <a class="reference internal" href="../handlers.html#ignite.handlers.checkpoint.BaseSaveHandler" title="ignite.handlers.checkpoint.BaseSaveHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSaveHandler</span></code></a>, optional) – Method or callable
-class to use to store <code class="docutils literal notranslate"><span class="pre">to_save</span></code>. See <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code> for more details.
+<li><p><strong>save_handler</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Callable</em><em>, </em><a class="reference internal" href="../handlers.html#ignite.handlers.checkpoint.BaseSaveHandler" title="ignite.handlers.checkpoint.BaseSaveHandler"><em>ignite.handlers.checkpoint.BaseSaveHandler</em></a><em>]</em><em>]</em>) – Method or callable
+class to use to store <code class="docutils literal notranslate"><span class="pre">to_save</span></code>. See <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a> for more details.
 Argument is mutually exclusive with <code class="docutils literal notranslate"><span class="pre">output_path</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code>.</p></li>
-<li><p><strong>device</strong> (<em>str of torch.device</em><em>, </em><em>optional</em>) – deprecated argument, it will be removed in v0.5.0.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct <a class="reference internal" href="../handlers.html#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -714,15 +691,14 @@ Argument is mutually exclusive with <code class="docutils literal notranslate"><
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine</p></li>
-<li><p><strong>optimizers</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.optim.Optimizer</em></a><em> or </em><em>dict of torch.optim.Optimizer</em><em>, </em><em>optional</em>) – single or dictionary of
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine</p></li>
+<li><p><strong>optimizers</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>torch.optim.optimizer.Optimizer</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.optim.optimizer.Optimizer</em><em>]</em><em>]</em><em>]</em>) – single or dictionary of
 torch optimizers. If a dictionary, keys are used as tags arguments for logging.</p></li>
-<li><p><strong>evaluators</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em> or </em><em>dict of Engine</em><em>, </em><em>optional</em>) – single or dictionary of evaluators. If a dictionary,
+<li><p><strong>evaluators</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em><em>]</em><em>]</em>) – single or dictionary of evaluators. If a dictionary,
 keys are used as tags arguments for logging.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – interval for loggers attached to iteration events. To log every iteration,
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – interval for loggers attached to iteration events. To log every iteration,
 value can be set to 1 or None.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct the logger.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct the logger.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -748,15 +724,14 @@ value can be set to 1 or None.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine</p></li>
-<li><p><strong>optimizers</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.optim.Optimizer</em></a><em> or </em><em>dict of torch.optim.Optimizer</em><em>, </em><em>optional</em>) – single or dictionary of
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine</p></li>
+<li><p><strong>optimizers</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>torch.optim.optimizer.Optimizer</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.optim.optimizer.Optimizer</em><em>]</em><em>]</em><em>]</em>) – single or dictionary of
 torch optimizers. If a dictionary, keys are used as tags arguments for logging.</p></li>
-<li><p><strong>evaluators</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em> or </em><em>dict of Engine</em><em>, </em><em>optional</em>) – single or dictionary of evaluators. If a dictionary,
+<li><p><strong>evaluators</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em><em>]</em><em>]</em>) – single or dictionary of evaluators. If a dictionary,
 keys are used as tags arguments for logging.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – interval for loggers attached to iteration events. To log every iteration,
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – interval for loggers attached to iteration events. To log every iteration,
 value can be set to 1 or None.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct the logger.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct the logger.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -782,15 +757,14 @@ value can be set to 1 or None.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine</p></li>
-<li><p><strong>optimizers</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.optim.Optimizer</em></a><em> or </em><em>dict of torch.optim.Optimizer</em><em>, </em><em>optional</em>) – single or dictionary of
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine</p></li>
+<li><p><strong>optimizers</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>torch.optim.optimizer.Optimizer</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.optim.optimizer.Optimizer</em><em>]</em><em>]</em><em>]</em>) – single or dictionary of
 torch optimizers. If a dictionary, keys are used as tags arguments for logging.</p></li>
-<li><p><strong>evaluators</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em> or </em><em>dict of Engine</em><em>, </em><em>optional</em>) – single or dictionary of evaluators. If a dictionary,
+<li><p><strong>evaluators</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em><em>]</em><em>]</em>) – single or dictionary of evaluators. If a dictionary,
 keys are used as tags arguments for logging.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – interval for loggers attached to iteration events. To log every iteration,
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – interval for loggers attached to iteration events. To log every iteration,
 value can be set to 1 or None.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct the logger.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct the logger.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -817,15 +791,14 @@ value can be set to 1 or None.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – logging directory path</p></li>
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine</p></li>
-<li><p><strong>optimizers</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.optim.Optimizer</em></a><em> or </em><em>dict of torch.optim.Optimizer</em><em>, </em><em>optional</em>) – single or dictionary of
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine</p></li>
+<li><p><strong>optimizers</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>torch.optim.optimizer.Optimizer</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.optim.optimizer.Optimizer</em><em>]</em><em>]</em><em>]</em>) – single or dictionary of
 torch optimizers. If a dictionary, keys are used as tags arguments for logging.</p></li>
-<li><p><strong>evaluators</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em> or </em><em>dict of Engine</em><em>, </em><em>optional</em>) – single or dictionary of evaluators. If a dictionary,
+<li><p><strong>evaluators</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em><em>]</em><em>]</em>) – single or dictionary of evaluators. If a dictionary,
 keys are used as tags arguments for logging.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – interval for loggers attached to iteration events. To log every iteration,
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – interval for loggers attached to iteration events. To log every iteration,
 value can be set to 1 or None.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct the logger.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct the logger.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -871,15 +844,14 @@ value can be set to 1 or None.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine</p></li>
-<li><p><strong>optimizers</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.optim.Optimizer</em></a><em> or </em><em>dict of torch.optim.Optimizer</em><em>, </em><em>optional</em>) – single or dictionary of
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine</p></li>
+<li><p><strong>optimizers</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>torch.optim.optimizer.Optimizer</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.optim.optimizer.Optimizer</em><em>]</em><em>]</em><em>]</em>) – single or dictionary of
 torch optimizers. If a dictionary, keys are used as tags arguments for logging.</p></li>
-<li><p><strong>evaluators</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em> or </em><em>dict of Engine</em><em>, </em><em>optional</em>) – single or dictionary of evaluators. If a dictionary,
+<li><p><strong>evaluators</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em><em>]</em><em>]</em>) – single or dictionary of evaluators. If a dictionary,
 keys are used as tags arguments for logging.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – interval for loggers attached to iteration events. To log every iteration,
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – interval for loggers attached to iteration events. To log every iteration,
 value can be set to 1 or None.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct the logger.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct the logger.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -905,15 +877,14 @@ value can be set to 1 or None.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – trainer engine</p></li>
-<li><p><strong>optimizers</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.optim.Optimizer</em></a><em> or </em><em>dict of torch.optim.Optimizer</em><em>, </em><em>optional</em>) – single or dictionary of
+<li><p><strong>trainer</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – trainer engine</p></li>
+<li><p><strong>optimizers</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>torch.optim.optimizer.Optimizer</em><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.optim.optimizer.Optimizer</em><em>]</em><em>]</em><em>]</em>) – single or dictionary of
 torch optimizers. If a dictionary, keys are used as tags arguments for logging.</p></li>
-<li><p><strong>evaluators</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a><em> or </em><em>dict of Engine</em><em>, </em><em>optional</em>) – single or dictionary of evaluators. If a dictionary,
+<li><p><strong>evaluators</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>, </em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a><em>]</em><em>]</em><em>]</em>) – single or dictionary of evaluators. If a dictionary,
 keys are used as tags arguments for logging.</p></li>
-<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – interval for loggers attached to iteration events. To log every iteration,
+<li><p><strong>log_every_iters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – interval for loggers attached to iteration events. To log every iteration,
 value can be set to 1 or None.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to construct the logger.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to construct the logger.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1205,8 +1176,8 @@ value can be set to 1 or None.</p></li>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

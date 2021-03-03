@@ -136,7 +136,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -198,7 +198,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -214,6 +214,7 @@
             <dd><a href="v0.4.1/metrics.html">v0.4.1</a></dd>
             <dd><a href="v0.4.2/metrics.html">v0.4.2</a></dd>
             <dd><a href="v0.4.3/metrics.html">v0.4.3</a></dd>
+            <dd><a href="v0.4.4/metrics.html">v0.4.4</a></dd>
             <dd><a href="v0.4rc.0.post1/metrics.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -615,6 +616,12 @@ devices. Therefore, once collected, these internal variables can be used to comp
 <tr class="row-even"><td><p><a class="reference internal" href="#ignite.metrics.mIoU" title="ignite.metrics.mIoU"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mIoU</span></code></a></p></td>
 <td><p>Calculates mean Intersection over Union using <a class="reference internal" href="#ignite.metrics.ConfusionMatrix" title="ignite.metrics.ConfusionMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfusionMatrix</span></code></a> metric.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.metrics.JaccardIndex" title="ignite.metrics.JaccardIndex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JaccardIndex</span></code></a></p></td>
+<td><p>Calculates the Jaccard Index using <a class="reference internal" href="#ignite.metrics.ConfusionMatrix" title="ignite.metrics.ConfusionMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfusionMatrix</span></code></a> metric.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.metrics.MultiLabelConfusionMatrix" title="ignite.metrics.MultiLabelConfusionMatrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiLabelConfusionMatrix</span></code></a></p></td>
+<td><p>Calculates a confusion matrix for multi-labelled, multi-class data.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ignite.metrics.Precision" title="ignite.metrics.Precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Precision</span></code></a></p></td>
 <td><p>Calculates precision for binary and multiclass data.</p></td>
 </tr>
@@ -680,12 +687,12 @@ predictions can be done as below:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>is_multilabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – flag to use in multilabel case. By default, False.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>is_multilabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – flag to use in multilabel case. By default, False.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -725,11 +732,11 @@ is summed up and added to the accumulator: <cite>accumulator += x.sum(dim=0)</ci
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -753,16 +760,16 @@ predicted classes.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of classes, should be &gt; 1. See notes for more details.</p></li>
-<li><p><strong>average</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – confusion matrix values averaging schema: None, “samples”, “recall”, “precision”.
+<li><p><strong>average</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – confusion matrix values averaging schema: None, “samples”, “recall”, “precision”.
 Default is None. If <cite>average=”samples”</cite> then confusion matrix values are normalized by the number of seen
 samples. If <cite>average=”recall”</cite> then confusion matrix values are normalized such that diagonal values
 represent class recalls. If <cite>average=”precision”</cite> then confusion matrix values are normalized such that
 diagonal values represent class precisions.</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -802,8 +809,8 @@ with:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cm</strong> (<a class="reference internal" href="#ignite.metrics.ConfusionMatrix" title="ignite.metrics.ConfusionMatrix"><em>ConfusionMatrix</em></a>) – instance of confusion matrix metric</p></li>
-<li><p><strong>ignore_index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – index to ignore, e.g. background index</p></li>
+<li><p><strong>cm</strong> (<em>ignite.metrics.confusion_matrix.ConfusionMatrix</em>) – instance of confusion matrix metric</p></li>
+<li><p><strong>ignore_index</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – index to ignore, e.g. background index</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -835,17 +842,17 @@ e.g. <code class="docutils literal notranslate"><span class="pre">[[0,</span> <s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>compute_fn</strong> (<em>callable</em>) – a callable with the signature (<cite>torch.tensor</cite>, <cite>torch.tensor</cite>) takes as the input
+<li><p><strong>compute_fn</strong> (<em>Callable</em>) – a callable with the signature (<cite>torch.tensor</cite>, <cite>torch.tensor</cite>) takes as the input
 <cite>predictions</cite> and <cite>targets</cite> and returns a scalar. Input tensors will be on specified <code class="docutils literal notranslate"><span class="pre">device</span></code>
 (see arg below).</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
 <li><p><strong>check_compute_fn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, <code class="docutils literal notranslate"><span class="pre">compute_fn</span></code> is run on the first batch of data to ensure there are no
 issues. If issues exist, user is warned that there might be an issue with the <code class="docutils literal notranslate"><span class="pre">compute_fn</span></code>.
 Default, True.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em><em>, </em><em>optional</em>) – optional device specification for internal storage.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – optional device specification for internal storage.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -876,14 +883,14 @@ To disable the warning, set <code class="docutils literal notranslate"><span cla
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – weight of precision in harmonic mean</p></li>
-<li><p><strong>average</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, F-beta score is computed as the unweighted average (across all classes
+<li><p><strong>average</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, F-beta score is computed as the unweighted average (across all classes
 in multiclass case), otherwise, returns a tensor with F-beta score for each class in multiclass case.</p></li>
-<li><p><strong>precision</strong> (<a class="reference internal" href="#ignite.metrics.Precision" title="ignite.metrics.Precision"><em>Precision</em></a><em>, </em><em>optional</em>) – precision object metric with <cite>average=False</cite> to compute F-beta score</p></li>
-<li><p><strong>recall</strong> (<a class="reference internal" href="#ignite.metrics.Precision" title="ignite.metrics.Precision"><em>Precision</em></a><em>, </em><em>optional</em>) – recall object metric with <cite>average=False</cite> to compute F-beta score</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>precision</strong> (<em>Optional</em><em>[</em><em>ignite.metrics.precision.Precision</em><em>]</em>) – precision object metric with <cite>average=False</cite> to compute F-beta score</p></li>
+<li><p><strong>recall</strong> (<em>Optional</em><em>[</em><em>ignite.metrics.recall.Recall</em><em>]</em>) – recall object metric with <cite>average=False</cite> to compute F-beta score</p></li>
+<li><p><strong>output_transform</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. It is used only if precision or recall are not provided.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -919,11 +926,11 @@ is aggregated and added to the accumulator: <cite>accumulator *= prod(x, dim=0)<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -943,8 +950,8 @@ default, CPU.</p></li>
 </div><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cm</strong> (<a class="reference internal" href="#ignite.metrics.ConfusionMatrix" title="ignite.metrics.ConfusionMatrix"><em>ConfusionMatrix</em></a>) – instance of confusion matrix metric</p></li>
-<li><p><strong>ignore_index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – index to ignore, e.g. background index</p></li>
+<li><p><strong>cm</strong> (<em>ignite.metrics.confusion_matrix.ConfusionMatrix</em>) – instance of confusion matrix metric</p></li>
+<li><p><strong>ignore_index</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – index to ignore, e.g. background index</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -973,8 +980,8 @@ default, CPU.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cm</strong> (<a class="reference internal" href="#ignite.metrics.ConfusionMatrix" title="ignite.metrics.ConfusionMatrix"><em>ConfusionMatrix</em></a>) – instance of confusion matrix metric</p></li>
-<li><p><strong>ignore_index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – index to ignore, e.g. background index</p></li>
+<li><p><strong>cm</strong> (<em>ignite.metrics.confusion_matrix.ConfusionMatrix</em>) – instance of confusion matrix metric</p></li>
+<li><p><strong>ignore_index</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – index to ignore, e.g. background index</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -996,6 +1003,42 @@ default, CPU.</p></li>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt id="ignite.metrics.JaccardIndex">
+<code class="sig-prename descclassname">ignite.metrics.</code><code class="sig-name descname">JaccardIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cm</span></em>, <em class="sig-param"><span class="n">ignore_index</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/metrics/confusion_matrix.html#JaccardIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.metrics.JaccardIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the Jaccard Index using <a class="reference internal" href="#ignite.metrics.ConfusionMatrix" title="ignite.metrics.ConfusionMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfusionMatrix</span></code></a> metric.
+Implementation is based on <a class="reference internal" href="#ignite.metrics.IoU" title="ignite.metrics.IoU"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IoU()</span></code></a>.</p>
+<div class="math">
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>J</mtext><mo stretchy="false">(</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false">∣</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo stretchy="false">∣</mo></mrow><mrow><mo stretchy="false">∣</mo><mi>A</mi><mo>∪</mo><mi>B</mi><mo stretchy="false">∣</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{J}(A, B) = \frac{ \lvert A \cap B \rvert }{ \lvert A \cup B \rvert }
+
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">J</span></span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">∣</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∪</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">∣</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">∣</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+
+</div><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cm</strong> (<em>ignite.metrics.confusion_matrix.ConfusionMatrix</em>) – instance of confusion matrix metric</p></li>
+<li><p><strong>ignore_index</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – index to ignore, e.g. background index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>MetricsLambda</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ignite.metrics.metrics_lambda.MetricsLambda</p>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_evaluator</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="n">cm</span> <span class="o">=</span> <span class="n">ConfusionMatrix</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="n">num_classes</span><span class="p">)</span>
+<span class="n">JaccardIndex</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">train_evaluator</span><span class="p">,</span> <span class="s1">&#39;JaccardIndex&#39;</span><span class="p">)</span>
+
+<span class="n">state</span> <span class="o">=</span> <span class="n">train_evaluator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">)</span>
+<span class="c1"># state.metrics[&#39;JaccardIndex&#39;] -&gt; tensor of shape (num_classes - 1, )</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py class">
 <dt id="ignite.metrics.Loss">
 <em class="property">class </em><code class="sig-prename descclassname">ignite.metrics.</code><code class="sig-name descname">Loss</code><span class="sig-paren">(</span><em class="sig-param">loss_fn</em>, <em class="sig-param">output_transform=&lt;function Loss.&lt;lambda&gt;&gt;</em>, <em class="sig-param">batch_size=&lt;function Loss.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/metrics/loss.html#Loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.metrics.Loss" title="Permalink to this definition">¶</a></dt>
@@ -1003,10 +1046,10 @@ default, CPU.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>loss_fn</strong> (<em>callable</em>) – a callable taking a prediction tensor, a target
+<li><p><strong>loss_fn</strong> (<em>Callable</em>) – a callable taking a prediction tensor, a target
 tensor, optionally other arguments, and returns the average loss
 over all observations in the batch.</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric.
 This can be useful if, for example, you have a multi-output model and
@@ -1014,9 +1057,9 @@ you want to compute the metric with respect to one of the outputs.
 The output is expected to be a tuple <cite>(prediction, target)</cite> or
 (prediction, target, kwargs) where kwargs is a dictionary of extra
 keywords arguments. If extra keywords arguments are provided they are passed to <cite>loss_fn</cite>.</p></li>
-<li><p><strong>batch_size</strong> (<em>callable</em>) – a callable taking a target tensor that returns the
+<li><p><strong>batch_size</strong> (<em>Callable</em>) – a callable taking a target tensor that returns the
 first dimension size (usually the batch size).</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
 metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
 non-blocking. By default, CPU.</p></li>
 </ul>
@@ -1044,8 +1087,14 @@ non-blocking. By default, CPU.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1062,10 +1111,16 @@ Average of pairwise distances computed on provided batches.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – </p></li>
-<li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – </p></li>
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the norm degree. Default: 2</p></li>
+<li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Small value to avoid division by zero. Default: 1e-6</p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1094,8 +1149,14 @@ Average of pairwise distances computed on provided batches.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1108,12 +1169,12 @@ Average of pairwise distances computed on provided batches.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.
 By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
 metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
 non-blocking. By default, CPU.</p></li>
 </ul>
@@ -1127,7 +1188,7 @@ latter is a dictionary. Default, <code class="docutils literal notranslate"><spa
 other arguments than predictions <code class="docutils literal notranslate"><span class="pre">y_pred</span></code> and targets <code class="docutils literal notranslate"><span class="pre">y</span></code>. See notes below for an example.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
+<dd class="field-odd"><p>Optional[Tuple]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1192,9 +1253,9 @@ contain computed metric’s value under provided name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine to which the metric must be attached</p></li>
+<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine to which the metric must be attached</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the metric to attach</p></li>
-<li><p><strong>usage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference internal" href="#ignite.metrics.MetricUsage" title="ignite.metrics.MetricUsage"><em>MetricUsage</em></a><em>, </em><em>optional</em>) – the usage of the metric. Valid string values should be
+<li><p><strong>usage</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>ignite.metrics.metric.MetricUsage</em><em>]</em>) – the usage of the metric. Valid string values should be
 <a class="reference internal" href="#ignite.metrics.EpochWise.usage_name" title="ignite.metrics.EpochWise.usage_name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ignite.metrics.EpochWise.usage_name</span></code></a> (default) or
 <a class="reference internal" href="#ignite.metrics.BatchWise.usage_name" title="ignite.metrics.BatchWise.usage_name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ignite.metrics.BatchWise.usage_name</span></code></a>.</p></li>
 </ul>
@@ -1231,7 +1292,7 @@ contain computed metric’s value under provided name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine to which the metric must be attached</p></li>
+<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine to which the metric must be attached</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the metric used as key in dict <cite>engine.state.metrics</cite></p></li>
 </ul>
 </dd>
@@ -1277,8 +1338,8 @@ and another metric (e.g. more expensive one) is done every n-th training epoch.<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine from which the metric must be detached</p></li>
-<li><p><strong>usage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference internal" href="#ignite.metrics.MetricUsage" title="ignite.metrics.MetricUsage"><em>MetricUsage</em></a><em>, </em><em>optional</em>) – the usage of the metric. Valid string values should be
+<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine from which the metric must be detached</p></li>
+<li><p><strong>usage</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>ignite.metrics.metric.MetricUsage</em><em>]</em>) – the usage of the metric. Valid string values should be
 ‘epoch_wise’ (default) or ‘batch_wise’.</p></li>
 </ul>
 </dd>
@@ -1316,8 +1377,8 @@ value is written to <cite>engine.state.metrics</cite> dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine checked from which the metric should be attached</p></li>
-<li><p><strong>usage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference internal" href="#ignite.metrics.MetricUsage" title="ignite.metrics.MetricUsage"><em>MetricUsage</em></a><em>, </em><em>optional</em>) – the usage of the metric. Valid string values should be
+<li><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine checked from which the metric should be attached</p></li>
+<li><p><strong>usage</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>ignite.metrics.metric.MetricUsage</em><em>]</em>) – the usage of the metric. Valid string values should be
 ‘epoch_wise’ (default) or ‘batch_wise’.</p></li>
 </ul>
 </dd>
@@ -1334,7 +1395,7 @@ value is written to <cite>engine.state.metrics</cite> dictionary.</p>
 <cite>engine</cite> with <a class="reference internal" href="#ignite.metrics.Metric.attach" title="ignite.metrics.Metric.attach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">attach()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine to which the metric must be attached</p>
+<dd class="field-odd"><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine to which the metric must be attached</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
@@ -1361,7 +1422,7 @@ value is written to <cite>engine.state.metrics</cite> dictionary.</p>
 <cite>engine</cite> with <a class="reference internal" href="#ignite.metrics.Metric.attach" title="ignite.metrics.Metric.attach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">attach()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine to which the metric must be attached</p>
+<dd class="field-odd"><p><strong>engine</strong> (<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine to which the metric must be attached</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
@@ -1399,10 +1460,11 @@ automatically (but partially, e.g <a class="reference internal" href="#ignite.me
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> (<em>callable</em>) – the function that defines the computation</p></li>
-<li><p><strong>args</strong> (<em>sequence</em>) – Sequence of other metrics or something
+<li><p><strong>f</strong> (<em>Callable</em>) – the function that defines the computation</p></li>
+<li><p><strong>args</strong> (<em>Any</em>) – Sequence of other metrics or something
 else that will be fed to <code class="docutils literal notranslate"><span class="pre">f</span></code> as arguments.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – Sequence of other metrics or something
+else that will be fed to <code class="docutils literal notranslate"><span class="pre">f</span></code> as keyword arguments.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1445,6 +1507,48 @@ metrics is detached, the metric is considered detached too.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt id="ignite.metrics.MultiLabelConfusionMatrix">
+<em class="property">class </em><code class="sig-prename descclassname">ignite.metrics.</code><code class="sig-name descname">MultiLabelConfusionMatrix</code><span class="sig-paren">(</span><em class="sig-param">num_classes</em>, <em class="sig-param">output_transform=&lt;function MultiLabelConfusionMatrix.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em>, <em class="sig-param">normalized=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/metrics/multilabel_confusion_matrix.html#MultiLabelConfusionMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.metrics.MultiLabelConfusionMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a confusion matrix for multi-labelled, multi-class data.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code>.</p></li>
+<li><p><cite>y_pred</cite> must contain 0s and 1s and has the following shape (batch_size, num_classes, …).
+For example, <cite>y_pred[i, j]</cite> = 1 denotes that the j’th class is one of the labels of the i’th sample as predicted.</p></li>
+<li><p><cite>y</cite> should have the following shape (batch_size, num_classes, …) with 0s and 1s. For example,
+<cite>y[i, j]</cite> = 1 denotes that the j’th class is one of the labels of the i’th sample according to the ground truth.</p></li>
+<li><p>both <cite>y</cite> and <cite>y_pred</cite> must be torch Tensors having any of the following types:
+{torch.uint8, torch.int8, torch.int16, torch.int32, torch.int64}. They must have the same dimensions.</p></li>
+<li><p>The confusion matrix ‘M’ is of dimension (num_classes, 2, 2).</p>
+<ul>
+<li><p>M[i, 0, 0] corresponds to count/rate of true negatives of class i</p></li>
+<li><p>M[i, 0, 1] corresponds to count/rate of false positives of class i</p></li>
+<li><p>M[i, 1, 0] corresponds to count/rate of false negatives of class i</p></li>
+<li><p>M[i, 1, 1] corresponds to count/rate of true positives of class i</p></li>
+</ul>
+</li>
+<li><p>The classes present in M are indexed as 0, … , num_classes-1 as can be inferred from above.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of classes, should be &gt; 1.</p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
+device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
+default, CPU.</p></li>
+<li><p><strong>normalized</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to normalize confusion matrix by its sum or not.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
 <dt id="ignite.metrics.PSNR">
 <em class="property">class </em><code class="sig-prename descclassname">ignite.metrics.</code><code class="sig-name descname">PSNR</code><span class="sig-paren">(</span><em class="sig-param">data_range</em>, <em class="sig-param">output_transform=&lt;function PSNR.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/metrics/psnr.html#PSNR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.metrics.PSNR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes average <a class="reference external" href="https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio">Peak signal-to-noise ratio (PSNR)</a>.</p>
@@ -1463,12 +1567,12 @@ metrics is detached, the metric is considered detached too.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – The data range of the target image (distance between minimum
+<li><p><strong>data_range</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – The data range of the target image (distance between minimum
 and maximum possible values).
 For other data types, please set the data range, otherwise an exception will be raised.</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – A callable that is used to transform the Engine’s
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – A callable that is used to transform the Engine’s
 process_function’s output into the form expected by the metric.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on.
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on.
 Setting the metric’s device to be the same as your update arguments ensures
 the update method is non-blocking. By default, CPU.</p></li>
 </ul>
@@ -1552,22 +1656,18 @@ example, average parameter should be False. This can be done as shown below:</p>
 as tensors before computing a metric. This can potentially lead to a memory error if the input data is larger
 than available RAM.</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>In multilabel cases, if average is False, current implementation does not work with distributed computations.
-Results are not reduced across the GPUs. Computed result corresponds to the local rank’s (single GPU) result.</p>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>average</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, precision is computed as the unweighted average (across all classes
+<li><p><strong>average</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, precision is computed as the unweighted average (across all classes
 in multiclass case), otherwise, returns a tensor with the precision (for each class in multiclass case).</p></li>
-<li><p><strong>is_multilabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – parameter should be True and the average is computed across samples, instead of classes.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>is_multilabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – flag to use in multilabel case. By default, value is False. If True, average
+parameter should be True and the average is computed across samples, instead of classes.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -1618,22 +1718,18 @@ example, average parameter should be False. This can be done as shown below:</p>
 as tensors before computing a metric. This can potentially lead to a memory error if the input data is larger
 than available RAM.</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>In multilabel cases, if average is False, current implementation does not work with distributed computations.
-Results are not reduced across the GPUs. Computed result corresponds to the local rank’s (single GPU) result.</p>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>average</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, precision is computed as the unweighted average (across all classes
+<li><p><strong>average</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, precision is computed as the unweighted average (across all classes
 in multiclass case), otherwise, returns a tensor with the precision (for each class in multiclass case).</p></li>
-<li><p><strong>is_multilabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – parameter should be True and the average is computed across samples, instead of classes.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>is_multilabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – flag to use in multilabel case. By default, value is False. If True, average
+parameter should be True and the average is computed across samples, instead of classes.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -1665,8 +1761,14 @@ c-4-3.333-8.333-7.667-13 -13l-13-13l77-155 77-156c66 199.333 139 419.667
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1679,14 +1781,14 @@ c-4-3.333-8.333-7.667-13 -13l-13-13l77-155 77-156c66 199.333 139 419.667
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="#ignite.metrics.Metric" title="ignite.metrics.Metric"><em>Metric</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – input source: an instance of <a class="reference internal" href="#ignite.metrics.Metric" title="ignite.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a> or None. The latter
+<li><p><strong>src</strong> (<em>Optional</em><em>[</em><em>ignite.metrics.metric.Metric</em><em>]</em>) – input source: an instance of <a class="reference internal" href="#ignite.metrics.Metric" title="ignite.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a> or None. The latter
 corresponds to <cite>engine.state.output</cite> which holds the output of process function.</p></li>
-<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – running average decay factor, default 0.98</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a function to use to transform the output if <cite>src</cite> is None and
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – running average decay factor, default 0.98</p></li>
+<li><p><strong>output_transform</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – a function to use to transform the output if <cite>src</cite> is None and
 corresponds the output of process function. Otherwise it should be None.</p></li>
-<li><p><strong>epoch_bound</strong> (<em>boolean</em><em>, </em><em>optional</em>) – whether the running average should be reset after each epoch (defaults
+<li><p><strong>epoch_bound</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether the running average should be reset after each epoch (defaults
 to True).</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em><em>, </em><em>optional</em>) – specifies which device updates are accumulated on. Should be
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – specifies which device updates are accumulated on. Should be
 None when <code class="docutils literal notranslate"><span class="pre">src</span></code> is an instance of <a class="reference internal" href="#ignite.metrics.Metric" title="ignite.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a>, as the running average will
 use the <code class="docutils literal notranslate"><span class="pre">src</span></code>’s device. Otherwise, defaults to CPU. Only applicable when the computed value
 from the metric is a tensor.</p></li>
@@ -1716,17 +1818,17 @@ from the metric is a tensor.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Range of the image. Typically, <code class="docutils literal notranslate"><span class="pre">1.0</span></code> or <code class="docutils literal notranslate"><span class="pre">255</span></code>.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em> or </em><em>tuple of int</em>) – Size of the kernel. Default: (11, 11)</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em> or </em><em>tuple of float</em>) – Standard deviation of the gaussian kernel.
+<li><p><strong>data_range</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Range of the image. Typically, <code class="docutils literal notranslate"><span class="pre">1.0</span></code> or <code class="docutils literal notranslate"><span class="pre">255</span></code>.</p></li>
+<li><p><strong>kernel_size</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>]</em>) – Size of the kernel. Default: (11, 11)</p></li>
+<li><p><strong>sigma</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em><em>]</em>) – Standard deviation of the gaussian kernel.
 Argument is used if <code class="docutils literal notranslate"><span class="pre">gaussian=True</span></code>. Default: (1.5, 1.5)</p></li>
 <li><p><strong>k1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Parameter of SSIM. Default: 0.01</p></li>
 <li><p><strong>k2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Parameter of SSIM. Default: 0.03</p></li>
 <li><p><strong>gaussian</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> to use gaussian kernel, <code class="docutils literal notranslate"><span class="pre">False</span></code> to use uniform kernel</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – A callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – A callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -1761,9 +1863,15 @@ to adjust <code class="docutils literal notranslate"><span class="pre">data_rang
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – </p></li>
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the k in “top-k”.</p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1793,13 +1901,13 @@ Number of samples is updated following the rule:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>op</strong> (<em>callable</em>) – a callable to update accumulator. Method’s signature is <cite>(accumulator, output)</cite>.
+<li><p><strong>op</strong> (<em>Callable</em>) – a callable to update accumulator. Method’s signature is <cite>(accumulator, output)</cite>.
 For example, to compute arithmetic mean value, <cite>op = lambda a, x: a + x</cite>.</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>torch.device</em>) – specifies which device updates are accumulated on. Setting the metric’s
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the metric’s
 device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is non-blocking. By
 default, CPU.</p></li>
 </ul>
@@ -1899,11 +2007,9 @@ Valid events are from <a class="reference internal" href="engine.html#ignite.eng
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>*args</strong> – Positional arguments to setup <code class="xref py py-attr docutils literal notranslate"><span class="pre">ITERATION_COMPLETED(*args,</span> <span class="pre">**kwargs)</span></code></p></li>
-<li><p><strong>**kwargs</strong> – Keyword arguments to setup <code class="xref py py-attr docutils literal notranslate"><span class="pre">ITERATION_COMPLETED(*args,</span> <span class="pre">**kwargs)</span></code>
+<li><p><strong>args</strong> (<em>Any</em>) – Positional arguments to setup <code class="xref py py-attr docutils literal notranslate"><span class="pre">ITERATION_COMPLETED(*args,</span> <span class="pre">**kwargs)</span></code></p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – Keyword arguments to setup <code class="xref py py-attr docutils literal notranslate"><span class="pre">ITERATION_COMPLETED(*args,</span> <span class="pre">**kwargs)</span></code>
 handled by <a class="reference internal" href="#ignite.metrics.Metric.iteration_completed" title="ignite.metrics.Metric.iteration_completed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">iteration_completed()</span></code></a>.</p></li>
-<li><p><strong>args</strong> (<em>Any</em>) – </p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1919,7 +2025,7 @@ handled by <a class="reference internal" href="#ignite.metrics.Metric.iteration_
 <p>See <a class="reference internal" href="#"><span class="doc">ignite.metrics</span></a> on how to use it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – </p>
+<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – A callable to reinit.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Callable</p>
@@ -1935,10 +2041,7 @@ across all participating processes.</p>
 <p>See <a class="reference internal" href="#"><span class="doc">ignite.metrics</span></a> on how to use it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>*attrs</strong> – attribute names of decorated class</p></li>
-<li><p><strong>attrs</strong> (<em>Any</em>) – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>attrs</strong> (<em>Any</em>) – attribute names of decorated class</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Callable</p>
@@ -2233,8 +2336,8 @@ across all participating processes.</p>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

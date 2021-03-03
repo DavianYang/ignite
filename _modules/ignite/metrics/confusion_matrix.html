@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/metrics/confusion_matrix.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/metrics/confusion_matrix.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -295,7 +296,7 @@
 <span class="kn">from</span> <span class="nn">ignite.metrics.metric</span> <span class="kn">import</span> <span class="n">Metric</span><span class="p">,</span> <span class="n">reinit__is_reduced</span><span class="p">,</span> <span class="n">sync_all_reduce</span>
 <span class="kn">from</span> <span class="nn">ignite.metrics.metrics_lambda</span> <span class="kn">import</span> <span class="n">MetricsLambda</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ConfusionMatrix&quot;</span><span class="p">,</span> <span class="s2">&quot;mIoU&quot;</span><span class="p">,</span> <span class="s2">&quot;IoU&quot;</span><span class="p">,</span> <span class="s2">&quot;DiceCoefficient&quot;</span><span class="p">,</span> <span class="s2">&quot;cmAccuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;cmPrecision&quot;</span><span class="p">,</span> <span class="s2">&quot;cmRecall&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ConfusionMatrix&quot;</span><span class="p">,</span> <span class="s2">&quot;mIoU&quot;</span><span class="p">,</span> <span class="s2">&quot;IoU&quot;</span><span class="p">,</span> <span class="s2">&quot;DiceCoefficient&quot;</span><span class="p">,</span> <span class="s2">&quot;cmAccuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;cmPrecision&quot;</span><span class="p">,</span> <span class="s2">&quot;cmRecall&quot;</span><span class="p">,</span> <span class="s2">&quot;JaccardIndex&quot;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="ConfusionMatrix"><a class="viewcode-back" href="../../../metrics.html#ignite.metrics.ConfusionMatrix">[docs]</a><span class="k">class</span> <span class="nc">ConfusionMatrix</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
@@ -309,17 +310,17 @@
 <span class="sd">      predicted classes.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        num_classes (int): Number of classes, should be &gt; 1. See notes for more details.</span>
-<span class="sd">        average (str, optional): confusion matrix values averaging schema: None, &quot;samples&quot;, &quot;recall&quot;, &quot;precision&quot;.</span>
+<span class="sd">        num_classes: Number of classes, should be &gt; 1. See notes for more details.</span>
+<span class="sd">        average: confusion matrix values averaging schema: None, &quot;samples&quot;, &quot;recall&quot;, &quot;precision&quot;.</span>
 <span class="sd">            Default is None. If `average=&quot;samples&quot;` then confusion matrix values are normalized by the number of seen</span>
 <span class="sd">            samples. If `average=&quot;recall&quot;` then confusion matrix values are normalized such that diagonal values</span>
 <span class="sd">            represent class recalls. If `average=&quot;precision&quot;` then confusion matrix values are normalized such that</span>
 <span class="sd">            diagonal values represent class precisions.</span>
-<span class="sd">        output_transform (callable, optional): a callable that is used to transform the</span>
+<span class="sd">        output_transform: a callable that is used to transform the</span>
 <span class="sd">            :class:`~ignite.engine.engine.Engine`&#39;s ``process_function``&#39;s output into the</span>
 <span class="sd">            form expected by the metric. This can be useful if, for example, you have a multi-output model and</span>
 <span class="sd">            you want to compute the metric with respect to one of the outputs.</span>
-<span class="sd">        device (str or torch.device): specifies which device updates are accumulated on. Setting the metric&#39;s</span>
+<span class="sd">        device: specifies which device updates are accumulated on. Setting the metric&#39;s</span>
 <span class="sd">            device to be the same as your ``update`` arguments ensures the ``update`` method is non-blocking. By</span>
 <span class="sd">            default, CPU.</span>
 
@@ -449,8 +450,8 @@
 <span class="sd">    .. math:: \text{J}(A, B) = \frac{ \lvert A \cap B \rvert }{ \lvert A \cup B \rvert }</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        cm (ConfusionMatrix): instance of confusion matrix metric</span>
-<span class="sd">        ignore_index (int, optional): index to ignore, e.g. background index</span>
+<span class="sd">        cm: instance of confusion matrix metric</span>
+<span class="sd">        ignore_index: index to ignore, e.g. background index</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        MetricsLambda</span>
@@ -500,8 +501,8 @@
     <span class="sd">&quot;&quot;&quot;Calculates mean Intersection over Union using :class:`~ignite.metrics.ConfusionMatrix` metric.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        cm (ConfusionMatrix): instance of confusion matrix metric</span>
-<span class="sd">        ignore_index (int, optional): index to ignore, e.g. background index</span>
+<span class="sd">        cm: instance of confusion matrix metric</span>
+<span class="sd">        ignore_index: index to ignore, e.g. background index</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        MetricsLambda</span>
@@ -528,7 +529,7 @@
     <span class="sd">&quot;&quot;&quot;Calculates accuracy using :class:`~ignite.metrics.ConfusionMatrix` metric.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        cm (ConfusionMatrix): instance of confusion matrix metric</span>
+<span class="sd">        cm: instance of confusion matrix metric</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        MetricsLambda</span>
@@ -543,8 +544,8 @@
     <span class="sd">&quot;&quot;&quot;Calculates precision using :class:`~ignite.metrics.ConfusionMatrix` metric.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        cm (ConfusionMatrix): instance of confusion matrix metric</span>
-<span class="sd">        average (bool, optional): if True metric value is averaged over all classes</span>
+<span class="sd">        cm: instance of confusion matrix metric</span>
+<span class="sd">        average: if True metric value is averaged over all classes</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        MetricsLambda</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -562,8 +563,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates recall using :class:`~ignite.metrics.ConfusionMatrix` metric.</span>
 <span class="sd">    Args:</span>
-<span class="sd">        cm (ConfusionMatrix): instance of confusion matrix metric</span>
-<span class="sd">        average (bool, optional): if True metric value is averaged over all classes</span>
+<span class="sd">        cm: instance of confusion matrix metric</span>
+<span class="sd">        average: if True metric value is averaged over all classes</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        MetricsLambda</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -581,8 +582,8 @@
     <span class="sd">&quot;&quot;&quot;Calculates Dice Coefficient for a given :class:`~ignite.metrics.ConfusionMatrix` metric.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        cm (ConfusionMatrix): instance of confusion matrix metric</span>
-<span class="sd">        ignore_index (int, optional): index to ignore, e.g. background index</span>
+<span class="sd">        cm: instance of confusion matrix metric</span>
+<span class="sd">        ignore_index: index to ignore, e.g. background index</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">ConfusionMatrix</span><span class="p">):</span>
@@ -611,6 +612,35 @@
         <span class="k">return</span> <span class="n">MetricsLambda</span><span class="p">(</span><span class="n">ignore_index_fn</span><span class="p">,</span> <span class="n">dice</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">dice</span></div>
+
+
+<div class="viewcode-block" id="JaccardIndex"><a class="viewcode-back" href="../../../metrics.html#ignite.metrics.JaccardIndex">[docs]</a><span class="k">def</span> <span class="nf">JaccardIndex</span><span class="p">(</span><span class="n">cm</span><span class="p">:</span> <span class="n">ConfusionMatrix</span><span class="p">,</span> <span class="n">ignore_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MetricsLambda</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculates the Jaccard Index using :class:`~ignite.metrics.ConfusionMatrix` metric.</span>
+<span class="sd">    Implementation is based on :meth:`~ignite.metrics.IoU`.</span>
+
+<span class="sd">    .. math:: \text{J}(A, B) = \frac{ \lvert A \cap B \rvert }{ \lvert A \cup B \rvert }</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cm: instance of confusion matrix metric</span>
+<span class="sd">        ignore_index: index to ignore, e.g. background index</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        MetricsLambda</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        train_evaluator = ...</span>
+
+<span class="sd">        cm = ConfusionMatrix(num_classes=num_classes)</span>
+<span class="sd">        JaccardIndex(cm, ignore_index=0).attach(train_evaluator, &#39;JaccardIndex&#39;)</span>
+
+<span class="sd">        state = train_evaluator.run(train_dataset)</span>
+<span class="sd">        # state.metrics[&#39;JaccardIndex&#39;] -&gt; tensor of shape (num_classes - 1, )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">IoU</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">ignore_index</span><span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -873,8 +903,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

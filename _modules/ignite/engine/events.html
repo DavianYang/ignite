@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/engine/events.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/engine/events.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -289,7 +290,6 @@
               
   <h1>Source code for ignite.engine.events</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numbers</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">DynamicClassAttribute</span>
@@ -310,12 +310,11 @@
 <span class="sd">    be run at the current event (if the event type is correct)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        value (str): The actual enum value. Only needed for internal use. Do not touch!</span>
-<span class="sd">        event_filter (callable): A function taking the engine and the current event value as input and returning a</span>
+<span class="sd">        value: The actual enum value. Only needed for internal use. Do not touch!</span>
+<span class="sd">        event_filter: A function taking the engine and the current event value as input and returning a</span>
 <span class="sd">            boolean to indicate whether this event should be executed. Defaults to None, which will result to a</span>
 <span class="sd">            function that always returns `True`</span>
-<span class="sd">        name (str, optional): The enum-name of the current object. Only needed for internal use. Do not touch!</span>
-
+<span class="sd">        name: The enum-name of the current object. Only needed for internal use. Do not touch!</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">event_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -348,10 +347,10 @@
 <span class="sd">        (which must take in the engine and current event value and return a boolean) or an every or once value</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            event_filter (callable, optional): a filter function to check if the event should be executed when</span>
+<span class="sd">            event_filter: a filter function to check if the event should be executed when</span>
 <span class="sd">                the event type was fired</span>
-<span class="sd">            every (int, optional): a value specifying how often the event should be fired</span>
-<span class="sd">            once (int, optional): a value specifying when the event should be fired (if only once)</span>
+<span class="sd">            every: a value specifying how often the event should be fired</span>
+<span class="sd">            once: a value specifying when the event should be fired (if only once)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            CallableEventWithFilter: A new event having the same value but a different filter function</span>
@@ -423,17 +422,6 @@
 
     <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EventsList&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">EventsList</span><span class="p">()</span> <span class="o">|</span> <span class="bp">self</span> <span class="o">|</span> <span class="n">other</span></div>
-
-
-<span class="k">class</span> <span class="nc">CallableEvents</span><span class="p">(</span><span class="n">CallableEventWithFilter</span><span class="p">):</span>
-    <span class="c1"># For backward compatibility</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">CallableEvents</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;Class ignite.engine.events.CallableEvents is deprecated. It will be removed in 0.5.0. &quot;</span>
-            <span class="s2">&quot;Please, use ignite.engine.EventEnum instead&quot;</span><span class="p">,</span>
-            <span class="ne">DeprecationWarning</span><span class="p">,</span>
-        <span class="p">)</span>
 
 
 <div class="viewcode-block" id="EventEnum"><a class="viewcode-back" href="../../../engine.html#ignite.engine.events.EventEnum">[docs]</a><span class="k">class</span> <span class="nc">EventEnum</span><span class="p">(</span><span class="n">CallableEventWithFilter</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>  <span class="c1"># type: ignore[misc]</span>
@@ -587,7 +575,7 @@
         <span class="k">return</span> <span class="n">EventsList</span><span class="p">()</span> <span class="o">|</span> <span class="bp">self</span> <span class="o">|</span> <span class="n">other</span></div>
 
 
-<span class="k">class</span> <span class="nc">EventsList</span><span class="p">:</span>
+<div class="viewcode-block" id="EventsList"><a class="viewcode-back" href="../../../engine.html#ignite.engine.events.EventsList">[docs]</a><span class="k">class</span> <span class="nc">EventsList</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Collection of events stacked by operator `__or__`.</span>
 
 <span class="sd">    .. code-block:: python</span>
@@ -603,7 +591,7 @@
 
 <span class="sd">    or</span>
 
-<span class="sd">     .. code-block:: python</span>
+<span class="sd">    .. code-block:: python</span>
 
 <span class="sd">        @engine.on(Events.STARTED | Events.COMPLETED | Events.ITERATION_STARTED(every=3))</span>
 <span class="sd">        def call_on_events(engine):</span>
@@ -630,7 +618,7 @@
 
     <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Events</span><span class="p">,</span> <span class="n">CallableEventWithFilter</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;EventsList&quot;</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">event</span><span class="o">=</span><span class="n">other</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
 
 <div class="viewcode-block" id="State"><a class="viewcode-back" href="../../../engine.html#ignite.engine.events.State">[docs]</a><span class="k">class</span> <span class="nc">State</span><span class="p">:</span>
@@ -645,12 +633,15 @@
 <span class="sd">        state.dataloader        # data passed to engine</span>
 <span class="sd">        state.epoch_length      # optional length of an epoch</span>
 <span class="sd">        state.max_epochs        # number of epochs to run</span>
+<span class="sd">        state.max_iters         # number of iterations to run</span>
 <span class="sd">        state.batch             # batch passed to `process_function`</span>
 <span class="sd">        state.output            # output of `process_function` after a single iteration</span>
 <span class="sd">        state.metrics           # dictionary with defined metrics if any</span>
 <span class="sd">        state.times             # dictionary with total and per-epoch times fetched on</span>
 <span class="sd">                                # keys: Events.EPOCH_COMPLETED.name and Events.COMPLETED.name</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        kwargs: keyword arguments to be defined as State attributes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">event_to_attr</span> <span class="o">=</span> <span class="p">{</span>
@@ -669,6 +660,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">epoch_length</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[int]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_epochs</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[int]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iters</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[int]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[int]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batch</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[int]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, Any]</span>
@@ -1022,8 +1014,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/handlers/mlflow_logger.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/handlers/mlflow_logger.html">v0.4.4</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -312,7 +313,7 @@
 <span class="sd">        pip install mlflow</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        tracking_uri (str): MLflow tracking uri. See MLflow docs for more details</span>
+<span class="sd">        tracking_uri: MLflow tracking uri. See MLflow docs for more details</span>
 
 <span class="sd">    Examples:</span>
 
@@ -374,7 +375,7 @@
 <span class="sd">            )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_uri</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_uri</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">mlflow</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -470,14 +471,14 @@
 <span class="sd">            )</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        tag (str): common title for all produced plots. For example, &#39;training&#39;</span>
-<span class="sd">        metric_names (list of str, optional): list of metric names to plot or a string &quot;all&quot; to plot all available</span>
+<span class="sd">        tag: common title for all produced plots. For example, &#39;training&#39;</span>
+<span class="sd">        metric_names: list of metric names to plot or a string &quot;all&quot; to plot all available</span>
 <span class="sd">            metrics.</span>
-<span class="sd">        output_transform (callable, optional): output transform function to prepare `engine.state.output` as a number.</span>
+<span class="sd">        output_transform: output transform function to prepare `engine.state.output` as a number.</span>
 <span class="sd">            For example, `output_transform = lambda output: output`</span>
 <span class="sd">            This function can also return a dictionary, e.g `{&#39;loss&#39;: loss1, &#39;another_loss&#39;: loss2}` to label the plot</span>
 <span class="sd">            with corresponding keys.</span>
-<span class="sd">        global_step_transform (callable, optional): global step transform function to output a desired global step.</span>
+<span class="sd">        global_step_transform: global step transform function to output a desired global step.</span>
 <span class="sd">            Input of the function is `(engine, event_name)`. Output of function should be an integer.</span>
 <span class="sd">            Default is None, global_step based on attached engine. If provided,</span>
 <span class="sd">            uses function output as global_step. To setup global step from another engine, please use</span>
@@ -572,13 +573,13 @@
 <span class="sd">            )</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer or object): torch optimizer or any object with attribute ``param_groups``</span>
+<span class="sd">        optimizer: torch optimizer or any object with attribute ``param_groups``</span>
 <span class="sd">            as a sequence.</span>
-<span class="sd">        param_name (str): parameter name</span>
-<span class="sd">        tag (str, optional): common title for all produced plots. For example, &#39;generator&#39;</span>
+<span class="sd">        param_name: parameter name</span>
+<span class="sd">        tag: common title for all produced plots. For example, &#39;generator&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">OptimizerParamsHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">MLflowLogger</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Events</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -855,8 +856,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

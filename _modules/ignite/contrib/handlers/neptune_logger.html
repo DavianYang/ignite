@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/handlers/neptune_logger.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/handlers/neptune_logger.html">v0.4.4</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -328,30 +329,30 @@
 <span class="sd">        pip install neptune-client</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        api_token (str | None): Required in online mode. Neputne API token, found on https://neptune.ai.</span>
+<span class="sd">        api_token: Required in online mode. Neputne API token, found on https://neptune.ai.</span>
 <span class="sd">            Read how to get your API key</span>
 <span class="sd">            https://docs.neptune.ai/python-api/tutorials/get-started.html#copy-api-token.</span>
-<span class="sd">        project_name (str): Required in online mode. Qualified name of a project in a form of</span>
+<span class="sd">        project_name: Required in online mode. Qualified name of a project in a form of</span>
 <span class="sd">           &quot;namespace/project_name&quot; for example &quot;tom/minst-classification&quot;.</span>
 <span class="sd">           If None, the value of NEPTUNE_PROJECT environment variable will be taken.</span>
 <span class="sd">           You need to create the project in https://neptune.ai first.</span>
-<span class="sd">        offline_mode (bool): Optional default False. If offline_mode=True no logs will be send to neptune.</span>
+<span class="sd">        offline_mode: Optional default False. If offline_mode=True no logs will be send to neptune.</span>
 <span class="sd">           Usually used for debug purposes.</span>
-<span class="sd">        experiment_name (str, optional): Optional. Editable name of the experiment.</span>
+<span class="sd">        experiment_name: Optional. Editable name of the experiment.</span>
 <span class="sd">           Name is displayed in the experiment’s Details (Metadata section) and in experiments view as a column.</span>
-<span class="sd">        upload_source_files (list, optional): Optional. List of source files to be uploaded.</span>
+<span class="sd">        upload_source_files: Optional. List of source files to be uploaded.</span>
 <span class="sd">           Must be list of str or single str. Uploaded sources are displayed in the experiment’s Source code tab.</span>
 <span class="sd">           If None is passed, Python file from which experiment was created will be uploaded.</span>
 <span class="sd">           Pass empty list (`[]`) to upload no files. Unix style pathname pattern expansion is supported.</span>
 <span class="sd">           For example, you can pass `*.py` to upload all python source files from the current directory.</span>
 <span class="sd">           For recursion lookup use `**/*.py` (for Python 3.5 and later). For more information see glob library.</span>
-<span class="sd">        params (dict, optional): Optional. Parameters of the experiment. After experiment creation params are read-only.</span>
+<span class="sd">        params: Optional. Parameters of the experiment. After experiment creation params are read-only.</span>
 <span class="sd">           Parameters are displayed in the experiment’s Parameters section and each key-value pair can be</span>
 <span class="sd">           viewed in experiments view as a column.</span>
-<span class="sd">        properties (dict, optional): Optional default is `{}`. Properties of the experiment.</span>
+<span class="sd">        properties: Optional default is `{}`. Properties of the experiment.</span>
 <span class="sd">           They are editable after experiment is created. Properties are displayed in the experiment’s Details and</span>
 <span class="sd">           each key-value pair can be viewed in experiments view as a column.</span>
-<span class="sd">        tags (list, optional): Optional default `[]`. Must be list of str. Tags of the experiment.</span>
+<span class="sd">        tags: Optional default `[]`. Must be list of str. Tags of the experiment.</span>
 <span class="sd">           Tags are displayed in the experiment’s Details and can be viewed in experiments view as a column.</span>
 
 <span class="sd">    Examples:</span>
@@ -581,14 +582,14 @@
 <span class="sd">            )</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        tag (str): common title for all produced plots. For example, &quot;training&quot;</span>
-<span class="sd">        metric_names (list of str, optional): list of metric names to plot or a string &quot;all&quot; to plot all available</span>
+<span class="sd">        tag: common title for all produced plots. For example, &quot;training&quot;</span>
+<span class="sd">        metric_names: list of metric names to plot or a string &quot;all&quot; to plot all available</span>
 <span class="sd">            metrics.</span>
-<span class="sd">        output_transform (callable, optional): output transform function to prepare `engine.state.output` as a number.</span>
+<span class="sd">        output_transform: output transform function to prepare `engine.state.output` as a number.</span>
 <span class="sd">            For example, `output_transform = lambda output: output`</span>
 <span class="sd">            This function can also return a dictionary, e.g `{&quot;loss&quot;: loss1, &quot;another_loss&quot;: loss2}` to label the plot</span>
 <span class="sd">            with corresponding keys.</span>
-<span class="sd">        global_step_transform (callable, optional): global step transform function to output a desired global step.</span>
+<span class="sd">        global_step_transform: global step transform function to output a desired global step.</span>
 <span class="sd">            Input of the function is `(engine, event_name)`. Output of function should be an integer.</span>
 <span class="sd">            Default is None, global_step based on attached engine. If provided,</span>
 <span class="sd">            uses function output as global_step. To setup global step from another engine, please use</span>
@@ -611,7 +612,7 @@
         <span class="n">metric_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">output_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">global_step_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">OutputHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">metric_names</span><span class="p">,</span> <span class="n">output_transform</span><span class="p">,</span> <span class="n">global_step_transform</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">NeptuneLogger</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Events</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -673,13 +674,13 @@
 <span class="sd">            )</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer or object): torch optimizer or any object with attribute ``param_groups``</span>
+<span class="sd">        optimizer: torch optimizer or any object with attribute ``param_groups``</span>
 <span class="sd">            as a sequence.</span>
-<span class="sd">        param_name (str): parameter name</span>
-<span class="sd">        tag (str, optional): common title for all produced plots. For example, &quot;generator&quot;</span>
+<span class="sd">        param_name: parameter name</span>
+<span class="sd">        tag: common title for all produced plots. For example, &quot;generator&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">OptimizerParamsHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">NeptuneLogger</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Events</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -727,13 +728,13 @@
 <span class="sd">            )</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model (torch.nn.Module): model to log weights</span>
-<span class="sd">        reduction (callable): function to reduce parameters into scalar</span>
-<span class="sd">        tag (str, optional): common title for all produced plots. For example, &quot;generator&quot;</span>
+<span class="sd">        model: model to log weights</span>
+<span class="sd">        reduction: function to reduce parameters into scalar</span>
+<span class="sd">        tag: common title for all produced plots. For example, &quot;generator&quot;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">WeightsScalarHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">NeptuneLogger</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Events</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -783,13 +784,13 @@
 <span class="sd">            )</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model (torch.nn.Module): model to log weights</span>
-<span class="sd">        reduction (callable): function to reduce parameters into scalar</span>
-<span class="sd">        tag (str, optional): common title for all produced plots. For example, &quot;generator&quot;</span>
+<span class="sd">        model: model to log weights</span>
+<span class="sd">        reduction: function to reduce parameters into scalar</span>
+<span class="sd">        tag: common title for all produced plots. For example, &quot;generator&quot;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GradsScalarHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">NeptuneLogger</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Events</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -812,7 +813,7 @@
     <span class="sd">&quot;&quot;&quot;Handler that saves input checkpoint to the Neptune server.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        neptune_logger (ignite.contrib.handlers.neptune_logger.NeptuneLogger): an instance of</span>
+<span class="sd">        neptune_logger: an instance of</span>
 <span class="sd">            NeptuneLogger class.</span>
 
 <span class="sd">    Examples:</span>
@@ -1142,8 +1143,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

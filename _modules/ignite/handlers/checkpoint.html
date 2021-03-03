@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/handlers/checkpoint.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/handlers/checkpoint.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -336,9 +337,9 @@
 <span class="sd">        - `priority`: checkpoint priority value (higher is better), e.g. `12` or `0.6554435`</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            checkpoint (Mapping): checkpoint dictionary to save.</span>
-<span class="sd">            filename (str): filename associated with checkpoint.</span>
-<span class="sd">            metadata (Mapping, optional): metadata on checkpoint to save.</span>
+<span class="sd">            checkpoint: checkpoint dictionary to save.</span>
+<span class="sd">            filename: filename associated with checkpoint.</span>
+<span class="sd">            metadata: metadata on checkpoint to save.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
@@ -348,7 +349,7 @@
         <span class="sd">&quot;&quot;&quot;Method to remove saved checkpoint.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): filename associated with checkpoint.</span>
+<span class="sd">            filename: filename associated with checkpoint.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
@@ -361,35 +362,34 @@
 <span class="sd">    moving data on TPU to CPU before writing the checkpoint.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        to_save (Mapping): Dictionary with the objects to save. Objects should have implemented ``state_dict`` and</span>
+<span class="sd">        to_save: Dictionary with the objects to save. Objects should have implemented ``state_dict`` and</span>
 <span class="sd">            ``load_state_dict`` methods. If contains objects of type torch `DistributedDataParallel`_ or</span>
 <span class="sd">            `DataParallel`_, their internal wrapped model is automatically saved (to avoid additional key ``module.`` in</span>
 <span class="sd">            the state dictionary).</span>
-<span class="sd">        save_handler (callable or :class:`~ignite.handlers.checkpoint.BaseSaveHandler`): Method or callable class to</span>
+<span class="sd">        save_handler: Method or callable class to</span>
 <span class="sd">            use to save engine and other provided objects. Function receives two objects: checkpoint as a dictionary</span>
 <span class="sd">            and filename. If ``save_handler`` is callable class, it can</span>
 <span class="sd">            inherit of :class:`~ignite.handlers.checkpoint.BaseSaveHandler` and optionally implement ``remove`` method</span>
 <span class="sd">            to keep a fixed number of saved checkpoints. In case if user needs to save engine&#39;s checkpoint on a disk,</span>
 <span class="sd">            ``save_handler`` can be defined with :class:`~ignite.handlers.DiskSaver`.</span>
-<span class="sd">        filename_prefix (str, optional): Prefix for the file name to which objects will be saved. See Note for details.</span>
-<span class="sd">        score_function (callable, optional): If not None, it should be a function taking a single argument,</span>
+<span class="sd">        filename_prefix: Prefix for the file name to which objects will be saved. See Note for details.</span>
+<span class="sd">        score_function: If not None, it should be a function taking a single argument,</span>
 <span class="sd">            :class:`~ignite.engine.engine.Engine` object, and returning a score (`float`). Objects with highest scores</span>
 <span class="sd">            will be retained.</span>
-<span class="sd">        score_name (str, optional): If ``score_function`` not None, it is possible to store its value using</span>
+<span class="sd">        score_name: If ``score_function`` not None, it is possible to store its value using</span>
 <span class="sd">            ``score_name``. See Notes for more details.</span>
-<span class="sd">        n_saved (int, optional): Number of objects that should be kept on disk. Older files will be removed. If set to</span>
+<span class="sd">        n_saved: Number of objects that should be kept on disk. Older files will be removed. If set to</span>
 <span class="sd">            `None`, all objects are kept.</span>
-<span class="sd">        global_step_transform (callable, optional): global step transform function to output a desired global step.</span>
+<span class="sd">        global_step_transform: global step transform function to output a desired global step.</span>
 <span class="sd">            Input of the function is ``(engine, event_name)``. Output of function should be an integer.</span>
 <span class="sd">            Default is None, global_step based on attached engine. If provided, uses function output as global_step.</span>
 <span class="sd">            To setup global step from another engine, please use :meth:`~ignite.handlers.global_step_from_engine`.</span>
-<span class="sd">        archived (bool, optional): Deprecated argument as models saved by ``torch.save`` are already compressed.</span>
-<span class="sd">        filename_pattern (str, optional): If ``filename_pattern`` is provided, this pattern will be used to render</span>
+<span class="sd">        filename_pattern: If ``filename_pattern`` is provided, this pattern will be used to render</span>
 <span class="sd">            checkpoint filenames. If the pattern is not defined, the default pattern would be used. See Note for</span>
 <span class="sd">            details.</span>
-<span class="sd">        include_self (bool): Whether to include the `state_dict` of this object in the checkpoint. If `True`, then</span>
+<span class="sd">        include_self: Whether to include the `state_dict` of this object in the checkpoint. If `True`, then</span>
 <span class="sd">            there must not be another object in ``to_save`` with key ``checkpointer``.</span>
-<span class="sd">        greater_or_equal (bool): if `True`, the latest equally scored model is stored. Otherwise, the first model.</span>
+<span class="sd">        greater_or_equal: if `True`, the latest equally scored model is stored. Otherwise, the first model.</span>
 <span class="sd">            Default, `False`.</span>
 
 <span class="sd">    .. _DistributedDataParallel: https://pytorch.org/docs/stable/generated/</span>
@@ -555,11 +555,10 @@
         <span class="n">score_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_saved</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">global_step_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">archived</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">filename_pattern</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_self</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">greater_or_equal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_save</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Mapping</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument `to_save` should be a dictionary, but given </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_save</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -583,9 +582,6 @@
 
         <span class="k">if</span> <span class="n">global_step_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">global_step_transform</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;global_step_transform should be a function, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">global_step_transform</span><span class="p">)</span><span class="si">}</span><span class="s2"> instead.&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">archived</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Argument archived is deprecated and will be removed in 0.5.0&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">to_save</span> <span class="o">=</span> <span class="n">to_save</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename_prefix</span> <span class="o">=</span> <span class="n">filename_prefix</span>
@@ -737,14 +733,14 @@
         <span class="sd">&quot;&quot;&quot;Helper method to get the default filename pattern for a checkpoint.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            with_prefix (bool): If True, the ``filename_prefix`` is added to the filename pattern:</span>
+<span class="sd">            with_prefix: If True, the ``filename_prefix`` is added to the filename pattern:</span>
 <span class="sd">                ``{filename_prefix}_{name}...``. Default, True.</span>
-<span class="sd">            with_score (bool): If True, ``score`` is added to the filename pattern: ``..._{score}.{ext}``.</span>
+<span class="sd">            with_score: If True, ``score`` is added to the filename pattern: ``..._{score}.{ext}``.</span>
 <span class="sd">                Default, True. At least one of ``with_score`` and ``with_global_step`` should be True.</span>
-<span class="sd">            with_score_name (bool): If True, ``score_name`` is added to the filename pattern:</span>
+<span class="sd">            with_score_name: If True, ``score_name`` is added to the filename pattern:</span>
 <span class="sd">                ``..._{score_name}={score}.{ext}``. If activated, argument ``with_score`` should be</span>
 <span class="sd">                also True, otherwise an error is raised. Default, True.</span>
-<span class="sd">            with_global_step (bool): If True, ``{global_step}`` is added to the</span>
+<span class="sd">            with_global_step: If True, ``{global_step}`` is added to the</span>
 <span class="sd">                filename pattern: ``...{name}_{global_step}...``.</span>
 <span class="sd">                At least one of ``with_score`` and ``with_global_step`` should be True.</span>
 
@@ -817,11 +813,11 @@
 <span class="sd">            `DataParallel`_, method ``load_state_dict`` will applied to their internal wrapped model (``obj.module``).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            to_load (Mapping): a dictionary with objects, e.g. `{&quot;model&quot;: model, &quot;optimizer&quot;: optimizer, ...}`</span>
-<span class="sd">            checkpoint (Mapping): a dictionary with state_dicts to load, e.g. `{&quot;model&quot;: model_state_dict,</span>
+<span class="sd">            to_load: a dictionary with objects, e.g. `{&quot;model&quot;: model, &quot;optimizer&quot;: optimizer, ...}`</span>
+<span class="sd">            checkpoint: a dictionary with state_dicts to load, e.g. `{&quot;model&quot;: model_state_dict,</span>
 <span class="sd">                &quot;optimizer&quot;: opt_state_dict}`. If `to_load` contains a single key, then checkpoint can contain directly</span>
 <span class="sd">                corresponding state_dict.</span>
-<span class="sd">            **kwargs: Keyword arguments accepted for `nn.Module.load_state_dict()`. Passing `strict=False` enables</span>
+<span class="sd">            kwargs: Keyword arguments accepted for `nn.Module.load_state_dict()`. Passing `strict=False` enables</span>
 <span class="sd">                the user to load part of the pretrained model (useful for example, in Transfer Learning)</span>
 
 <span class="sd">        .. _DistributedDataParallel: https://pytorch.org/docs/stable/generated/</span>
@@ -867,7 +863,7 @@
         <span class="sd">&quot;&quot;&quot;Method replace internal state of the class with provided state dict data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            state_dict (Mapping): a dict with &quot;saved&quot; key and list of ``(priority, filename)`` pairs as values.</span>
+<span class="sd">            state_dict: a dict with &quot;saved&quot; key and list of ``(priority, filename)`` pairs as values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_saved</span> <span class="o">=</span> <span class="p">[</span><span class="n">Checkpoint</span><span class="o">.</span><span class="n">Item</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">&quot;saved&quot;</span><span class="p">]]</span></div>
@@ -877,9 +873,9 @@
         <span class="sd">&quot;&quot;&quot;Helper method to get default score function based on the metric name.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            metric_name (str): metric name to get the value from ``engine.state.metrics``.</span>
-<span class="sd">                Engine is the one to which :class:`~ignite.handlers.checkpoint.Checkpoint` handler is added.</span>
-<span class="sd">            score_sign (float): sign of the score: 1.0 or -1.0. For error-like metrics, e.g. smaller is better,</span>
+<span class="sd">            metric_name: metric name to get the value from ``engine.state.metrics``.</span>
+<span class="sd">                Engine is the one to which :class:`~ignite.handlers.Checkpoint` handler is added.</span>
+<span class="sd">            score_sign: sign of the score: 1.0 or -1.0. For error-like metrics, e.g. smaller is better,</span>
 <span class="sd">                a negative score sign should be used (objects with larger score are retained). Default, 1.0.</span>
 
 <span class="sd">        Exemples:</span>
@@ -923,14 +919,14 @@
     <span class="sd">&quot;&quot;&quot;Handler that saves input checkpoint on a disk.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        dirname (str): Directory path where the checkpoint will be saved</span>
-<span class="sd">        atomic (bool, optional): if True, checkpoint is serialized to a temporary file, and then</span>
+<span class="sd">        dirname: Directory path where the checkpoint will be saved</span>
+<span class="sd">        atomic: if True, checkpoint is serialized to a temporary file, and then</span>
 <span class="sd">            moved to final destination, so that files are guaranteed to not be damaged</span>
 <span class="sd">            (for example if exception occurs during saving).</span>
-<span class="sd">        create_dir (bool, optional): if True, will create directory ``dirname`` if it doesnt exist.</span>
-<span class="sd">        require_empty (bool, optional): If True, will raise exception if there are any files in the</span>
+<span class="sd">        create_dir: if True, will create directory ``dirname`` if it doesnt exist.</span>
+<span class="sd">        require_empty: If True, will raise exception if there are any files in the</span>
 <span class="sd">            directory ``dirname``.</span>
-<span class="sd">        **kwargs: Accepted keyword arguments for `torch.save` or `xm.save`.</span>
+<span class="sd">        kwargs: Accepted keyword arguments for `torch.save` or `xm.save`.</span>
 
 <span class="sd">    .. versionchanged:: 0.4.2</span>
 <span class="sd">        Accept ``kwargs`` for `torch.save` or `xm.save`.</span>
@@ -938,7 +934,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dirname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">atomic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">create_dir</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">require_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_atomic</span> <span class="o">=</span> <span class="n">atomic</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_and_setup</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">create_dir</span><span class="p">,</span> <span class="n">require_empty</span><span class="p">)</span>
@@ -1026,11 +1022,6 @@
 
 <span class="sd">        Behaviour of this class has been changed since v0.3.0.</span>
 
-<span class="sd">        Argument ``save_as_state_dict`` is deprecated and should not be used. It is considered as True.</span>
-
-<span class="sd">        Argument ``save_interval`` is deprecated and should not be used. Please, use events filtering instead, e.g.</span>
-<span class="sd">        :attr:`~ignite.engine.events.Events.ITERATION_STARTED(every=1000)`</span>
-
 <span class="sd">        There is no more internal counter that has been used to indicate the number of save actions. User could</span>
 <span class="sd">        see its value `step_number` in the filename, e.g. `{filename_prefix}_{name}_{step_number}.pt`. Actually,</span>
 <span class="sd">        `step_number` is replaced by current engine&#39;s epoch if `score_function` is specified and current iteration</span>
@@ -1039,30 +1030,29 @@
 <span class="sd">        A single `pt` file is created instead of multiple files.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        dirname (str): Directory path where objects will be saved.</span>
-<span class="sd">        filename_prefix (str): Prefix for the file names to which objects will be saved. See Notes of</span>
+<span class="sd">        dirname: Directory path where objects will be saved.</span>
+<span class="sd">        filename_prefix: Prefix for the file names to which objects will be saved. See Notes of</span>
 <span class="sd">            :class:`~ignite.handlers.Checkpoint` for more details.</span>
-<span class="sd">        score_function (callable, optional): if not None, it should be a function taking a single argument, an</span>
+<span class="sd">        score_function: if not None, it should be a function taking a single argument, an</span>
 <span class="sd">            :class:`~ignite.engine.engine.Engine` object, and return a score (`float`). Objects with highest scores</span>
 <span class="sd">            will be retained.</span>
-<span class="sd">        score_name (str, optional): if ``score_function`` not None, it is possible to store its value using</span>
+<span class="sd">        score_name: if ``score_function`` not None, it is possible to store its value using</span>
 <span class="sd">            `score_name`. See Notes for more details.</span>
-<span class="sd">        n_saved (int, optional): Number of objects that should be kept on disk. Older files will be removed. If set to</span>
+<span class="sd">        n_saved: Number of objects that should be kept on disk. Older files will be removed. If set to</span>
 <span class="sd">            `None`, all objects are kept.</span>
-<span class="sd">        atomic (bool, optional): If True, objects are serialized to a temporary file, and then moved to final</span>
+<span class="sd">        atomic: If True, objects are serialized to a temporary file, and then moved to final</span>
 <span class="sd">            destination, so that files are guaranteed to not be damaged (for example if exception</span>
 <span class="sd">            occurs during saving).</span>
-<span class="sd">        require_empty (bool, optional): If True, will raise exception if there are any files starting with</span>
+<span class="sd">        require_empty: If True, will raise exception if there are any files starting with</span>
 <span class="sd">            ``filename_prefix`` in the directory ``dirname``.</span>
-<span class="sd">        create_dir (bool, optional): If True, will create directory ``dirname`` if it does not exist.</span>
-<span class="sd">        global_step_transform (callable, optional): global step transform function to output a desired global step.</span>
+<span class="sd">        create_dir: If True, will create directory ``dirname`` if it does not exist.</span>
+<span class="sd">        global_step_transform: global step transform function to output a desired global step.</span>
 <span class="sd">            Input of the function is `(engine, event_name)`. Output of function should be an integer.</span>
 <span class="sd">            Default is None, global_step based on attached engine. If provided, uses function output as global_step.</span>
 <span class="sd">            To setup global step from another engine, please use :meth:`~ignite.handlers.global_step_from_engine`.</span>
-<span class="sd">        archived (bool, optional): Deprecated argument as models saved by `torch.save` are already compressed.</span>
-<span class="sd">        include_self (bool): Whether to include the `state_dict` of this object in the checkpoint. If `True`, then</span>
+<span class="sd">        include_self: Whether to include the `state_dict` of this object in the checkpoint. If `True`, then</span>
 <span class="sd">            there must not be another object in ``to_save`` with key ``checkpointer``.</span>
-<span class="sd">        **kwargs: Accepted keyword arguments for `torch.save` or `xm.save` in `DiskSaver`.</span>
+<span class="sd">        kwargs: Accepted keyword arguments for `torch.save` or `xm.save` in `DiskSaver`.</span>
 
 <span class="sd">    .. versionchanged:: 0.4.2</span>
 <span class="sd">        Accept ``kwargs`` for `torch.save` or `xm.save`</span>
@@ -1087,36 +1077,16 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dirname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">filename_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">save_interval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">score_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">score_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_saved</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">atomic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">require_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">create_dir</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">save_as_state_dict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">global_step_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">archived</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">include_self</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">save_as_state_dict</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Argument save_as_state_dict is deprecated and should be True.&quot;</span>
-                <span class="s2">&quot;This argument will be removed in 0.5.0.&quot;</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">save_interval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Argument save_interval is deprecated and should be None. This argument will be removed in 0.5.0.&quot;</span>
-                <span class="s2">&quot;Please, use events filtering instead, e.g. Events.ITERATION_STARTED(every=1000)&quot;</span>
-            <span class="p">)</span>
-            <span class="k">if</span> <span class="n">save_interval</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="c1"># Do not break for old version who used `save_interval=1`</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># No choice</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="p">):</span>
 
         <span class="n">disk_saver</span> <span class="o">=</span> <span class="n">DiskSaver</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">atomic</span><span class="o">=</span><span class="n">atomic</span><span class="p">,</span> <span class="n">create_dir</span><span class="o">=</span><span class="n">create_dir</span><span class="p">,</span> <span class="n">require_empty</span><span class="o">=</span><span class="n">require_empty</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -1128,7 +1098,6 @@
             <span class="n">score_name</span><span class="o">=</span><span class="n">score_name</span><span class="p">,</span>
             <span class="n">n_saved</span><span class="o">=</span><span class="n">n_saved</span><span class="p">,</span>
             <span class="n">global_step_transform</span><span class="o">=</span><span class="n">global_step_transform</span><span class="p">,</span>
-            <span class="n">archived</span><span class="o">=</span><span class="n">archived</span><span class="p">,</span>
             <span class="n">include_self</span><span class="o">=</span><span class="n">include_self</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -1144,7 +1113,7 @@
 
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_handler</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_saved</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">to_save</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">to_save</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_save</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No objects to checkpoint found.&quot;</span><span class="p">)</span>
@@ -1414,8 +1383,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

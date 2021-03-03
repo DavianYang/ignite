@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/engines/tbptt.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/engines/tbptt.html">v0.4.4</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -345,18 +346,21 @@
 <span class="sd">    `tbtt_step` time steps.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model (`torch.nn.Module`): the model to train.</span>
-<span class="sd">        optimizer (`torch.optim.Optimizer`): the optimizer to use.</span>
-<span class="sd">        loss_fn (torch.nn loss function): the loss function to use.</span>
-<span class="sd">        tbtt_step (int): the length of time chunks (last one may be smaller).</span>
-<span class="sd">        dim (int): axis representing the time dimension.</span>
-<span class="sd">        device (str, optional): device type specification (default: None).</span>
+<span class="sd">        model: the model to train.</span>
+<span class="sd">        optimizer: the optimizer to use.</span>
+<span class="sd">        loss_fn: the loss function to use.</span>
+<span class="sd">        tbtt_step: the length of time chunks (last one may be smaller).</span>
+<span class="sd">        dim: axis representing the time dimension.</span>
+<span class="sd">        device: device type specification (default: None).</span>
 <span class="sd">            Applies to batches.</span>
-<span class="sd">        non_blocking (bool, optional): if True and this copy is between CPU and GPU,</span>
+<span class="sd">        non_blocking: if True and this copy is between CPU and GPU,</span>
 <span class="sd">            the copy may occur asynchronously with respect to the host. For other cases,</span>
 <span class="sd">            this argument has no effect.</span>
-<span class="sd">        prepare_batch (callable, optional): function that receives `batch`, `device`,</span>
+<span class="sd">        prepare_batch: function that receives `batch`, `device`,</span>
 <span class="sd">            `non_blocking` and outputs tuple of tensors `(batch_x, batch_y)`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a trainer engine with supervised update function.</span>
 
 <span class="sd">    .. warning::</span>
 
@@ -368,10 +372,6 @@
 
 <span class="sd">        * `PyTorch Documentation &lt;https://pytorch.org/docs/stable/optim.html#constructing-it&gt;`_</span>
 <span class="sd">        * `PyTorch&#39;s Explanation &lt;https://github.com/pytorch/pytorch/issues/7844#issuecomment-503713840&gt;`_</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Engine: a trainer engine with supervised update function.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -670,8 +670,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

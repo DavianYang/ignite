@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/handlers/early_stopping.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/handlers/early_stopping.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -302,18 +303,13 @@
     <span class="sd">&quot;&quot;&quot;EarlyStopping handler can be used to stop the training if no improvement after a given number of events.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        patience (int):</span>
-<span class="sd">            Number of events to wait if no improvement and then stop the training.</span>
-<span class="sd">        score_function (callable):</span>
-<span class="sd">            It should be a function taking a single argument, an :class:`~ignite.engine.engine.Engine` object,</span>
-<span class="sd">            and return a score `float`. An improvement is considered if the score is higher.</span>
-<span class="sd">        trainer (Engine):</span>
-<span class="sd">            trainer engine to stop the run if no improvement.</span>
-<span class="sd">        min_delta (float, optional):</span>
-<span class="sd">            A minimum increase in the score to qualify as an improvement,</span>
+<span class="sd">        patience: Number of events to wait if no improvement and then stop the training.</span>
+<span class="sd">        score_function: It should be a function taking a single argument, an :class:`~ignite.engine.engine.Engine`</span>
+<span class="sd">            object, and return a score `float`. An improvement is considered if the score is higher.</span>
+<span class="sd">        trainer: Trainer engine to stop the run if no improvement.</span>
+<span class="sd">        min_delta: A minimum increase in the score to qualify as an improvement,</span>
 <span class="sd">            i.e. an increase of less than or equal to `min_delta`, will count as no improvement.</span>
-<span class="sd">        cumulative_delta (bool, optional):</span>
-<span class="sd">            It True, `min_delta` defines an increase since the last `patience` reset, otherwise,</span>
+<span class="sd">        cumulative_delta: It True, `min_delta` defines an increase since the last `patience` reset, otherwise,</span>
 <span class="sd">            it defines an increase after the last event. Default value is False.</span>
 
 <span class="sd">    Examples:</span>
@@ -386,9 +382,17 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OrderedDict[str, float]&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Method returns state dict with ``counter`` and ``best_score``.</span>
+<span class="sd">        Can be used to save internal state of the class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s2">&quot;counter&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;best_score&quot;</span><span class="p">,</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">))])</span>
 
     <span class="k">def</span> <span class="nf">load_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Method replace internal state of the class with provided state dict data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            state_dict: a dict with &quot;counter&quot; and &quot;best_score&quot; keys/values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">&quot;counter&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">&quot;best_score&quot;</span><span class="p">]</span></div>
@@ -654,8 +658,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

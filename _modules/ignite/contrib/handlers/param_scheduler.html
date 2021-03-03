@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../v0.4.3/_modules/ignite/contrib/handlers/param_scheduler.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/handlers/param_scheduler.html">v0.4.4</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -308,12 +309,12 @@
 <span class="sd">    training.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer or object): torch optimizer or any object with attribute ``param_groups``</span>
+<span class="sd">        optimizer: torch optimizer or any object with attribute ``param_groups``</span>
 <span class="sd">            as a sequence.</span>
-<span class="sd">        param_name (str): name of optimizer&#39;s parameter to update.</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        param_name: name of optimizer&#39;s parameter to update.</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
-<span class="sd">        param_group_index (int, optional): optimizer&#39;s parameters group to use</span>
+<span class="sd">        param_group_index: optimizer&#39;s parameters group to use</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        Parameter scheduler works independently of the internal state of the attached optimizer.</span>
@@ -328,7 +329,7 @@
         <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">save_history</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">param_group_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
             <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">Optimizer</span><span class="p">)</span>
@@ -408,7 +409,7 @@
         <span class="sd">&quot;&quot;&quot;Copies parameters from :attr:`state_dict` into this ParamScheduler.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            state_dict (dict): a dict containing parameters.</span>
+<span class="sd">            state_dict: a dict containing parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument state_dict should be a dictionary, but given </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -439,11 +440,11 @@
         <span class="sd">&quot;&quot;&quot;Method to simulate scheduled values during `num_events` events.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            num_events (int): number of events during the simulation.</span>
-<span class="sd">            **scheduler_kwargs : parameter scheduler configuration kwargs.</span>
+<span class="sd">            num_events: number of events during the simulation.</span>
+<span class="sd">            scheduler_kwargs: parameter scheduler configuration kwargs.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list of pairs: [event_index, value]</span>
+<span class="sd">            event_index, value</span>
 
 <span class="sd">        Examples:</span>
 
@@ -481,8 +482,8 @@
 <span class="sd">            pip install matplotlib</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            num_events (int): number of events during the simulation.</span>
-<span class="sd">            **scheduler_kwargs : parameter scheduler configuration kwargs.</span>
+<span class="sd">            num_events: number of events during the simulation.</span>
+<span class="sd">            scheduler_kwargs: parameter scheduler configuration kwargs.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            matplotlib.lines.Line2D</span>
@@ -518,21 +519,21 @@
 <span class="sd">    cycle of some size.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer or object): torch optimizer or any object with attribute ``param_groups``</span>
+<span class="sd">        optimizer: torch optimizer or any object with attribute ``param_groups``</span>
 <span class="sd">            as a sequence.</span>
-<span class="sd">        param_name (str): name of optimizer&#39;s parameter to update.</span>
-<span class="sd">        start_value (float): value at start of cycle.</span>
-<span class="sd">        end_value (float): value at the middle of the cycle.</span>
-<span class="sd">        cycle_size (int): length of cycle, value should be larger than 1.</span>
-<span class="sd">        cycle_mult (float, optional): ratio by which to change the cycle_size.</span>
+<span class="sd">        param_name: name of optimizer&#39;s parameter to update.</span>
+<span class="sd">        start_value: value at start of cycle.</span>
+<span class="sd">        end_value: value at the middle of the cycle.</span>
+<span class="sd">        cycle_size: length of cycle, value should be larger than 1.</span>
+<span class="sd">        cycle_mult: ratio by which to change the cycle_size.</span>
 <span class="sd">            at the end of each cycle (default=1.0).</span>
-<span class="sd">        start_value_mult (float, optional): ratio by which to change the start value at the</span>
+<span class="sd">        start_value_mult: ratio by which to change the start value at the</span>
 <span class="sd">            end of each cycle (default=1.0).</span>
-<span class="sd">        end_value_mult (float, optional): ratio by which to change the end value at the</span>
+<span class="sd">        end_value_mult: ratio by which to change the end value at the</span>
 <span class="sd">            end of each cycle (default=1.0).</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
-<span class="sd">        param_group_index (int, optional): optimizer&#39;s parameters group to use.</span>
+<span class="sd">        param_group_index: optimizer&#39;s parameters group to use.</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        If the scheduler is bound to an &#39;ITERATION_*&#39; event, &#39;cycle_size&#39; should</span>
@@ -592,21 +593,21 @@
 <span class="sd">    adjusts it back to &#39;start_value&#39; for a half-cycle.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer or object): torch optimizer or any object with attribute ``param_groups``</span>
+<span class="sd">        optimizer: torch optimizer or any object with attribute ``param_groups``</span>
 <span class="sd">            as a sequence.</span>
-<span class="sd">        param_name (str): name of optimizer&#39;s parameter to update.</span>
-<span class="sd">        start_value (float): value at start of cycle.</span>
-<span class="sd">        end_value (float): value at the middle of the cycle.</span>
-<span class="sd">        cycle_size (int): length of cycle.</span>
-<span class="sd">        cycle_mult (float, optional): ratio by which to change the cycle_size</span>
+<span class="sd">        param_name: name of optimizer&#39;s parameter to update.</span>
+<span class="sd">        start_value: value at start of cycle.</span>
+<span class="sd">        end_value: value at the middle of the cycle.</span>
+<span class="sd">        cycle_size: length of cycle.</span>
+<span class="sd">        cycle_mult: ratio by which to change the cycle_size</span>
 <span class="sd">            at the end of each cycle (default=1).</span>
-<span class="sd">        start_value_mult (float, optional): ratio by which to change the start value at the</span>
+<span class="sd">        start_value_mult: ratio by which to change the start value at the</span>
 <span class="sd">            end of each cycle (default=1.0).</span>
-<span class="sd">        end_value_mult (float, optional): ratio by which to change the end value at the</span>
+<span class="sd">        end_value_mult: ratio by which to change the end value at the</span>
 <span class="sd">            end of each cycle (default=1.0).</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
-<span class="sd">        param_group_index (int, optional): optimizer&#39;s parameters group to use.</span>
+<span class="sd">        param_group_index: optimizer&#39;s parameters group to use.</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        If the scheduler is bound to an &#39;ITERATION_*&#39; event, &#39;cycle_size&#39; should</span>
@@ -638,21 +639,21 @@
 <span class="sd">    wave (as suggested in [Smith17]_).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer or object): torch optimizer or any object with attribute ``param_groups``</span>
+<span class="sd">        optimizer: torch optimizer or any object with attribute ``param_groups``</span>
 <span class="sd">            as a sequence.</span>
-<span class="sd">        param_name (str): name of optimizer&#39;s parameter to update.</span>
-<span class="sd">        start_value (float): value at start of cycle.</span>
-<span class="sd">        end_value (float): value at the end of the cycle.</span>
-<span class="sd">        cycle_size (int): length of cycle.</span>
-<span class="sd">        cycle_mult (float, optional): ratio by which to change the cycle_size</span>
+<span class="sd">        param_name: name of optimizer&#39;s parameter to update.</span>
+<span class="sd">        start_value: value at start of cycle.</span>
+<span class="sd">        end_value: value at the end of the cycle.</span>
+<span class="sd">        cycle_size: length of cycle.</span>
+<span class="sd">        cycle_mult: ratio by which to change the cycle_size</span>
 <span class="sd">            at the end of each cycle (default=1).</span>
-<span class="sd">        start_value_mult (float, optional): ratio by which to change the start value at the</span>
+<span class="sd">        start_value_mult: ratio by which to change the start value at the</span>
 <span class="sd">            end of each cycle (default=1.0).</span>
-<span class="sd">        end_value_mult (float, optional): ratio by which to change the end value at the</span>
+<span class="sd">        end_value_mult: ratio by which to change the end value at the</span>
 <span class="sd">            end of each cycle (default=1.0).</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
-<span class="sd">        param_group_index (int, optional): optimizer&#39;s parameters group to use.</span>
+<span class="sd">        param_group_index: optimizer&#39;s parameters group to use.</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        If the scheduler is bound to an &#39;ITERATION_*&#39; event, &#39;cycle_size&#39; should</span>
@@ -706,9 +707,9 @@
 <span class="sd">    scheduler is defined by `durations` list of integers.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        schedulers (list of ParamScheduler): list of parameter schedulers.</span>
-<span class="sd">        durations (list of int): list of number of events that lasts a parameter scheduler from schedulers.</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        schedulers: list of parameter schedulers.</span>
+<span class="sd">        durations: list of number of events that lasts a parameter scheduler from schedulers.</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
 
 <span class="sd">    Examples:</span>
@@ -732,7 +733,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedulers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ParamScheduler</span><span class="p">],</span> <span class="n">durations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">save_history</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedulers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ParamScheduler</span><span class="p">],</span> <span class="n">durations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">save_history</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schedulers</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument schedulers should be a sequence, but given </span><span class="si">{</span><span class="n">schedulers</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -808,7 +809,7 @@
         <span class="sd">&quot;&quot;&quot;Copies parameters from :attr:`state_dict` into this ConcatScheduler.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            state_dict (dict): a dict containing parameters.</span>
+<span class="sd">            state_dict: a dict containing parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument state_dict should be a dictionary, but given </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -867,15 +868,14 @@
         <span class="n">schedulers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ParamScheduler</span><span class="p">],</span>
         <span class="n">durations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
         <span class="n">param_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Method to simulate scheduled values during num_events events.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            num_events (int): number of events during the simulation.</span>
-<span class="sd">            schedulers (list of ParamScheduler): list of parameter schedulers.</span>
-<span class="sd">            durations (list of int): list of number of events that lasts a parameter scheduler from schedulers.</span>
-<span class="sd">            param_names (list or tuple of str, optional): parameter name or list of parameter names to simulate values.</span>
+<span class="sd">            num_events: number of events during the simulation.</span>
+<span class="sd">            schedulers: list of parameter schedulers.</span>
+<span class="sd">            durations: list of number of events that lasts a parameter scheduler from schedulers.</span>
+<span class="sd">            param_names: parameter name or list of parameter names to simulate values.</span>
 <span class="sd">                By default, the first scheduler&#39;s parameter name is taken.</span>
 
 <span class="sd">        Returns:</span>
@@ -914,9 +914,7 @@
                 <span class="n">s</span><span class="o">.</span><span class="n">save_history</span> <span class="o">=</span> <span class="kc">False</span>
 
             <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">scheduler</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>  <span class="c1"># type: ignore[call-arg]</span>
-                <span class="n">schedulers</span><span class="o">=</span><span class="n">schedulers</span><span class="p">,</span> <span class="n">save_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">durations</span><span class="o">=</span><span class="n">durations</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-            <span class="p">)</span>
+            <span class="n">scheduler</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">schedulers</span><span class="o">=</span><span class="n">schedulers</span><span class="p">,</span> <span class="n">save_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">durations</span><span class="o">=</span><span class="n">durations</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">param_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">scheduler</span><span class="o">.</span><span class="n">param_name</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_events</span><span class="p">):</span>
@@ -939,8 +937,8 @@
     <span class="sd">&quot;&quot;&quot;A wrapper class to call `torch.optim.lr_scheduler` objects as `ignite` handlers.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        lr_scheduler (subclass of `torch.optim.lr_scheduler._LRScheduler`): lr_scheduler object to wrap.</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        lr_scheduler: lr_scheduler object to wrap.</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
 
 <span class="sd">    .. code-block:: python</span>
@@ -959,7 +957,7 @@
 <span class="sd">        trainer.add_event_handler(Events.ITERATION_COMPLETED, scheduler)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr_scheduler</span><span class="p">:</span> <span class="n">_LRScheduler</span><span class="p">,</span> <span class="n">save_history</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr_scheduler</span><span class="p">:</span> <span class="n">_LRScheduler</span><span class="p">,</span> <span class="n">save_history</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lr_scheduler</span><span class="p">,</span> <span class="n">_LRScheduler</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -998,11 +996,11 @@
         <span class="sd">&quot;&quot;&quot;Method to simulate scheduled values during num_events events.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            num_events (int): number of events during the simulation.</span>
-<span class="sd">            lr_scheduler (subclass of `torch.optim.lr_scheduler._LRScheduler`): lr_scheduler object to wrap.</span>
+<span class="sd">            num_events: number of events during the simulation.</span>
+<span class="sd">            lr_scheduler: lr_scheduler object to wrap.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list of pairs: [event_index, value]</span>
+<span class="sd">            event_index, value</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -1049,20 +1047,20 @@
 <span class="sd">    Helper method to create a learning rate scheduler with a linear warm-up.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        lr_scheduler (ParamScheduler or subclass of `torch.optim.lr_scheduler._LRScheduler`): learning rate scheduler</span>
+<span class="sd">        lr_scheduler: learning rate scheduler</span>
 <span class="sd">            after the warm-up.</span>
-<span class="sd">        warmup_start_value (float): learning rate start value of the warm-up phase.</span>
-<span class="sd">        warmup_duration (int): warm-up phase duration, number of events.</span>
-<span class="sd">        warmup_end_value (float, optional): learning rate end value of the warm-up phase, (default=None). If None,</span>
+<span class="sd">        warmup_start_value: learning rate start value of the warm-up phase.</span>
+<span class="sd">        warmup_duration: warm-up phase duration, number of events.</span>
+<span class="sd">        warmup_end_value: learning rate end value of the warm-up phase, (default=None). If None,</span>
 <span class="sd">             warmup_end_value is set to optimizer initial lr.</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
-<span class="sd">        output_simulated_values (list, optional): optional output of simulated learning rate values.</span>
+<span class="sd">        output_simulated_values: optional output of simulated learning rate values.</span>
 <span class="sd">            If output_simulated_values is a list of None, e.g. `[None] * 100`, after the execution it will be filled</span>
 <span class="sd">            by 100 simulated learning rate values.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        ConcatScheduler: learning rate scheduler with linear warm-up.</span>
+<span class="sd">        ConcatScheduler</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        If the first learning rate value provided by `lr_scheduler` is different from `warmup_end_value`, an additional</span>
@@ -1164,18 +1162,14 @@
 <span class="sd">    Piecewise linear parameter scheduler</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        optimizer (torch.optim.Optimizer or object): torch optimizer or any object with attribute ``param_groups``</span>
+<span class="sd">        optimizer: torch optimizer or any object with attribute ``param_groups``</span>
 <span class="sd">            as a sequence.</span>
-<span class="sd">        param_name (str): name of optimizer&#39;s parameter to update.</span>
-<span class="sd">        milestones_values (list of tuples (int, float)): list of tuples (event index, parameter value)</span>
+<span class="sd">        param_name: name of optimizer&#39;s parameter to update.</span>
+<span class="sd">        milestones_values: list of tuples (event index, parameter value)</span>
 <span class="sd">            represents milestones and parameter. Milestones should be increasing integers.</span>
-<span class="sd">        save_history (bool, optional): whether to log the parameter values to</span>
+<span class="sd">        save_history: whether to log the parameter values to</span>
 <span class="sd">            `engine.state.param_history`, (default=False).</span>
-<span class="sd">        param_group_index (int, optional): optimizer&#39;s parameters group to use.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        PiecewiseLinear: piecewise linear scheduler</span>
-
+<span class="sd">        param_group_index: optimizer&#39;s parameters group to use.</span>
 
 <span class="sd">    .. code-block:: python</span>
 
@@ -1255,8 +1249,9 @@
 <span class="sd">    Scheduler helper to group multiple schedulers into one.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        schedulers (list/tuple of ParamScheduler): list/tuple of parameter schedulers.</span>
-<span class="sd">        names (list of str): list of names of schedulers.</span>
+<span class="sd">        schedulers: list/tuple of parameter schedulers.</span>
+<span class="sd">        names: list of names of schedulers.</span>
+<span class="sd">        save_history: whether to save history or not.</span>
 
 <span class="sd">    .. code-block:: python</span>
 
@@ -1343,7 +1338,7 @@
         <span class="sd">&quot;&quot;&quot;Copies parameters from :attr:`state_dict` into this ParamScheduler.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            state_dict (dict): a dict containing parameters.</span>
+<span class="sd">            state_dict: a dict containing parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Argument state_dict should be a dictionary, but given </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1371,11 +1366,13 @@
         <span class="sd">&quot;&quot;&quot;Method to simulate scheduled values during num_events events.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            num_events (int): number of events during the simulation.</span>
-<span class="sd">            schedulers (subclass of `torch.optim.lr_scheduler._LRScheduler`): lr_scheduler object to wrap.</span>
+<span class="sd">            num_events: number of events during the simulation.</span>
+<span class="sd">            schedulers: lr_scheduler object to wrap.</span>
+<span class="sd">            kwargs: kwargs passed to construct an instance of</span>
+<span class="sd">                :class:`ignite.contrib.handlers.param_scheduler.ParamGroupScheduler`.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list of pairs: [event_index, value]</span>
+<span class="sd">            event_index, value</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -1675,8 +1672,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

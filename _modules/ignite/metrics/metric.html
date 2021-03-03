@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/metrics/metric.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/metrics/metric.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -348,10 +349,10 @@
 <span class="sd">    - :meth:`~ignite.metrics.Metric.completed` on every ``EPOCH_COMPLETED``.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        usage_name (str): usage name string</span>
+<span class="sd">        usage_name: usage name string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">usage_name</span> <span class="o">=</span> <span class="s2">&quot;epoch_wise&quot;</span>
+    <span class="n">usage_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;epoch_wise&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">EpochWise</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -372,10 +373,10 @@
 <span class="sd">    - :meth:`~ignite.metrics.Metric.completed` on every ``ITERATION_COMPLETED``.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        usage_name (str): usage name string</span>
+<span class="sd">        usage_name: usage name string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">usage_name</span> <span class="o">=</span> <span class="s2">&quot;batch_wise&quot;</span>
+    <span class="n">usage_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;batch_wise&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BatchWise</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -396,8 +397,8 @@
 <span class="sd">    - :meth:`~ignite.metrics.Metric.completed` on every ``EPOCH_COMPLETED``.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        *args: Positional arguments to setup :attr:`~ignite.engine.events.Events.ITERATION_COMPLETED(*args, **kwargs)`</span>
-<span class="sd">        **kwargs: Keyword arguments to setup :attr:`~ignite.engine.events.Events.ITERATION_COMPLETED(*args, **kwargs)`</span>
+<span class="sd">        args: Positional arguments to setup :attr:`~ignite.engine.events.Events.ITERATION_COMPLETED(*args, **kwargs)`</span>
+<span class="sd">        kwargs: Keyword arguments to setup :attr:`~ignite.engine.events.Events.ITERATION_COMPLETED(*args, **kwargs)`</span>
 <span class="sd">            handled by :meth:`~ignite.metrics.Metric.iteration_completed`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -415,17 +416,17 @@
 <span class="sd">    Base class for all Metrics.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        output_transform (callable, optional): a callable that is used to transform the</span>
+<span class="sd">        output_transform: a callable that is used to transform the</span>
 <span class="sd">            :class:`~ignite.engine.engine.Engine`&#39;s ``process_function``&#39;s output into the</span>
 <span class="sd">            form expected by the metric. This can be useful if, for example, you have a multi-output model and</span>
 <span class="sd">            you want to compute the metric with respect to one of the outputs.</span>
 <span class="sd">            By default, metrics require the output as ``(y_pred, y)`` or ``{&#39;y_pred&#39;: y_pred, &#39;y&#39;: y}``.</span>
-<span class="sd">        device (str or torch.device): specifies which device updates are accumulated on. Setting the</span>
+<span class="sd">        device: specifies which device updates are accumulated on. Setting the</span>
 <span class="sd">            metric&#39;s device to be the same as your ``update`` arguments ensures the ``update`` method is</span>
 <span class="sd">            non-blocking. By default, CPU.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        required_output_keys (tuple): dictionary defines required keys to be found in ``engine.state.output`` if the</span>
+<span class="sd">        required_output_keys: dictionary defines required keys to be found in ``engine.state.output`` if the</span>
 <span class="sd">            latter is a dictionary. Default, ``(&quot;y_pred&quot;, &quot;y&quot;)``. This is useful with custom metrics that can require</span>
 <span class="sd">            other arguments than predictions ``y_pred`` and targets ``y``. See notes below for an example.</span>
 
@@ -484,7 +485,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># public class attribute</span>
-    <span class="n">required_output_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;y_pred&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)</span>  <span class="c1"># type: Optional[Tuple]</span>
+    <span class="n">required_output_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;y_pred&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)</span>
     <span class="c1"># for backward compatibility</span>
     <span class="n">_required_output_keys</span> <span class="o">=</span> <span class="n">required_output_keys</span>
 
@@ -555,7 +556,7 @@
 <span class="sd">        `engine` with :meth:`~ignite.metrics.Metric.attach`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): the engine to which the metric must be attached</span>
+<span class="sd">            engine: the engine to which the metric must be attached</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div>
 
@@ -565,7 +566,7 @@
 <span class="sd">        `engine` with :meth:`~ignite.metrics.Metric.attach`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): the engine to which the metric must be attached</span>
+<span class="sd">            engine: the engine to which the metric must be attached</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_transform</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
@@ -588,8 +589,8 @@
 <span class="sd">        `engine` with :meth:`~ignite.metrics.Metric.attach`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): the engine to which the metric must be attached</span>
-<span class="sd">            name (str): the name of the metric used as key in dict `engine.state.metrics`</span>
+<span class="sd">            engine: the engine to which the metric must be attached</span>
+<span class="sd">            name: the name of the metric used as key in dict `engine.state.metrics`</span>
 
 <span class="sd">        .. versionchanged:: 0.4.3</span>
 <span class="sd">            Added dict in metrics results.</span>
@@ -626,9 +627,9 @@
 <span class="sd">        contain computed metric&#39;s value under provided name.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): the engine to which the metric must be attached</span>
-<span class="sd">            name (str): the name of the metric to attach</span>
-<span class="sd">            usage (str or MetricUsage, optional): the usage of the metric. Valid string values should be</span>
+<span class="sd">            engine: the engine to which the metric must be attached</span>
+<span class="sd">            name: the name of the metric to attach</span>
+<span class="sd">            usage: the usage of the metric. Valid string values should be</span>
 <span class="sd">                :attr:`ignite.metrics.EpochWise.usage_name` (default) or</span>
 <span class="sd">                :attr:`ignite.metrics.BatchWise.usage_name`.</span>
 
@@ -669,8 +670,8 @@
 <span class="sd">        and another metric (e.g. more expensive one) is done every n-th training epoch.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): the engine from which the metric must be detached</span>
-<span class="sd">            usage (str or MetricUsage, optional): the usage of the metric. Valid string values should be</span>
+<span class="sd">            engine: the engine from which the metric must be detached</span>
+<span class="sd">            usage: the usage of the metric. Valid string values should be</span>
 <span class="sd">                &#39;epoch_wise&#39; (default) or &#39;batch_wise&#39;.</span>
 
 <span class="sd">        Example:</span>
@@ -711,8 +712,8 @@
 <span class="sd">        value is written to `engine.state.metrics` dictionary.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            engine (Engine): the engine checked from which the metric should be attached</span>
-<span class="sd">            usage (str or MetricUsage, optional): the usage of the metric. Valid string values should be</span>
+<span class="sd">            engine: the engine checked from which the metric should be attached</span>
+<span class="sd">            usage: the usage of the metric. Valid string values should be</span>
 <span class="sd">                &#39;epoch_wise&#39; (default) or &#39;batch_wise&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">usage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_usage</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
@@ -818,7 +819,7 @@
 <span class="sd">    See :doc:`metrics` on how to use it.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        *attrs: attribute names of decorated class</span>
+<span class="sd">        attrs: attribute names of decorated class</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -854,6 +855,8 @@
 
 <span class="sd">    See :doc:`metrics` on how to use it.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        func: A callable to reinit.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -1125,8 +1128,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

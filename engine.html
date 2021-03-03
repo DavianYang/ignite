@@ -136,7 +136,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -198,7 +198,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -214,6 +214,7 @@
             <dd><a href="v0.4.1/engine.html">v0.4.1</a></dd>
             <dd><a href="v0.4.2/engine.html">v0.4.2</a></dd>
             <dd><a href="v0.4.3/engine.html">v0.4.3</a></dd>
+            <dd><a href="v0.4.4/engine.html">v0.4.4</a></dd>
             <dd><a href="v0.4rc.0.post1/engine.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -323,7 +324,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#ignite.engine.events.State" title="ignite.engine.events.State"><code class="xref py py-obj docutils literal notranslate"><span class="pre">State</span></code></a></p></td>
 <td><p>An object that is used to pass internal and user-defined state between event handlers.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventsList</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.engine.events.EventsList" title="ignite.engine.events.EventsList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventsList</span></code></a></p></td>
 <td><p>Collection of events stacked by operator <cite>__or__</cite>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ignite.engine.events.RemovableEventHandle" title="ignite.engine.events.RemovableEventHandle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RemovableEventHandle</span></code></a></p></td>
@@ -365,6 +366,18 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#ignite.engine.create_supervised_evaluator" title="ignite.engine.create_supervised_evaluator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_supervised_evaluator</span></code></a></p></td>
 <td><p>Factory function for creating an evaluator for supervised models.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.engine.supervised_training_step" title="ignite.engine.supervised_training_step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supervised_training_step</span></code></a></p></td>
+<td><p>Factory function for supervised training.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.engine.supervised_training_step_amp" title="ignite.engine.supervised_training_step_amp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supervised_training_step_amp</span></code></a></p></td>
+<td><p>Factory function for supervised training using <code class="docutils literal notranslate"><span class="pre">torch.cuda.amp</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.engine.supervised_training_step_apex" title="ignite.engine.supervised_training_step_apex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supervised_training_step_apex</span></code></a></p></td>
+<td><p>Factory function for supervised training using apex.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.engine.supervised_training_step_tpu" title="ignite.engine.supervised_training_step_tpu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supervised_training_step_tpu</span></code></a></p></td>
+<td><p>Factory function for supervised training using <code class="docutils literal notranslate"><span class="pre">torch_xla</span></code>.</p></td>
+</tr>
 </tbody>
 </table>
 <p>More details about those structures can be found in <a class="reference internal" href="concepts.html"><span class="doc">Concepts</span></a>.</p>
@@ -374,7 +387,7 @@
 <dd><p>Runs a given <code class="docutils literal notranslate"><span class="pre">process_function</span></code> over each batch of a dataset, emitting events as it goes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>process_function</strong> (<em>callable</em>) – A function receiving a handle to the engine and the current batch
+<dd class="field-odd"><p><strong>process_function</strong> (<em>Callable</em>) – A function receiving a handle to the engine and the current batch
 in each iteration, and returns data to be stored in the engine’s state.</p>
 </dd>
 </dl>
@@ -384,22 +397,12 @@ in each iteration, and returns data to be stored in the engine’s state.</p>
 <dd><p>object that is used to pass internal and user-defined state between event handlers.
 It is created with the engine and its attributes (e.g. <code class="docutils literal notranslate"><span class="pre">state.iteration</span></code>, <code class="docutils literal notranslate"><span class="pre">state.epoch</span></code> etc) are reset
 on every <a class="reference internal" href="#ignite.engine.engine.Engine.run" title="ignite.engine.engine.Engine.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#ignite.engine.events.State" title="ignite.engine.events.State">State</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ignite.engine.engine.Engine.last_event_name">
 <code class="sig-name descname">last_event_name</code><a class="headerlink" href="#ignite.engine.engine.Engine.last_event_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>last event name triggered by the engine.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#ignite.engine.events.Events" title="ignite.engine.events.Events">Events</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <p class="rubric">Examples</p>
@@ -489,17 +492,18 @@ on every <a class="reference internal" href="#ignite.engine.engine.Engine.run" t
 <li><p><strong>event_name</strong> (<em>Any</em>) – An event or a list of events to attach the handler. Valid events are
 from <a class="reference internal" href="#ignite.engine.events.Events" title="ignite.engine.events.Events"><code class="xref py py-class docutils literal notranslate"><span class="pre">Events</span></code></a> or any <code class="docutils literal notranslate"><span class="pre">event_name</span></code> added by
 <a class="reference internal" href="#ignite.engine.engine.Engine.register_events" title="ignite.engine.engine.Engine.register_events"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_events()</span></code></a>.</p></li>
-<li><p><strong>handler</strong> (<em>callable</em>) – the callable event handler that should be invoked. No restrictions on its signature.
+<li><p><strong>handler</strong> (<em>Callable</em>) – the callable event handler that should be invoked. No restrictions on its signature.
 The first argument can be optionally <cite>engine</cite>, the <a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a> object,
 handler is bound to.</p></li>
-<li><p><strong>*args</strong> – optional args to be passed to <code class="docutils literal notranslate"><span class="pre">handler</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to <code class="docutils literal notranslate"><span class="pre">handler</span></code>.</p></li>
-<li><p><strong>args</strong> (<em>Any</em>) – </p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>args</strong> (<em>Any</em>) – optional args to be passed to <code class="docutils literal notranslate"><span class="pre">handler</span></code>.</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to <code class="docutils literal notranslate"><span class="pre">handler</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ignite.engine.events.RemovableEventHandle" title="ignite.engine.events.RemovableEventHandle">ignite.engine.events.RemovableEventHandle</a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#ignite.engine.events.RemovableEventHandle" title="ignite.engine.events.RemovableEventHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableEventHandle</span></code></a>, which can be used to remove the handler.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ignite.engine.events.RemovableEventHandle" title="ignite.engine.events.RemovableEventHandle">ignite.engine.events.RemovableEventHandle</a></p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -507,22 +511,6 @@ handler is bound to.</p></li>
 <p>Note that other arguments can be passed to the handler in addition to the <cite>*args</cite> and  <cite>**kwargs</cite>
 passed here, for example during <code class="xref py py-attr docutils literal notranslate"><span class="pre">EXCEPTION_RAISED</span></code>.</p>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RemovableEventHandle</span></code>, which can be used to remove the handler.</p>
-</dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>event_name</strong> (<em>Any</em>) – </p></li>
-<li><p><strong>handler</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>args</strong> (<em>Any</em>) – </p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#ignite.engine.events.RemovableEventHandle" title="ignite.engine.events.RemovableEventHandle">ignite.engine.events.RemovableEventHandle</a></p>
-</dd>
-</dl>
 <p>Example usage:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">engine</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="n">process_function</span><span class="p">)</span>
 
@@ -579,7 +567,7 @@ events are from <a class="reference internal" href="#ignite.engine.events.Events
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>handler</strong> (<em>callable</em>) – the callable event handler.</p></li>
+<li><p><strong>handler</strong> (<em>Callable</em>) – the callable event handler.</p></li>
 <li><p><strong>event_name</strong> (<em>Optional</em><em>[</em><em>Any</em><em>]</em>) – The event the handler attached to. Set this
 to <code class="docutils literal notranslate"><span class="pre">None</span></code> to search all events.</p></li>
 </ul>
@@ -594,13 +582,13 @@ to <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <dt id="ignite.engine.engine.Engine.load_state_dict">
 <code class="sig-name descname">load_state_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine/engine.html#Engine.load_state_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.engine.Engine.load_state_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setups engine from <cite>state_dict</cite>.</p>
-<p>State dictionary should contain keys: <cite>iteration</cite> or <cite>epoch</cite> and <cite>max_epochs</cite>, <cite>epoch_length</cite>.
+<p>State dictionary should contain keys: <cite>iteration</cite> or <cite>epoch</cite>, <cite>max_epochs</cite> and <cite>epoch_length</cite>.
 If <cite>engine.state_dict_user_keys</cite> contains keys, they should be also present in the state dictionary.
 Iteration and epoch values are 0-based: the first iteration or epoch is zero.</p>
-<p>This method does not remove any custom attributs added by user.</p>
+<p>This method does not remove any custom attributes added by user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>state_dict</strong> (<em>Mapping</em>) – a dict with parameters</p>
+<dd class="field-odd"><p><strong>state_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.9)"><em>collections.abc.Mapping</em></a>) – a dict with parameters</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
@@ -627,10 +615,8 @@ Iteration and epoch values are 0-based: the first iteration or epoch is zero.</p
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event_name</strong> (<em>Any</em>) – An event to attach the handler to. Valid events are from <a class="reference internal" href="#ignite.engine.events.Events" title="ignite.engine.events.Events"><code class="xref py py-class docutils literal notranslate"><span class="pre">Events</span></code></a>
 or any <code class="docutils literal notranslate"><span class="pre">event_name</span></code> added by <a class="reference internal" href="#ignite.engine.engine.Engine.register_events" title="ignite.engine.engine.Engine.register_events"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_events()</span></code></a>.</p></li>
-<li><p><strong>*args</strong> – optional args to be passed to <cite>handler</cite>.</p></li>
-<li><p><strong>**kwargs</strong> – optional keyword args to be passed to <cite>handler</cite>.</p></li>
-<li><p><strong>args</strong> (<em>Any</em>) – </p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+<li><p><strong>args</strong> (<em>Any</em>) – optional args to be passed to <cite>handler</cite>.</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – optional keyword args to be passed to <cite>handler</cite>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -663,10 +649,9 @@ configurable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>*event_names</strong> (<em>iterable</em>) – Defines the name of the event being supported. New events can be a str
+<li><p><strong>event_names</strong> (<em>Union</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em><em>, </em><em>List</em><em>[</em><a class="reference internal" href="#ignite.engine.events.EventEnum" title="ignite.engine.events.EventEnum"><em>ignite.engine.events.EventEnum</em></a><em>]</em><em>]</em>) – Defines the name of the event being supported. New events can be a str
 or an object derived from <a class="reference internal" href="#ignite.engine.events.EventEnum" title="ignite.engine.events.EventEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventEnum</span></code></a>. See example below.</p></li>
-<li><p><strong>event_to_attr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – A dictionary to map an event to a state attribute.</p></li>
-<li><p><strong>event_names</strong> (<em>Union</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em><em>, </em><em>List</em><em>[</em><a class="reference internal" href="#ignite.engine.events.EventEnum" title="ignite.engine.events.EventEnum"><em>ignite.engine.events.EventEnum</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>event_to_attr</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>]</em>) – A dictionary to map an event to a state attribute.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -736,7 +721,7 @@ or an object derived from <a class="reference internal" href="#ignite.engine.eve
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>handler</strong> (<em>callable</em>) – the callable event handler that should be removed</p></li>
+<li><p><strong>handler</strong> (<em>Callable</em>) – the callable event handler that should be removed</p></li>
 <li><p><strong>event_name</strong> (<em>Any</em>) – The event the handler attached to.</p></li>
 </ul>
 </dd>
@@ -748,15 +733,12 @@ or an object derived from <a class="reference internal" href="#ignite.engine.eve
 
 <dl class="py method">
 <dt id="ignite.engine.engine.Engine.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">max_epochs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">epoch_length</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine/engine.html#Engine.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.engine.Engine.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">max_epochs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_iters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">epoch_length</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine/engine.html#Engine.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.engine.Engine.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the <cite>process_function</cite> over the passed data.</p>
 <p>Engine has a state and the following logic is applied in this function:</p>
 <ul class="simple">
-<li><dl class="simple">
-<dt>At the first call, new state is defined by <cite>max_epochs</cite>, <cite>epoch_length</cite> if provided. A timer for</dt><dd><p>total and per-epoch time is initialized when Events.STARTED is handled.</p>
-</dd>
-</dl>
-</li>
+<li><p>At the first call, new state is defined by <cite>max_epochs</cite>, <cite>max_iters</cite>, <cite>epoch_length</cite>, if provided.
+A timer for total and per-epoch time is initialized when Events.STARTED is handled.</p></li>
 <li><p>If state is already defined such that there are iterations to run until <cite>max_epochs</cite> and no input arguments
 provided, state is kept and used in the function.</p></li>
 <li><p>If state is defined and engine is “done” (no iterations to run until <cite>max_epochs</cite>), a new state is defined.</p></li>
@@ -766,16 +748,16 @@ provided, state is kept and used in the function.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>Iterable</em>) – Collection of batches allowing repeated iteration (e.g., list or <cite>DataLoader</cite>).</p></li>
-<li><p><strong>max_epochs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Max epochs to run for (default: None).
+<li><p><strong>max_epochs</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Max epochs to run for (default: None).
 If a new state should be created (first run or run again from ended engine), it’s default value is 1.
 If run is resuming from a state, provided <cite>max_epochs</cite> will be taken into account and should be larger
 than <cite>engine.state.max_epochs</cite>.</p></li>
-<li><p><strong>epoch_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of iterations to count as one epoch. By default, it can be set as
+<li><p><strong>epoch_length</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Number of iterations to count as one epoch. By default, it can be set as
 <cite>len(data)</cite>. If <cite>data</cite> is an iterator and <cite>epoch_length</cite> is not set, then it will be automatically
 determined as the iteration on which data iterator raises <cite>StopIteration</cite>.
 This argument should not change if run is resuming from a state.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Deprecated argument since v0.4.0 and will be removed in v0.5.0.
-Please, use <cite>torch.manual_seed</cite> or <a class="reference internal" href="utils.html#ignite.utils.manual_seed" title="ignite.utils.manual_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">manual_seed()</span></code></a>.</p></li>
+<li><p><strong>max_iters</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Number of iterations to run for.
+<cite>max_iters</cite> and <cite>max_epochs</cite> are mutually exclusive; only one of the two arguments should be provided.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -815,7 +797,7 @@ store output batch in <cite>engine.state.batch</cite>. Latter is passed as usual
 from newly provided data. Please, note that epoch length is not modified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>Iterable</em>) – Collection of batches allowing repeated iteration (e.g., list or <cite>DataLoader</cite>).</p>
+<dd class="field-odd"><p><strong>data</strong> (<em>Union</em><em>[</em><em>Iterable</em><em>, </em><em>torch.utils.data.dataloader.DataLoader</em><em>]</em>) – Collection of batches allowing repeated iteration (e.g., list or <cite>DataLoader</cite>).</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
@@ -906,32 +888,47 @@ other state values defined by <cite>engine.state_dict_user_keys</cite></p>
 
 <dl class="py function">
 <dt id="ignite.engine.create_supervised_trainer">
-<code class="sig-prename descclassname">ignite.engine.</code><code class="sig-name descname">create_supervised_trainer</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">optimizer</em>, <em class="sig-param">loss_fn</em>, <em class="sig-param">device=None</em>, <em class="sig-param">non_blocking=False</em>, <em class="sig-param">prepare_batch=&lt;function _prepare_batch&gt;</em>, <em class="sig-param">output_transform=&lt;function &lt;lambda&gt;&gt;</em>, <em class="sig-param">deterministic=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine.html#create_supervised_trainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.create_supervised_trainer" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ignite.engine.</code><code class="sig-name descname">create_supervised_trainer</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">optimizer</em>, <em class="sig-param">loss_fn</em>, <em class="sig-param">device=None</em>, <em class="sig-param">non_blocking=False</em>, <em class="sig-param">prepare_batch=&lt;function _prepare_batch&gt;</em>, <em class="sig-param">output_transform=&lt;function &lt;lambda&gt;&gt;</em>, <em class="sig-param">deterministic=False</em>, <em class="sig-param">amp_mode=None</em>, <em class="sig-param">scaler=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine.html#create_supervised_trainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.create_supervised_trainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Factory function for creating a trainer for supervised models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<cite>torch.nn.Module</cite>) – the model to train.</p></li>
-<li><p><strong>optimizer</strong> (<cite>torch.optim.Optimizer</cite>) – the optimizer to use.</p></li>
-<li><p><strong>loss_fn</strong> (<em>torch.nn loss function</em>) – the loss function to use.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – device type specification (default: None).
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – the model to train.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – the optimizer to use.</p></li>
+<li><p><strong>loss_fn</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>torch.nn.modules.module.Module</em><em>]</em>) – the loss function to use.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – device type specification (default: None).
 Applies to batches after starting the engine. Model <em>will not</em> be moved.
 Device can be CPU, GPU or TPU.</p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
 with respect to the host. For other cases, this argument has no effect.</p></li>
-<li><p><strong>prepare_batch</strong> (<em>callable</em><em>, </em><em>optional</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
+<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
 tuple of tensors <cite>(batch_x, batch_y)</cite>.</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – function that receives ‘x’, ‘y’, ‘y_pred’, ‘loss’ and returns value
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – function that receives ‘x’, ‘y’, ‘y_pred’, ‘loss’ and returns value
 to be assigned to engine’s state.output after each iteration. Default is returning <cite>loss.item()</cite>.</p></li>
-<li><p><strong>deterministic</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, returns deterministic engine of type
+<li><p><strong>deterministic</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True, returns deterministic engine of type
 <a class="reference internal" href="#ignite.engine.deterministic.DeterministicEngine" title="ignite.engine.deterministic.DeterministicEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeterministicEngine</span></code></a>, otherwise <a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>
 (default: False).</p></li>
+<li><p><strong>amp_mode</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – can be <code class="docutils literal notranslate"><span class="pre">amp</span></code> or <code class="docutils literal notranslate"><span class="pre">apex</span></code>, model and optimizer will be casted to float16 using
+<a class="reference external" href="https://pytorch.org/docs/stable/amp.html">torch.cuda.amp</a> for <code class="docutils literal notranslate"><span class="pre">amp</span></code> and
+using <a class="reference external" href="https://nvidia.github.io/apex">apex</a> for <code class="docutils literal notranslate"><span class="pre">apex</span></code>. (default: None)</p></li>
+<li><p><strong>scaler</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>torch.cuda.amp.grad_scaler.GradScaler</em><em>]</em>) – GradScaler instance for gradient scaling if <cite>torch&gt;=1.6.0</cite>
+and <code class="docutils literal notranslate"><span class="pre">amp_mode</span></code> is <code class="docutils literal notranslate"><span class="pre">amp</span></code>. If <code class="docutils literal notranslate"><span class="pre">amp_mode</span></code> is <code class="docutils literal notranslate"><span class="pre">apex</span></code>, this argument will be ignored.
+If True, will create default GradScaler. If GradScaler instance is passed, it will be used instead.
+(default: False)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">ignite.engine.engine.Engine</a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a trainer engine with supervised update function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">ignite.engine.engine.Engine</a></p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">scaler</span></code> is True, GradScaler instance will be created internally and trainer state has attribute named
+<code class="docutils literal notranslate"><span class="pre">scaler</span></code> for that instance and can be used for saving and loading.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><cite>engine.state.output</cite> for this engine is defined by <cite>output_transform</cite> parameter and is the loss
@@ -948,26 +945,19 @@ For more information see:</p>
 <li><p><a class="reference external" href="https://github.com/pytorch/pytorch/issues/7844#issuecomment-503713840">PyTorch’s Explanation</a></p></li>
 </ul>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a trainer engine with supervised update function.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">Engine</a></p>
-</dd>
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – </p></li>
-<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – </p></li>
-<li><p><strong>loss_fn</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>torch.nn.modules.module.Module</em><em>]</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
-<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>deterministic</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">amp_mode='apex'</span></code> , the model(s) and optimizer(s) must be initialized beforehand
+since <code class="docutils literal notranslate"><span class="pre">amp.initialize</span></code> should be called after you have finished constructing your model(s)
+and optimizer(s), but before you send your model through any DistributedDataParallel wrapper.</p>
+<p>See more: <a class="reference external" href="https://nvidia.github.io/apex/amp.html#module-apex.amp">https://nvidia.github.io/apex/amp.html#module-apex.amp</a></p>
+</div>
+<div class="versionchanged">
+<ul>
+<span class="versionmodified changed">Changed in version 0.5.0: </span><li><p>Added <code class="docutils literal notranslate"><span class="pre">amp_mode</span></code> argument for automatic mixed precision.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">scaler</span></code> argument for gradient scaling.</p></li>
 </ul>
-</dd>
-</dl>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -977,21 +967,24 @@ For more information see:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<cite>torch.nn.Module</cite>) – the model to train.</p></li>
-<li><p><strong>metrics</strong> (dict of str - <a class="reference internal" href="metrics.html#ignite.metrics.Metric" title="ignite.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a>) – a map of metric names to Metrics.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – device type specification (default: None).
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – the model to train.</p></li>
+<li><p><strong>metrics</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>ignite.metrics.metric.Metric</em><em>]</em><em>]</em>) – a map of metric names to Metrics.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – device type specification (default: None).
 Applies to batches after starting the engine. Model <em>will not</em> be moved.</p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
 with respect to the host. For other cases, this argument has no effect.</p></li>
-<li><p><strong>prepare_batch</strong> (<em>callable</em><em>, </em><em>optional</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
+<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
 tuple of tensors <cite>(batch_x, batch_y)</cite>.</p></li>
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – function that receives ‘x’, ‘y’, ‘y_pred’ and returns value
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – function that receives ‘x’, ‘y’, ‘y_pred’ and returns value
 to be assigned to engine’s state.output after each iteration. Default is returning <cite>(y_pred, y,)</cite> which fits
 output expected by metrics. If you change it you should use <cite>output_transform</cite> in metrics.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">ignite.engine.engine.Engine</a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an evaluator engine with supervised inference function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">ignite.engine.engine.Engine</a></p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -1010,24 +1003,184 @@ The <cite>model</cite> should be moved by the user before creating an optimizer.
 <li><p><a class="reference external" href="https://github.com/pytorch/pytorch/issues/7844#issuecomment-503713840">PyTorch’s Explanation</a></p></li>
 </ul>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ignite.engine.supervised_training_step">
+<code class="sig-prename descclassname">ignite.engine.</code><code class="sig-name descname">supervised_training_step</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">optimizer</em>, <em class="sig-param">loss_fn</em>, <em class="sig-param">device=None</em>, <em class="sig-param">non_blocking=False</em>, <em class="sig-param">prepare_batch=&lt;function _prepare_batch&gt;</em>, <em class="sig-param">output_transform=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine.html#supervised_training_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.supervised_training_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory function for supervised training.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>an evaluator engine with supervised inference function.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine">Engine</a></p>
-</dd>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – </p></li>
-<li><p><strong>metrics</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>ignite.metrics.metric.Metric</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
-<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – the model to train.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – the optimizer to use.</p></li>
+<li><p><strong>loss_fn</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>torch.nn.modules.module.Module</em><em>]</em>) – the loss function to use.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – device type specification (default: None).
+Applies to batches after starting the engine. Model <em>will not</em> be moved.
+Device can be CPU, GPU.</p></li>
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
+with respect to the host. For other cases, this argument has no effect.</p></li>
+<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
+tuple of tensors <cite>(batch_x, batch_y)</cite>.</p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – function that receives ‘x’, ‘y’, ‘y_pred’, ‘loss’ and returns value
+to be assigned to engine’s state.output after each iteration. Default is returning <cite>loss.item()</cite>.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>update function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Callable</p>
+</dd>
 </dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">supervised_training_step</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="n">update_fn</span> <span class="o">=</span> <span class="n">supervised_training_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="n">update_fn</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ignite.engine.supervised_training_step_amp">
+<code class="sig-prename descclassname">ignite.engine.</code><code class="sig-name descname">supervised_training_step_amp</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">optimizer</em>, <em class="sig-param">loss_fn</em>, <em class="sig-param">device=None</em>, <em class="sig-param">non_blocking=False</em>, <em class="sig-param">prepare_batch=&lt;function _prepare_batch&gt;</em>, <em class="sig-param">output_transform=&lt;function &lt;lambda&gt;&gt;</em>, <em class="sig-param">scaler=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine.html#supervised_training_step_amp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.supervised_training_step_amp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory function for supervised training using <code class="docutils literal notranslate"><span class="pre">torch.cuda.amp</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – the model to train.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – the optimizer to use.</p></li>
+<li><p><strong>loss_fn</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>torch.nn.modules.module.Module</em><em>]</em>) – the loss function to use.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – device type specification (default: None).
+Applies to batches after starting the engine. Model <em>will not</em> be moved.
+Device can be CPU, GPU.</p></li>
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
+with respect to the host. For other cases, this argument has no effect.</p></li>
+<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
+tuple of tensors <cite>(batch_x, batch_y)</cite>.</p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – function that receives ‘x’, ‘y’, ‘y_pred’, ‘loss’ and returns value
+to be assigned to engine’s state.output after each iteration. Default is returning <cite>loss.item()</cite>.</p></li>
+<li><p><strong>scaler</strong> (<em>Optional</em><em>[</em><em>torch.cuda.amp.grad_scaler.GradScaler</em><em>]</em>) – GradScaler instance for gradient scaling. (default: None)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>update function</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Callable</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">supervised_training_step_amp</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">GradScaler</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">update_fn</span> <span class="o">=</span> <span class="n">supervised_training_step_amp</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="n">update_fn</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ignite.engine.supervised_training_step_apex">
+<code class="sig-prename descclassname">ignite.engine.</code><code class="sig-name descname">supervised_training_step_apex</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">optimizer</em>, <em class="sig-param">loss_fn</em>, <em class="sig-param">device=None</em>, <em class="sig-param">non_blocking=False</em>, <em class="sig-param">prepare_batch=&lt;function _prepare_batch&gt;</em>, <em class="sig-param">output_transform=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine.html#supervised_training_step_apex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.supervised_training_step_apex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory function for supervised training using apex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – the model to train.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – the optimizer to use.</p></li>
+<li><p><strong>loss_fn</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>torch.nn.modules.module.Module</em><em>]</em>) – the loss function to use.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – device type specification (default: None).
+Applies to batches after starting the engine. Model <em>will not</em> be moved.
+Device can be CPU, GPU.</p></li>
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
+with respect to the host. For other cases, this argument has no effect.</p></li>
+<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
+tuple of tensors <cite>(batch_x, batch_y)</cite>.</p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – function that receives ‘x’, ‘y’, ‘y_pred’, ‘loss’ and returns value
+to be assigned to engine’s state.output after each iteration. Default is returning <cite>loss.item()</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>update function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Callable</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">supervised_training_step_apex</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="n">update_fn</span> <span class="o">=</span> <span class="n">supervised_training_step_apex</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="n">update_fn</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ignite.engine.supervised_training_step_tpu">
+<code class="sig-prename descclassname">ignite.engine.</code><code class="sig-name descname">supervised_training_step_tpu</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">optimizer</em>, <em class="sig-param">loss_fn</em>, <em class="sig-param">device=None</em>, <em class="sig-param">non_blocking=False</em>, <em class="sig-param">prepare_batch=&lt;function _prepare_batch&gt;</em>, <em class="sig-param">output_transform=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine.html#supervised_training_step_tpu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.supervised_training_step_tpu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory function for supervised training using <code class="docutils literal notranslate"><span class="pre">torch_xla</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.modules.module.Module</em>) – the model to train.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.optimizer.Optimizer</em>) – the optimizer to use.</p></li>
+<li><p><strong>loss_fn</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>torch.nn.modules.module.Module</em><em>]</em>) – the loss function to use.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em><em>]</em>) – device type specification (default: None).
+Applies to batches after starting the engine. Model <em>will not</em> be moved.
+Device can be CPU, TPU.</p></li>
+<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if True and this copy is between CPU and GPU, the copy may occur asynchronously
+with respect to the host. For other cases, this argument has no effect.</p></li>
+<li><p><strong>prepare_batch</strong> (<em>Callable</em>) – function that receives <cite>batch</cite>, <cite>device</cite>, <cite>non_blocking</cite> and outputs
+tuple of tensors <cite>(batch_x, batch_y)</cite>.</p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – function that receives ‘x’, ‘y’, ‘y_pred’, ‘loss’ and returns value
+to be assigned to engine’s state.output after each iteration. Default is returning <cite>loss.item()</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>update function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Callable</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">supervised_training_step_tpu</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="n">update_fn</span> <span class="o">=</span> <span class="n">supervised_training_step_tpu</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="s1">&#39;xla&#39;</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">(</span><span class="n">update_fn</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
 </dd></dl>
 
 <div class="section" id="resuming-the-training">
@@ -1091,10 +1244,10 @@ be run at the current event (if the event type is correct)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The actual enum value. Only needed for internal use. Do not touch!</p></li>
-<li><p><strong>event_filter</strong> (<em>callable</em>) – A function taking the engine and the current event value as input and returning a
+<li><p><strong>event_filter</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – A function taking the engine and the current event value as input and returning a
 boolean to indicate whether this event should be executed. Defaults to None, which will result to a
 function that always returns <cite>True</cite></p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – The enum-name of the current object. Only needed for internal use. Do not touch!</p></li>
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – The enum-name of the current object. Only needed for internal use. Do not touch!</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1248,6 +1401,33 @@ this class. For example, Custom events based on the loss calculation and backwar
 </dd></dl>
 
 <dl class="py class">
+<dt id="ignite.engine.events.EventsList">
+<em class="property">class </em><code class="sig-prename descclassname">ignite.engine.events.</code><code class="sig-name descname">EventsList</code><a class="reference internal" href="_modules/ignite/engine/events.html#EventsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.events.EventsList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collection of events stacked by operator <cite>__or__</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">events</span> <span class="o">=</span> <span class="n">Events</span><span class="o">.</span><span class="n">STARTED</span> <span class="o">|</span> <span class="n">Events</span><span class="o">.</span><span class="n">COMPLETED</span>
+<span class="n">events</span> <span class="o">|=</span> <span class="n">Events</span><span class="o">.</span><span class="n">ITERATION_STARTED</span><span class="p">(</span><span class="n">every</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="nd">@engine</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">call_on_events</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="c1"># do something</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@engine</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">Events</span><span class="o">.</span><span class="n">STARTED</span> <span class="o">|</span> <span class="n">Events</span><span class="o">.</span><span class="n">COMPLETED</span> <span class="o">|</span> <span class="n">Events</span><span class="o">.</span><span class="n">ITERATION_STARTED</span><span class="p">(</span><span class="n">every</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">call_on_events</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="c1"># do something</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
 <dt id="ignite.engine.events.State">
 <em class="property">class </em><code class="sig-prename descclassname">ignite.engine.events.</code><code class="sig-name descname">State</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine/events.html#State"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.events.State" title="Permalink to this definition">¶</a></dt>
 <dd><p>An object that is used to pass internal and user-defined state between event handlers. By default, state
@@ -1258,6 +1438,7 @@ contains the following attributes:</p>
 <span class="n">state</span><span class="o">.</span><span class="n">dataloader</span>        <span class="c1"># data passed to engine</span>
 <span class="n">state</span><span class="o">.</span><span class="n">epoch_length</span>      <span class="c1"># optional length of an epoch</span>
 <span class="n">state</span><span class="o">.</span><span class="n">max_epochs</span>        <span class="c1"># number of epochs to run</span>
+<span class="n">state</span><span class="o">.</span><span class="n">max_iters</span>         <span class="c1"># number of iterations to run</span>
 <span class="n">state</span><span class="o">.</span><span class="n">batch</span>             <span class="c1"># batch passed to `process_function`</span>
 <span class="n">state</span><span class="o">.</span><span class="n">output</span>            <span class="c1"># output of `process_function` after a single iteration</span>
 <span class="n">state</span><span class="o">.</span><span class="n">metrics</span>           <span class="c1"># dictionary with defined metrics if any</span>
@@ -1267,7 +1448,7 @@ contains the following attributes:</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kwargs</strong> (<em>Any</em>) – </p>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>Any</em>) – keyword arguments to be defined as State attributes.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
@@ -1285,7 +1466,7 @@ remove method, with-statement, or context manager protocol. Returned from
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>event_name</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#ignite.engine.events.CallableEventWithFilter" title="ignite.engine.events.CallableEventWithFilter"><em>ignite.engine.events.CallableEventWithFilter</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><em>enum.Enum</em></a><em>, </em><em>ignite.engine.events.EventsList</em><em>, </em><a class="reference internal" href="#ignite.engine.events.Events" title="ignite.engine.events.Events"><em>ignite.engine.events.Events</em></a><em>]</em>) – Registered event name.</p></li>
+<li><p><strong>event_name</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#ignite.engine.events.CallableEventWithFilter" title="ignite.engine.events.CallableEventWithFilter"><em>ignite.engine.events.CallableEventWithFilter</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><em>enum.Enum</em></a><em>, </em><a class="reference internal" href="#ignite.engine.events.EventsList" title="ignite.engine.events.EventsList"><em>ignite.engine.events.EventsList</em></a><em>, </em><a class="reference internal" href="#ignite.engine.events.Events" title="ignite.engine.events.Events"><em>ignite.engine.events.Events</em></a><em>]</em>) – Registered event name.</p></li>
 <li><p><strong>handler</strong> (<em>Callable</em>) – Registered event handler, stored as weakref.</p></li>
 <li><p><strong>engine</strong> (<a class="reference internal" href="#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – Target engine, stored as weakref.</p></li>
 </ul>
@@ -1373,7 +1554,8 @@ dataflow restart) and using torch <cite>DataLoader</cite> with <cite>num_workers
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>process_function</strong> (<em>Callable</em>) – </p>
+<dd class="field-odd"><p><strong>process_function</strong> (<em>Callable</em>) – A function receiving a handle to the engine and the current batch
+in each iteration, and returns data to be stored in the engine’s state.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -1415,9 +1597,8 @@ other state values defined by <cite>engine.state_dict_user_keys</cite></p>
 <em class="property">class </em><code class="sig-prename descclassname">ignite.engine.deterministic.</code><code class="sig-name descname">ReproducibleBatchSampler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_sampler</span></em>, <em class="sig-param"><span class="n">start_iteration</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/engine/deterministic.html#ReproducibleBatchSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.engine.deterministic.ReproducibleBatchSampler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reproducible batch sampler. This class internally iterates and stores indices of the input batch sampler.
 This helps to start providing data batches from an iteration in a deterministic way.</p>
-<p>Usage:</p>
-<blockquote>
-<div><p>Setup dataloader with <cite>ReproducibleBatchSampler</cite> and start providing data batches from an iteration:</p>
+<p class="rubric">Example</p>
+<p>Setup dataloader with <cite>ReproducibleBatchSampler</cite> and start providing data batches from an iteration</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ignite.engine.deterministic</span> <span class="kn">import</span> <span class="n">update_dataloader</span>
 
 <span class="n">dataloader</span> <span class="o">=</span> <span class="n">update_dataloader</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">ReproducibleBatchSampler</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">batch_sampler</span><span class="p">))</span>
@@ -1425,13 +1606,11 @@ This helps to start providing data batches from an iteration in a deterministic 
 <span class="n">dataloader</span><span class="o">.</span><span class="n">batch_sampler</span><span class="o">.</span><span class="n">start_iteration</span> <span class="o">=</span> <span class="n">start_iteration</span>
 </pre></div>
 </div>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_sampler</strong> (<em>torch.utils.data.sampler.BatchSampler</em>) – batch sampler same as used with
-<cite>torch.utils.data.DataLoader</cite></p></li>
-<li><p><strong>start_iteration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – optional start iteration</p></li>
+<li><p><strong>batch_sampler</strong> – batch sampler same as used with <cite>torch.utils.data.DataLoader</cite>.</p></li>
+<li><p><strong>start_iteration</strong> – optional start iteration.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1444,7 +1623,7 @@ This helps to start providing data batches from an iteration in a deterministic 
 while executing a function. For more details on usage, please see <a class="reference internal" href="#dataflow-synchronization"><span class="std std-ref">Dataflow synchronization</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>func</strong> (<em>callable</em>) – function to decorate</p>
+<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – function to decorate</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Callable</p>
@@ -1460,7 +1639,7 @@ dataloader with new batch sampler.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataloader</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (1.7.0a0+57bffc3 ))"><em>torch.utils.data.DataLoader</em></a>) – input dataloader</p></li>
+<li><p><strong>dataloader</strong> (<em>torch.utils.data.dataloader.DataLoader</em>) – input dataloader</p></li>
 <li><p><strong>new_batch_sampler</strong> (<em>torch.utils.data.sampler.BatchSampler</em>) – new batch sampler to use</p></li>
 </ul>
 </dd>
@@ -1891,8 +2070,8 @@ random batches based on altered random state.</p>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

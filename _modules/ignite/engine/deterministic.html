@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/engine/deterministic.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/engine/deterministic.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -292,7 +293,7 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
@@ -310,8 +311,8 @@
 <span class="sd">    dataloader with new batch sampler.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        dataloader (torch.utils.data.DataLoader): input dataloader</span>
-<span class="sd">        new_batch_sampler (torch.utils.data.sampler.BatchSampler): new batch sampler to use</span>
+<span class="sd">        dataloader: input dataloader</span>
+<span class="sd">        new_batch_sampler: new batch sampler to use</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        DataLoader</span>
@@ -329,22 +330,21 @@
     <span class="sd">&quot;&quot;&quot;Reproducible batch sampler. This class internally iterates and stores indices of the input batch sampler.</span>
 <span class="sd">    This helps to start providing data batches from an iteration in a deterministic way.</span>
 
-<span class="sd">    Usage:</span>
+<span class="sd">    Example:</span>
 
-<span class="sd">        Setup dataloader with `ReproducibleBatchSampler` and start providing data batches from an iteration:</span>
+<span class="sd">        Setup dataloader with `ReproducibleBatchSampler` and start providing data batches from an iteration</span>
 
-<span class="sd">        .. code-block:: python</span>
+<span class="sd">    .. code-block:: python</span>
 
-<span class="sd">            from ignite.engine.deterministic import update_dataloader</span>
+<span class="sd">        from ignite.engine.deterministic import update_dataloader</span>
 
-<span class="sd">            dataloader = update_dataloader(dataloader, ReproducibleBatchSampler(dataloader.batch_sampler))</span>
-<span class="sd">            # rewind dataloader to a specific iteration:</span>
-<span class="sd">            dataloader.batch_sampler.start_iteration = start_iteration</span>
+<span class="sd">        dataloader = update_dataloader(dataloader, ReproducibleBatchSampler(dataloader.batch_sampler))</span>
+<span class="sd">        # rewind dataloader to a specific iteration:</span>
+<span class="sd">        dataloader.batch_sampler.start_iteration = start_iteration</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        batch_sampler (torch.utils.data.sampler.BatchSampler): batch sampler same as used with</span>
-<span class="sd">            `torch.utils.data.DataLoader`</span>
-<span class="sd">        start_iteration (int, optional): optional start iteration</span>
+<span class="sd">        batch_sampler: batch sampler same as used with `torch.utils.data.DataLoader`.</span>
+<span class="sd">        start_iteration: optional start iteration.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_sampler</span><span class="p">:</span> <span class="n">BatchSampler</span><span class="p">,</span> <span class="n">start_iteration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -409,7 +409,7 @@
 <span class="sd">    while executing a function. For more details on usage, please see :ref:`Dataflow synchronization`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        func (callable): function to decorate</span>
+<span class="sd">        func: function to decorate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -457,6 +457,9 @@
 <span class="sd">        This class can produce exactly the same dataflow when resuming the run from an epoch (or more precisely from</span>
 <span class="sd">        dataflow restart) and using torch `DataLoader` with `num_workers &gt; 1` as data provider.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        process_function: A function receiving a handle to the engine and the current batch</span>
+<span class="sd">            in each iteration, and returns data to be stored in the engine&#39;s state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
@@ -832,8 +835,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

@@ -136,7 +136,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -198,7 +198,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -214,6 +214,7 @@
             <dd><a href="../v0.4.1/contrib/metrics.html">v0.4.1</a></dd>
             <dd><a href="../v0.4.2/contrib/metrics.html">v0.4.2</a></dd>
             <dd><a href="../v0.4.3/contrib/metrics.html">v0.4.3</a></dd>
+            <dd><a href="../v0.4.4/contrib/metrics.html">v0.4.4</a></dd>
             <dd><a href="../v0.4rc.0.post1/contrib/metrics.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -301,16 +302,19 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.AveragePrecision" title="ignite.contrib.metrics.AveragePrecision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AveragePrecision</span></code></a></p></td>
 <td><p>Computes Average Precision accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html#sklearn.metrics.average_precision_score">sklearn.metrics.average_precision_score</a> .</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GpuInfo</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.CohenKappa" title="ignite.contrib.metrics.CohenKappa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CohenKappa</span></code></a></p></td>
+<td><p>Compute different types of Cohen’s Kappa: Non-Wieghted, Linear, Quadratic.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GpuInfo</span></code></a></p></td>
 <td><p>Provides GPU information: a) used memory percentage, b) gpu utilization percentage values as Metric on each iterations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.PrecisionRecallCurve" title="ignite.contrib.metrics.PrecisionRecallCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrecisionRecallCurve</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.PrecisionRecallCurve" title="ignite.contrib.metrics.PrecisionRecallCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrecisionRecallCurve</span></code></a></p></td>
 <td><p>Compute precision-recall pairs for different probability thresholds for binary classification task by accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve">sklearn.metrics.precision_recall_curve</a> .</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.ROC_AUC" title="ignite.contrib.metrics.ROC_AUC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROC_AUC</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.ROC_AUC" title="ignite.contrib.metrics.ROC_AUC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROC_AUC</span></code></a></p></td>
 <td><p>Computes Area Under the Receiver Operating Characteristic Curve (ROC AUC) accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html#sklearn.metrics.roc_auc_score">sklearn.metrics.roc_auc_score</a> .</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.RocCurve" title="ignite.contrib.metrics.RocCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RocCurve</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.RocCurve" title="ignite.contrib.metrics.RocCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RocCurve</span></code></a></p></td>
 <td><p>Compute Receiver operating characteristic (ROC) for binary classification task by accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve">sklearn.metrics.roc_curve</a> .</p></td>
 </tr>
 </tbody>
@@ -323,7 +327,7 @@ and applying <a class="reference external" href="http://scikit-learn.org/stable/
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
@@ -343,6 +347,39 @@ confidence values. To apply an activation to y_pred, use output_transform as sho
     <span class="k">return</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span>
 
 <span class="n">avg_precision</span> <span class="o">=</span> <span class="n">AveragePrecision</span><span class="p">(</span><span class="n">activated_output_transform</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ignite.contrib.metrics.CohenKappa">
+<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.</code><code class="sig-name descname">CohenKappa</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function CohenKappa.&lt;lambda&gt;&gt;</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">check_compute_fn=False</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/cohen_kappa.html#CohenKappa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.CohenKappa" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute different types of Cohen’s Kappa: Non-Wieghted, Linear, Quadratic.
+Accumulating predictions and the ground-truth during an epoch and applying
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.cohen_kappa_score.html">sklearn.metrics.cohen_kappa_score</a> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.</p></li>
+<li><p><strong>weights</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – a string is used to define the type of Cohen’s Kappa whether Non-Weighted or Linear
+or Quadratic. Default, None.</p></li>
+<li><p><strong>check_compute_fn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Default False. If True, <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.cohen_kappa_score.html">cohen_kappa_score</a>
+is run on the first batch of data to ensure there are
+no issues. User will be warned in case there are any issues computing the function.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – optional device specification for internal storage.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">activated_output_transform</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
+    <span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">output</span>
+    <span class="k">return</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="n">weights</span> <span class="o">=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">linear</span> <span class="ow">or</span> <span class="n">quadratic</span>
+
+<span class="n">cohen_kappa</span> <span class="o">=</span> <span class="n">CohenKappa</span><span class="p">(</span><span class="n">activated_output_transform</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -384,9 +421,9 @@ contain computed metric’s value under provided name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>engine</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine to which the metric must be attached</p></li>
+<li><p><strong>engine</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine to which the metric must be attached</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the metric to attach</p></li>
-<li><p><strong>usage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference internal" href="../metrics.html#ignite.metrics.MetricUsage" title="ignite.metrics.MetricUsage"><em>MetricUsage</em></a><em>, </em><em>optional</em>) – the usage of the metric. Valid string values should be
+<li><p><strong>usage</strong> – the usage of the metric. Valid string values should be
 <a class="reference internal" href="../metrics.html#ignite.metrics.EpochWise.usage_name" title="ignite.metrics.EpochWise.usage_name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ignite.metrics.EpochWise.usage_name</span></code></a> (default) or
 <a class="reference internal" href="../metrics.html#ignite.metrics.BatchWise.usage_name" title="ignite.metrics.BatchWise.usage_name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ignite.metrics.BatchWise.usage_name</span></code></a>.</p></li>
 <li><p><strong>event_name</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference internal" href="../engine.html#ignite.engine.events.EventEnum" title="ignite.engine.events.EventEnum"><em>ignite.engine.events.EventEnum</em></a><em>]</em>) – </p></li>
@@ -424,7 +461,7 @@ contain computed metric’s value under provided name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>engine</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>Engine</em></a>) – the engine to which the metric must be attached</p></li>
+<li><p><strong>engine</strong> (<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><em>ignite.engine.engine.Engine</em></a>) – the engine to which the metric must be attached</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the metric used as key in dict <cite>engine.state.metrics</cite></p></li>
 </ul>
 </dd>
@@ -498,7 +535,7 @@ by accumulating predictions and the ground-truth during an epoch and applying
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
@@ -531,7 +568,7 @@ accumulating predictions and the ground-truth during an epoch and applying
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
@@ -564,7 +601,7 @@ by accumulating predictions and the ground-truth during an epoch and applying
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – a callable that is used to transform the
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
 <a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
 form expected by the metric. This can be useful if, for example, you have a multi-output model and
 you want to compute the metric with respect to one of the outputs.</p></li>
@@ -649,7 +686,7 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 </table>
 <dl class="py class">
 <dt id="ignite.contrib.metrics.regression.CanberraMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.regression.</code><code class="sig-name descname">CanberraMetric</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function CanberraMetric.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/regression/canberra_metric.html#CanberraMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.regression.CanberraMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.regression.</code><code class="sig-name descname">CanberraMetric</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function Metric.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/regression/canberra_metric.html#CanberraMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.regression.CanberraMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the Canberra Metric.</p>
 <div class="math">
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>CM</mtext><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mrow><mi mathvariant="normal">∣</mi><msub><mi>A</mi><mi>j</mi></msub><mo>−</mo><msub><mi>P</mi><mi>j</mi></msub><mi mathvariant="normal">∣</mi></mrow><mrow><mi mathvariant="normal">∣</mi><msub><mi>A</mi><mi>j</mi></msub><mi mathvariant="normal">∣</mi><mo>+</mo><mi mathvariant="normal">∣</mi><msub><mi>P</mi><mi>j</mi></msub><mi mathvariant="normal">∣</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{CM} = \sum_{j=1}^n\frac{|A_j - P_j|}{|A_j| + |P_j|}
@@ -666,23 +703,27 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
+</ul>
+</dd>
+</dl>
 <div class="versionchanged">
 <ul>
 <span class="versionmodified changed">Changed in version 0.4.3: </span><li><p>Fixed implementation: <code class="docutils literal notranslate"><span class="pre">abs</span></code> in denominator.</p></li>
 <li><p>Works with DDP.</p></li>
 </ul>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -704,11 +745,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -733,11 +781,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -762,11 +817,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -791,11 +853,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -803,7 +872,7 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 
 <dl class="py class">
 <dt id="ignite.contrib.metrics.regression.ManhattanDistance">
-<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.regression.</code><code class="sig-name descname">ManhattanDistance</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function ManhattanDistance.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/regression/manhattan_distance.html#ManhattanDistance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.regression.ManhattanDistance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.regression.</code><code class="sig-name descname">ManhattanDistance</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function Metric.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/regression/manhattan_distance.html#ManhattanDistance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.regression.ManhattanDistance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the Manhattan Distance.</p>
 <div class="math">
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>MD</mtext><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi mathvariant="normal">∣</mi><msub><mi>A</mi><mi>j</mi></msub><mo>−</mo><msub><mi>P</mi><mi>j</mi></msub><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">\text{MD} = \sum_{j=1}^n |A_j - P_j|
@@ -820,20 +889,27 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
+</ul>
+</dd>
+</dl>
 <div class="versionchanged">
 <ul>
 <span class="versionmodified changed">Changed in version 0.4.3: </span><li><p>Fixed sklearn compatibility.</p></li>
 <li><p>Workes with DDP.</p></li>
 </ul>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -855,11 +931,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -884,11 +967,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -913,11 +1003,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -942,11 +1039,18 @@ metrics useful for regression tasks. Definitions of metrics are based on <a clas
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -978,7 +1082,11 @@ This can potentially lead to a memory error if the input data is larger than ava
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>output_transform</strong> (<em>Callable</em>) – </p>
+<dd class="field-odd"><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1009,7 +1117,11 @@ This can potentially lead to a memory error if the input data is larger than ava
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>output_transform</strong> (<em>Callable</em>) – </p>
+<dd class="field-odd"><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1040,14 +1152,18 @@ This can potentially lead to a memory error if the input data is larger than ava
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>output_transform</strong> (<em>Callable</em>) – </p>
+<dd class="field-odd"><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py class">
 <dt id="ignite.contrib.metrics.regression.R2Score">
-<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.regression.</code><code class="sig-name descname">R2Score</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function R2Score.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/regression/r2_score.html#R2Score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.regression.R2Score" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.regression.</code><code class="sig-name descname">R2Score</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function Metric.&lt;lambda&gt;&gt;</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/regression/r2_score.html#R2Score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.regression.R2Score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the R-Squared, the
 <a class="reference external" href="https://en.wikipedia.org/wiki/Coefficient_of_determination">coefficient of determination</a>.</p>
 <div class="math">
@@ -1067,17 +1183,24 @@ This can potentially lead to a memory error if the input data is larger than ava
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite> and of type <cite>float32</cite>.</p></li>
 </ul>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.4.3: </span>Works with DDP.</p>
-</div>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.4.3: </span>Works with DDP.</p>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -1099,11 +1222,18 @@ This can potentially lead to a memory error if the input data is larger than ava
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code> must receive output of the form <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
 <li><p><cite>y</cite> and <cite>y_pred</cite> must be of same shape <cite>(N, )</cite> or <cite>(N, 1)</cite>.</p></li>
 </ul>
+<p>Parameters are inherited from <code class="docutils literal notranslate"><span class="pre">Metric.__init__</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – </p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – </p></li>
+<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
+<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
+form expected by the metric. This can be useful if, for example, you have a multi-output model and
+you want to compute the metric with respect to one of the outputs.
+By default, metrics require the output as <code class="docutils literal notranslate"><span class="pre">(y_pred,</span> <span class="pre">y)</span></code> or <code class="docutils literal notranslate"><span class="pre">{'y_pred':</span> <span class="pre">y_pred,</span> <span class="pre">'y':</span> <span class="pre">y}</span></code>.</p></li>
+<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – specifies which device updates are accumulated on. Setting the
+metric’s device to be the same as your <code class="docutils literal notranslate"><span class="pre">update</span></code> arguments ensures the <code class="docutils literal notranslate"><span class="pre">update</span></code> method is
+non-blocking. By default, CPU.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1388,8 +1518,8 @@ This can potentially lead to a memory error if the input data is larger than ava
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../v0.4.3/_modules/ignite/handlers.html">v0.4.3</a></dd>
+            <dd><a href="../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../v0.4.4/_modules/ignite/handlers.html">v0.4.4</a></dd>
             <dd><a href="../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -313,11 +314,11 @@
 <span class="sd">    This can be helpful for logging trainer epoch/iteration while output handler is attached to an evaluator.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        engine (Engine): engine which state is used to provide the global step</span>
-<span class="sd">        custom_event_name (optional): registered event name. Optional argument, event name to use.</span>
+<span class="sd">        engine: engine which state is used to provide the global step</span>
+<span class="sd">        custom_event_name: registered event name. Optional argument, event name to use.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        global step</span>
+<span class="sd">        global step based on provided engine</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="n">Events</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -588,8 +589,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

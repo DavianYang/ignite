@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../v0.4.3/_modules/ignite/distributed/launcher.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../v0.4.4/_modules/ignite/distributed/launcher.html">v0.4.4</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -440,25 +441,25 @@
 <span class="sd">    .. _horovodrun: https://horovod.readthedocs.io/en/latest/api.html#module-horovod.run</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        backend (str, optional): backend to use: `nccl`, `gloo`, `xla-tpu`, `horovod`. If None, no distributed</span>
+<span class="sd">        backend: backend to use: `nccl`, `gloo`, `xla-tpu`, `horovod`. If None, no distributed</span>
 <span class="sd">            configuration.</span>
-<span class="sd">        nproc_per_node (int, optional): optional argument, number of processes per</span>
+<span class="sd">        nproc_per_node: optional argument, number of processes per</span>
 <span class="sd">            node to specify. If not None, :meth:`~ignite.distributed.Parallel.run` will spawn ``nproc_per_node``</span>
 <span class="sd">            processes that run input function with its arguments.</span>
-<span class="sd">        nnodes (int, optional): optional argument, number of nodes participating in distributed configuration.</span>
+<span class="sd">        nnodes: optional argument, number of nodes participating in distributed configuration.</span>
 <span class="sd">            If not None, :meth:`~ignite.distributed.Parallel.run` will spawn ``nproc_per_node``</span>
 <span class="sd">            processes that run input function with its arguments. Total world size is `nproc_per_node * nnodes`.</span>
 <span class="sd">            This option is only supported by native torch distributed module. For other modules, please setup</span>
 <span class="sd">            ``spawn_kwargs`` with backend specific arguments.</span>
-<span class="sd">        node_rank (int, optional): optional argument, current machine index. Mandatory argument if ``nnodes`` is</span>
+<span class="sd">        node_rank: optional argument, current machine index. Mandatory argument if ``nnodes`` is</span>
 <span class="sd">            specified and larger than one.</span>
 <span class="sd">            This option is only supported by native torch distributed module. For other modules, please setup</span>
 <span class="sd">            ``spawn_kwargs`` with backend specific arguments.</span>
-<span class="sd">        master_addr (str, optional): optional argument, master node TCP/IP address for torch native backends</span>
+<span class="sd">        master_addr: optional argument, master node TCP/IP address for torch native backends</span>
 <span class="sd">            (`nccl`, `gloo`). Mandatory argument if ``nnodes`` is specified and larger than one.</span>
-<span class="sd">        master_port (int, optional): optional argument, master node port for torch native backends</span>
+<span class="sd">        master_port: optional argument, master node port for torch native backends</span>
 <span class="sd">            (`nccl`, `gloo`). Mandatory argument if ``master_addr`` is specified.</span>
-<span class="sd">        **spawn_kwargs: kwargs to ``idist.spawn`` function.</span>
+<span class="sd">        spawn_kwargs: kwargs to ``idist.spawn`` function.</span>
 
 <span class="sd">    .. versionchanged:: 0.4.2</span>
 <span class="sd">        ``backend`` now accepts `horovod` distributed framework.</span>
@@ -552,10 +553,10 @@
 <span class="sd">                parallel.run(training, config, a=1, b=2)</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            func (Callable): function to execute. First argument of the function should be `local_rank` - local process</span>
+<span class="sd">            func: function to execute. First argument of the function should be `local_rank` - local process</span>
 <span class="sd">                index.</span>
-<span class="sd">            *args: positional arguments of ``func`` (without `local_rank`).</span>
-<span class="sd">            **kwargs: keyword arguments of ``func``.</span>
+<span class="sd">            args: positional arguments of ``func`` (without `local_rank`).</span>
+<span class="sd">            kwargs: keyword arguments of ``func``.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spawn_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -842,8 +843,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }

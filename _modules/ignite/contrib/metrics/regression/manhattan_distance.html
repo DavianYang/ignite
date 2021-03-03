@@ -134,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.4.3
+                  v0.4.4
                 </div>
               
             
@@ -196,7 +196,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.3
+        v: v0.4.4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -211,7 +211,8 @@
             <dd><a href="../../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
             <dd><a href="../../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../../v0.4.3/_modules/ignite/contrib/metrics/regression/manhattan_distance.html">v0.4.3</a></dd>
+            <dd><a href="../../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../../v0.4.4/_modules/ignite/contrib/metrics/regression/manhattan_distance.html">v0.4.4</a></dd>
             <dd><a href="../../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -286,7 +287,7 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <h1>Source code for ignite.contrib.metrics.regression.manhattan_distance</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
@@ -309,16 +310,23 @@
 
 <span class="sd">    __ https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html</span>
 
+<span class="sd">    Parameters are inherited from ``Metric.__init__``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        output_transform: a callable that is used to transform the</span>
+<span class="sd">            :class:`~ignite.engine.engine.Engine`&#39;s ``process_function``&#39;s output into the</span>
+<span class="sd">            form expected by the metric. This can be useful if, for example, you have a multi-output model and</span>
+<span class="sd">            you want to compute the metric with respect to one of the outputs.</span>
+<span class="sd">            By default, metrics require the output as ``(y_pred, y)`` or ``{&#39;y_pred&#39;: y_pred, &#39;y&#39;: y}``.</span>
+<span class="sd">        device: specifies which device updates are accumulated on. Setting the</span>
+<span class="sd">            metric&#39;s device to be the same as your ``update`` arguments ensures the ``update`` method is</span>
+<span class="sd">            non-blocking. By default, CPU.</span>
+
 <span class="sd">    .. versionchanged:: 0.4.3</span>
 
 <span class="sd">        - Fixed sklearn compatibility.</span>
 <span class="sd">        - Workes with DDP.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">output_transform</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
-    <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ManhattanDistance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_transform</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
 
     <span class="nd">@reinit__is_reduced</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -594,8 +602,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script type="text/javascript">
   let VERSION
-  if ('v0.4.3'.includes('v')) {
-    VERSION = 'v0.4.3'
+  if ('v0.4.4'.includes('v')) {
+    VERSION = 'v0.4.4'
   } else {
     VERSION = 'master'
   }
