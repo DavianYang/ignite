@@ -33,7 +33,6 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="_static/css/ignite_theme.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="ignite.engine" href="engine.html" />
@@ -135,7 +134,7 @@
               
               
                 <div class="version">
-                  v0.1.0
+                  0.1.0
                 </div>
               
             
@@ -147,8 +146,10 @@
 
 
 <div role="search">
-  <form id="rtd-search-form" class="wy-form">
-    <input type="text" placeholder="Search Docs" />
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
   </form>
 </div>
 
@@ -199,6 +200,7 @@
             <dd><a href="../v0.4.2/quickstart.html">v0.4.2</a></dd>
             <dd><a href="../v0.4.3/quickstart.html">v0.4.3</a></dd>
             <dd><a href="../v0.4.4/quickstart.html">v0.4.4</a></dd>
+            <dd><a href="../v0.4.4.post1/quickstart.html">v0.4.4.post1</a></dd>
             <dd><a href="../v0.4rc.0.post1/quickstart.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -736,22 +738,6 @@ last pattern, it can be easily done redefining trainer’s update function and a
         $(this).closest("a").addClass("has-code");
       });
     })
-  </script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-  <script type="text/javascript">
-  let VERSION
-  if ('v0.1.0'.includes('v')) {
-    VERSION = 'v0.1.0'
-  } else {
-    VERSION = 'master'
-  }
-  docsearch({
-  apiKey: '19a7a7a75d87608d6f42c722ed1e293f',
-  indexName: 'ignite',
-  inputSelector: '#rtd-search-form input[type="text"]',
-  algoliaOptions: { 'facetFilters': [`version:${VERSION}`] },
-  debug: true // Set debug to true if you want to inspect the dropdown
-  });
   </script>
 </body>
 </html>
