@@ -133,7 +133,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -197,7 +197,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -213,8 +213,7 @@
             <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
             <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
-            <dd><a href="../../../../v0.4.4/_modules/ignite/contrib/engines/common.html">v0.4.4</a></dd>
-            <dd><a href="../../../../v0.4.4.post1/index.html">v0.4.4.post1</a></dd>
+            <dd><a href="../../../../v0.4.4.post1/_modules/ignite/contrib/engines/common.html">v0.4.4.post1</a></dd>
             <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -292,7 +291,7 @@
 <span></span><span class="kn">import</span> <span class="nn">numbers</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
@@ -309,6 +308,7 @@
     <span class="n">PolyaxonLogger</span><span class="p">,</span>
     <span class="n">ProgressBar</span><span class="p">,</span>
     <span class="n">TensorboardLogger</span><span class="p">,</span>
+    <span class="n">TrainsLogger</span><span class="p">,</span>
     <span class="n">VisdomLogger</span><span class="p">,</span>
     <span class="n">WandBLogger</span><span class="p">,</span>
     <span class="n">global_step_from_engine</span><span class="p">,</span>
@@ -335,6 +335,7 @@
     <span class="n">with_pbars</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">with_pbar_on_iters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">log_every_iters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">stop_on_nan</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">clear_cuda_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">save_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">BaseSaveHandler</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -377,8 +378,11 @@
 <span class="sd">        save_handler: Method or callable</span>
 <span class="sd">            class to use to store ``to_save``. See :class:`~ignite.handlers.Checkpoint` for more details.</span>
 <span class="sd">            Argument is mutually exclusive with ``output_path``.</span>
-<span class="sd">        kwargs: optional keyword args to be passed to construct :class:`~ignite.handlers.Checkpoint`.</span>
+<span class="sd">        kwargs: optional keyword args to be passed to construct :class:`~ignite.handlers.checkpoint.Checkpoint`.</span>
+<span class="sd">        device: deprecated argument, it will be removed in v0.5.0.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Argument device is unused and deprecated. It will be removed in v0.5.0&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">idist</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">_setup_common_distrib_training_handlers</span><span class="p">(</span>

@@ -135,7 +135,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -199,7 +199,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -215,7 +215,6 @@
             <dd><a href="v0.4.1/handlers.html">v0.4.1</a></dd>
             <dd><a href="v0.4.2/handlers.html">v0.4.2</a></dd>
             <dd><a href="v0.4.3/handlers.html">v0.4.3</a></dd>
-            <dd><a href="v0.4.4/handlers.html">v0.4.4</a></dd>
             <dd><a href="v0.4.4.post1/handlers.html">v0.4.4.post1</a></dd>
             <dd><a href="v0.4rc.0.post1/handlers.html">v0.4rc.0.post1</a></dd>
         </dl>
@@ -303,7 +302,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ignite.handlers.ModelCheckpoint" title="ignite.handlers.ModelCheckpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelCheckpoint</span></code></a></p></td>
-<td><p>ModelCheckpoint handler can be used to periodically save objects to disk only.</p></td>
+<td><p>ModelCheckpoint handler can be used to periodically save objects to disk only. If needed to store checkpoints to</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Checkpoint</span></code></a></p></td>
 <td><p>Checkpoint handler can be used to periodically save and load objects which have attribute <code class="docutils literal notranslate"><span class="pre">state_dict/load_state_dict</span></code>.</p></td>
@@ -330,7 +329,7 @@
 </table>
 <dl class="py class">
 <dt id="ignite.handlers.Checkpoint">
-<em class="property">class </em><code class="sig-prename descclassname">ignite.handlers.</code><code class="sig-name descname">Checkpoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_save</span></em>, <em class="sig-param"><span class="n">save_handler</span></em>, <em class="sig-param"><span class="n">filename_prefix</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">score_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_saved</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">global_step_transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename_pattern</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_self</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">greater_or_equal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/handlers/checkpoint.html#Checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.handlers.Checkpoint" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ignite.handlers.</code><code class="sig-name descname">Checkpoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_save</span></em>, <em class="sig-param"><span class="n">save_handler</span></em>, <em class="sig-param"><span class="n">filename_prefix</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">score_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_saved</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">global_step_transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">archived</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">filename_pattern</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_self</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">greater_or_equal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/handlers/checkpoint.html#Checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.handlers.Checkpoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checkpoint handler can be used to periodically save and load objects which have attribute
 <code class="docutils literal notranslate"><span class="pre">state_dict/load_state_dict</span></code>. This class can use specific save handlers to store on the disk or a cloud
 storage, etc. The Checkpoint handler (if used with <a class="reference internal" href="#ignite.handlers.DiskSaver" title="ignite.handlers.DiskSaver"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiskSaver</span></code></a>) also handles automatically
@@ -360,6 +359,7 @@ will be retained.</p></li>
 Input of the function is <code class="docutils literal notranslate"><span class="pre">(engine,</span> <span class="pre">event_name)</span></code>. Output of function should be an integer.
 Default is None, global_step based on attached engine. If provided, uses function output as global_step.
 To setup global step from another engine, please use <a class="reference internal" href="#ignite.handlers.global_step_from_engine" title="ignite.handlers.global_step_from_engine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">global_step_from_engine()</span></code></a>.</p></li>
+<li><p><strong>archived</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Deprecated argument as models saved by <code class="docutils literal notranslate"><span class="pre">torch.save</span></code> are already compressed.</p></li>
 <li><p><strong>filename_pattern</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – If <code class="docutils literal notranslate"><span class="pre">filename_pattern</span></code> is provided, this pattern will be used to render
 checkpoint filenames. If the pattern is not defined, the default pattern would be used. See Note for
 details.</p></li>
@@ -807,9 +807,9 @@ directory <code class="docutils literal notranslate"><span class="pre">dirname</
 
 <dl class="py class">
 <dt id="ignite.handlers.ModelCheckpoint">
-<em class="property">class </em><code class="sig-prename descclassname">ignite.handlers.</code><code class="sig-name descname">ModelCheckpoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dirname</span></em>, <em class="sig-param"><span class="n">filename_prefix</span></em>, <em class="sig-param"><span class="n">score_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_saved</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">atomic</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">require_empty</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">create_dir</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">global_step_transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_self</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/handlers/checkpoint.html#ModelCheckpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.handlers.ModelCheckpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>ModelCheckpoint handler can be used to periodically save objects to disk only. If needed to store checkpoints to
-another storage type, please consider <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code>.</p>
+<em class="property">class </em><code class="sig-prename descclassname">ignite.handlers.</code><code class="sig-name descname">ModelCheckpoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dirname</span></em>, <em class="sig-param"><span class="n">filename_prefix</span></em>, <em class="sig-param"><span class="n">save_interval</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_saved</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">atomic</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">require_empty</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">create_dir</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_as_state_dict</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">global_step_transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">archived</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">include_self</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ignite/handlers/checkpoint.html#ModelCheckpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.handlers.ModelCheckpoint" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>ModelCheckpoint handler can be used to periodically save objects to disk only. If needed to store checkpoints to</dt><dd><p>another storage type, please consider <code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code>.</p>
 <p>This handler expects two arguments:</p>
 <blockquote>
 <div><ul class="simple">
@@ -821,46 +821,64 @@ another storage type, please consider <code class="xref py py-class docutils lit
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Behaviour of this class has been changed since v0.3.0.</p>
+<p>Argument <code class="docutils literal notranslate"><span class="pre">save_as_state_dict</span></code> is deprecated and should not be used. It is considered as True.</p>
+<p>Argument <code class="docutils literal notranslate"><span class="pre">save_interval</span></code> is deprecated and should not be used. Please, use events filtering instead, e.g.
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">ITERATION_STARTED(every=1000)</span></code></p>
 <p>There is no more internal counter that has been used to indicate the number of save actions. User could
 see its value <cite>step_number</cite> in the filename, e.g. <cite>{filename_prefix}_{name}_{step_number}.pt</cite>. Actually,
 <cite>step_number</cite> is replaced by current engine’s epoch if <cite>score_function</cite> is specified and current iteration
 otherwise.</p>
 <p>A single <cite>pt</cite> file is created instead of multiple files.</p>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dirname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Directory path where objects will be saved.</p></li>
-<li><p><strong>filename_prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Prefix for the file names to which objects will be saved. See Notes of
-<a class="reference internal" href="#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a> for more details.</p></li>
-<li><p><strong>score_function</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – if not None, it should be a function taking a single argument, an
-<a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a> object, and return a score (<cite>float</cite>). Objects with highest scores
-will be retained.</p></li>
-<li><p><strong>score_name</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – if <code class="docutils literal notranslate"><span class="pre">score_function</span></code> not None, it is possible to store its value using
-<cite>score_name</cite>. See Notes for more details.</p></li>
-<li><p><strong>n_saved</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Number of objects that should be kept on disk. Older files will be removed. If set to
-<cite>None</cite>, all objects are kept.</p></li>
-<li><p><strong>atomic</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If True, objects are serialized to a temporary file, and then moved to final
-destination, so that files are guaranteed to not be damaged (for example if exception
-occurs during saving).</p></li>
-<li><p><strong>require_empty</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If True, will raise exception if there are any files starting with
-<code class="docutils literal notranslate"><span class="pre">filename_prefix</span></code> in the directory <code class="docutils literal notranslate"><span class="pre">dirname</span></code>.</p></li>
-<li><p><strong>create_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If True, will create directory <code class="docutils literal notranslate"><span class="pre">dirname</span></code> if it does not exist.</p></li>
-<li><p><strong>global_step_transform</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – global step transform function to output a desired global step.
-Input of the function is <cite>(engine, event_name)</cite>. Output of function should be an integer.
-Default is None, global_step based on attached engine. If provided, uses function output as global_step.
-To setup global step from another engine, please use <a class="reference internal" href="#ignite.handlers.global_step_from_engine" title="ignite.handlers.global_step_from_engine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">global_step_from_engine()</span></code></a>.</p></li>
-<li><p><strong>include_self</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether to include the <cite>state_dict</cite> of this object in the checkpoint. If <cite>True</cite>, then
-there must not be another object in <code class="docutils literal notranslate"><span class="pre">to_save</span></code> with key <code class="docutils literal notranslate"><span class="pre">checkpointer</span></code>.</p></li>
-<li><p><strong>kwargs</strong> (<em>Any</em>) – Accepted keyword arguments for <cite>torch.save</cite> or <cite>xm.save</cite> in <cite>DiskSaver</cite>.</p></li>
-</ul>
+<dl>
+<dt>Args:</dt><dd><p>dirname: Directory path where objects will be saved.
+filename_prefix: Prefix for the file names to which objects will be saved. See Notes of</p>
+<blockquote>
+<div><p><a class="reference internal" href="#ignite.handlers.Checkpoint" title="ignite.handlers.Checkpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Checkpoint</span></code></a> for more details.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>score_function: if not None, it should be a function taking a single argument, an</dt><dd><p><a class="reference internal" href="engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a> object, and return a score (<cite>float</cite>). Objects with highest scores
+will be retained.</p>
+</dd>
+<dt>score_name: if <code class="docutils literal notranslate"><span class="pre">score_function</span></code> not None, it is possible to store its value using</dt><dd><p><cite>score_name</cite>. See Notes for more details.</p>
+</dd>
+<dt>n_saved: Number of objects that should be kept on disk. Older files will be removed. If set to</dt><dd><p><cite>None</cite>, all objects are kept.</p>
+</dd>
+<dt>atomic: If True, objects are serialized to a temporary file, and then moved to final</dt><dd><p>destination, so that files are guaranteed to not be damaged (for example if exception
+occurs during saving).</p>
+</dd>
+<dt>require_empty: If True, will raise exception if there are any files starting with</dt><dd><p><code class="docutils literal notranslate"><span class="pre">filename_prefix</span></code> in the directory <code class="docutils literal notranslate"><span class="pre">dirname</span></code>.</p>
 </dd>
 </dl>
+<p>create_dir: If True, will create directory <code class="docutils literal notranslate"><span class="pre">dirname</span></code> if it does not exist.
+global_step_transform: global step transform function to output a desired global step.</p>
+<blockquote>
+<div><p>Input of the function is <cite>(engine, event_name)</cite>. Output of function should be an integer.
+Default is None, global_step based on attached engine. If provided, uses function output as global_step.
+To setup global step from another engine, please use <a class="reference internal" href="#ignite.handlers.global_step_from_engine" title="ignite.handlers.global_step_from_engine"><code class="xref py py-meth docutils literal notranslate"><span class="pre">global_step_from_engine()</span></code></a>.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</dt><dd><p>archived (bool, optional): Deprecated argument as models saved by <cite>torch.save</cite> are already compressed.
+include_self (bool): Whether to include the <cite>state_dict</cite> of this object in the checkpoint. If <cite>True</cite>, then</p>
+</dd>
+</dl>
+<blockquote>
+<div><p>include_self: Whether to include the <cite>state_dict</cite> of this object in the checkpoint. If <cite>True</cite>, then</p>
+</div></blockquote>
+<dl>
+<dt>&gt;&gt;&gt;&gt;&gt;&gt;&gt; 7af45d7a… ignite.handlers: removed type annotations from docstring (#1672)</dt><dd><blockquote>
+<div><blockquote>
+<div><p>there must not be another object in <code class="docutils literal notranslate"><span class="pre">to_save</span></code> with key <code class="docutils literal notranslate"><span class="pre">checkpointer</span></code>.</p>
+</div></blockquote>
+<p>kwargs: Accepted keyword arguments for <cite>torch.save</cite> or <cite>xm.save</cite> in <cite>DiskSaver</cite>.</p>
+</div></blockquote>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 0.4.2: </span>Accept <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> for <cite>torch.save</cite> or <cite>xm.save</cite></p>
 </div>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<dl>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">Events</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ignite.handlers</span> <span class="kn">import</span> <span class="n">ModelCheckpoint</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
@@ -875,6 +893,30 @@ there must not be another object in <code class="docutils literal notranslate"><
 <span class="go">[&#39;/tmp/models/myprefix_mymodel_30.pt&#39;]</span>
 </pre></div>
 </div>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dirname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – </p></li>
+<li><p><strong>filename_prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – </p></li>
+<li><p><strong>save_interval</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>score_function</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – </p></li>
+<li><p><strong>score_name</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – </p></li>
+<li><p><strong>n_saved</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>atomic</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<li><p><strong>require_empty</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<li><p><strong>create_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<li><p><strong>save_as_state_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<li><p><strong>global_step_transform</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – </p></li>
+<li><p><strong>archived</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<li><p><strong>include_self</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">

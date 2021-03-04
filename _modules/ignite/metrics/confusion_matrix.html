@@ -133,7 +133,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -197,7 +197,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -213,8 +213,7 @@
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
             <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
-            <dd><a href="../../../v0.4.4/_modules/ignite/metrics/confusion_matrix.html">v0.4.4</a></dd>
-            <dd><a href="../../../v0.4.4.post1/index.html">v0.4.4.post1</a></dd>
+            <dd><a href="../../../v0.4.4.post1/_modules/ignite/metrics/confusion_matrix.html">v0.4.4.post1</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -298,7 +297,7 @@
 <span class="kn">from</span> <span class="nn">ignite.metrics.metric</span> <span class="kn">import</span> <span class="n">Metric</span><span class="p">,</span> <span class="n">reinit__is_reduced</span><span class="p">,</span> <span class="n">sync_all_reduce</span>
 <span class="kn">from</span> <span class="nn">ignite.metrics.metrics_lambda</span> <span class="kn">import</span> <span class="n">MetricsLambda</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ConfusionMatrix&quot;</span><span class="p">,</span> <span class="s2">&quot;mIoU&quot;</span><span class="p">,</span> <span class="s2">&quot;IoU&quot;</span><span class="p">,</span> <span class="s2">&quot;DiceCoefficient&quot;</span><span class="p">,</span> <span class="s2">&quot;cmAccuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;cmPrecision&quot;</span><span class="p">,</span> <span class="s2">&quot;cmRecall&quot;</span><span class="p">,</span> <span class="s2">&quot;JaccardIndex&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ConfusionMatrix&quot;</span><span class="p">,</span> <span class="s2">&quot;mIoU&quot;</span><span class="p">,</span> <span class="s2">&quot;IoU&quot;</span><span class="p">,</span> <span class="s2">&quot;DiceCoefficient&quot;</span><span class="p">,</span> <span class="s2">&quot;cmAccuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;cmPrecision&quot;</span><span class="p">,</span> <span class="s2">&quot;cmRecall&quot;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="ConfusionMatrix"><a class="viewcode-back" href="../../../metrics.html#ignite.metrics.ConfusionMatrix">[docs]</a><span class="k">class</span> <span class="nc">ConfusionMatrix</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
@@ -614,35 +613,6 @@
         <span class="k">return</span> <span class="n">MetricsLambda</span><span class="p">(</span><span class="n">ignore_index_fn</span><span class="p">,</span> <span class="n">dice</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">dice</span></div>
-
-
-<div class="viewcode-block" id="JaccardIndex"><a class="viewcode-back" href="../../../metrics.html#ignite.metrics.JaccardIndex">[docs]</a><span class="k">def</span> <span class="nf">JaccardIndex</span><span class="p">(</span><span class="n">cm</span><span class="p">:</span> <span class="n">ConfusionMatrix</span><span class="p">,</span> <span class="n">ignore_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MetricsLambda</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculates the Jaccard Index using :class:`~ignite.metrics.ConfusionMatrix` metric.</span>
-<span class="sd">    Implementation is based on :meth:`~ignite.metrics.IoU`.</span>
-
-<span class="sd">    .. math:: \text{J}(A, B) = \frac{ \lvert A \cap B \rvert }{ \lvert A \cup B \rvert }</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        cm: instance of confusion matrix metric</span>
-<span class="sd">        ignore_index: index to ignore, e.g. background index</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        MetricsLambda</span>
-
-<span class="sd">    Examples:</span>
-
-<span class="sd">    .. code-block:: python</span>
-
-<span class="sd">        train_evaluator = ...</span>
-
-<span class="sd">        cm = ConfusionMatrix(num_classes=num_classes)</span>
-<span class="sd">        JaccardIndex(cm, ignore_index=0).attach(train_evaluator, &#39;JaccardIndex&#39;)</span>
-
-<span class="sd">        state = train_evaluator.run(train_dataset)</span>
-<span class="sd">        # state.metrics[&#39;JaccardIndex&#39;] -&gt; tensor of shape (num_classes - 1, )</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">IoU</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">ignore_index</span><span class="p">)</span></div>
 </pre></div>
 
              </article>

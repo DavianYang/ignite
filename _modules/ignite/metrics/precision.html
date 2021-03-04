@@ -133,7 +133,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -197,7 +197,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -213,8 +213,7 @@
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
             <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
-            <dd><a href="../../../v0.4.4/_modules/ignite/metrics/precision.html">v0.4.4</a></dd>
-            <dd><a href="../../../v0.4.4.post1/index.html">v0.4.4.post1</a></dd>
+            <dd><a href="../../../v0.4.4.post1/_modules/ignite/metrics/precision.html">v0.4.4.post1</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -289,7 +288,8 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <h1>Source code for ignite.metrics.precision</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
@@ -310,6 +310,14 @@
         <span class="n">is_multilabel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span>
     <span class="p">):</span>
+        <span class="k">if</span> <span class="n">idist</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">average</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_multilabel</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;Precision/Recall metrics do not work in distributed setting when average=False &quot;</span>
+                    <span class="s2">&quot;and is_multilabel=True. Results are not reduced across computing devices. Computed result &quot;</span>
+                    <span class="s2">&quot;corresponds to the local rank&#39;s (single process) result.&quot;</span><span class="p">,</span>
+                    <span class="ne">RuntimeWarning</span><span class="p">,</span>
+                <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_average</span> <span class="o">=</span> <span class="n">average</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-20</span>
@@ -335,14 +343,12 @@
             <span class="k">raise</span> <span class="n">NotComputableError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must have at least one example before it can be computed.&quot;</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_reduced</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="s2">&quot;multilabel&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_average</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="s2">&quot;multilabel&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_average</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_reduced</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_true_positives</span> <span class="o">=</span> <span class="n">idist</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_true_positives</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_positives</span> <span class="o">=</span> <span class="n">idist</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_positives</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_true_positives</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">idist</span><span class="o">.</span><span class="n">all_gather</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_true_positives</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_positives</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">idist</span><span class="o">.</span><span class="n">all_gather</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_positives</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_is_reduced</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># type: bool</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_is_reduced</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># type: bool</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_true_positives</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_positives</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
 
@@ -390,6 +396,11 @@
 <span class="sd">        In multilabel cases, if average is False, current implementation stores all input data (output and target) in</span>
 <span class="sd">        as tensors before computing a metric. This can potentially lead to a memory error if the input data is larger</span>
 <span class="sd">        than available RAM.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        In multilabel cases, if average is False, current implementation does not work with distributed computations.</span>
+<span class="sd">        Results are not reduced across the GPUs. Computed result corresponds to the local rank&#39;s (single GPU) result.</span>
 
 
 <span class="sd">    Args:</span>

@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ignite.contrib.metrics.gpu_info &mdash; ignite master documentation</title>
+  <title>ignite.contrib.handlers.custom_events &mdash; ignite master documentation</title>
   
 
   
@@ -19,7 +19,7 @@
   
   
   
-    <link rel="canonical" href="https://pytorch.org/ignite/index.html_modules/ignite/contrib/metrics/gpu_info.html"/>
+    <link rel="canonical" href="https://pytorch.org/ignite/index.html_modules/ignite/contrib/handlers/custom_events.html"/>
   
 
   
@@ -133,7 +133,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -197,29 +197,28 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
-            <dd><a href="../../../../../v0.1.1/index.html">v0.1.1</a></dd>
-            <dd><a href="../../../../../v0.1.2/index.html">v0.1.2</a></dd>
-            <dd><a href="../../../../../v0.2.0/index.html">v0.2.0</a></dd>
-            <dd><a href="../../../../../v0.2.1/index.html">v0.2.1</a></dd>
-            <dd><a href="../../../../../v0.3.0/index.html">v0.3.0</a></dd>
-            <dd><a href="../../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
-            <dd><a href="../../../../../v0.4.1/index.html">v0.4.1</a></dd>
-            <dd><a href="../../../../../v0.4.2/index.html">v0.4.2</a></dd>
-            <dd><a href="../../../../../v0.4.3/index.html">v0.4.3</a></dd>
-            <dd><a href="gpu_info.html">v0.4.4</a></dd>
-            <dd><a href="../../../../../v0.4.4.post1/index.html">v0.4.4.post1</a></dd>
-            <dd><a href="../../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
+            <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+            <dd><a href="../../../../v0.1.2/index.html">v0.1.2</a></dd>
+            <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+            <dd><a href="../../../../v0.2.1/index.html">v0.2.1</a></dd>
+            <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+            <dd><a href="../../../../v0.4.0.post1/index.html">v0.4.0.post1</a></dd>
+            <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+            <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+            <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+            <dd><a href="../../../../v0.4.4.post1/_modules/ignite/contrib/handlers/custom_events.html">v0.4.4.post1</a></dd>
+            <dd><a href="../../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../../../master/index.html">master</a></dd>
+            <dd><a href="../../../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>
@@ -260,7 +259,7 @@
         
           <li><a href="../../../index.html">Module code</a> &gt;</li>
         
-      <li>ignite.contrib.metrics.gpu_info</li>
+      <li>ignite.contrib.handlers.custom_events</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
@@ -288,118 +287,132 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <h1>Source code for ignite.contrib.metrics.gpu_info</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+  <h1>Source code for ignite.contrib.handlers.custom_events</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">torch</span>
-
-<span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">EventEnum</span><span class="p">,</span> <span class="n">Events</span>
-<span class="kn">from</span> <span class="nn">ignite.metrics</span> <span class="kn">import</span> <span class="n">Metric</span>
+<span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">EventEnum</span><span class="p">,</span> <span class="n">Events</span><span class="p">,</span> <span class="n">State</span>
 
 
-<div class="viewcode-block" id="GpuInfo"><a class="viewcode-back" href="../../../../contrib/metrics.html#ignite.contrib.metrics.GpuInfo">[docs]</a><span class="k">class</span> <span class="nc">GpuInfo</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Provides GPU information: a) used memory percentage, b) gpu utilization percentage values as Metric</span>
-<span class="sd">    on each iterations.</span>
+<div class="viewcode-block" id="CustomPeriodicEvent"><a class="viewcode-back" href="../../../../contrib/handlers.html#ignite.contrib.handlers.custom_events.CustomPeriodicEvent">[docs]</a><span class="k">class</span> <span class="nc">CustomPeriodicEvent</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;DEPRECATED. Use filtered events instead.</span>
+<span class="sd">    Handler to define a custom periodic events as a number of elapsed iterations/epochs</span>
+<span class="sd">    for an engine.</span>
 
-<span class="sd">    .. Note ::</span>
+<span class="sd">    When custom periodic event is created and attached to an engine, the following events are fired:</span>
+<span class="sd">    1) K iterations is specified:</span>
+<span class="sd">    - `Events.ITERATIONS_&lt;K&gt;_STARTED`</span>
+<span class="sd">    - `Events.ITERATIONS_&lt;K&gt;_COMPLETED`</span>
 
-<span class="sd">        In case if gpu utilization reports &quot;N/A&quot; on a given GPU, corresponding metric value is not set.</span>
+<span class="sd">    1) K epochs is specified:</span>
+<span class="sd">    - `Events.EPOCHS_&lt;K&gt;_STARTED`</span>
+<span class="sd">    - `Events.EPOCHS_&lt;K&gt;_COMPLETED`</span>
+
 
 <span class="sd">    Examples:</span>
 
-<span class="sd">        .. code-block:: python</span>
+<span class="sd">    .. code-block:: python</span>
 
-<span class="sd">            # Default GPU measurements</span>
-<span class="sd">            GpuInfo().attach(trainer, name=&#39;gpu&#39;)  # metric names are &#39;gpu:X mem(%)&#39;, &#39;gpu:X util(%)&#39;</span>
+<span class="sd">        from ignite.engine import Engine, Events</span>
+<span class="sd">        from ignite.contrib.handlers import CustomPeriodicEvent</span>
 
-<span class="sd">            # Logging with TQDM</span>
-<span class="sd">            ProgressBar(persist=True).attach(trainer, metric_names=[&#39;gpu:0 mem(%)&#39;, &#39;gpu:0 util(%)&#39;])</span>
-<span class="sd">            # Progress bar will looks like</span>
-<span class="sd">            # Epoch [2/10]: [12/24]  50%|█████      , gpu:0 mem(%)=79, gpu:0 util(%)=59 [00:17&lt;1:23]</span>
+<span class="sd">        # Let&#39;s define an event every 1000 iterations</span>
+<span class="sd">        cpe1 = CustomPeriodicEvent(n_iterations=1000)</span>
+<span class="sd">        cpe1.attach(trainer)</span>
 
-<span class="sd">            # Logging with Tensorboard</span>
-<span class="sd">            tb_logger.attach(trainer,</span>
-<span class="sd">                             log_handler=OutputHandler(tag=&quot;training&quot;, metric_names=&#39;all&#39;),</span>
-<span class="sd">                             event_name=Events.ITERATION_COMPLETED)</span>
+<span class="sd">        # Let&#39;s define an event every 10 epochs</span>
+<span class="sd">        cpe2 = CustomPeriodicEvent(n_epochs=10)</span>
+<span class="sd">        cpe2.attach(trainer)</span>
+
+<span class="sd">        @trainer.on(cpe1.Events.ITERATIONS_1000_COMPLETED)</span>
+<span class="sd">        def on_every_1000_iterations(engine):</span>
+<span class="sd">            # run a computation after 1000 iterations</span>
+<span class="sd">            # ...</span>
+<span class="sd">            print(engine.state.iterations_1000)</span>
+
+<span class="sd">        @trainer.on(cpe2.Events.EPOCHS_10_STARTED)</span>
+<span class="sd">        def on_every_10_epochs(engine):</span>
+<span class="sd">            # run a computation every 10 epochs</span>
+<span class="sd">            # ...</span>
+<span class="sd">            print(engine.state.epochs_10)</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_iterations (int, optional): number iterations of the custom periodic event</span>
+<span class="sd">        n_epochs (int, optional): number iterations of the custom periodic event. Argument is optional, but only one,</span>
+<span class="sd">            either n_iterations or n_epochs should defined.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">pynvml</span>
-        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s2">&quot;This contrib module requires pynvml to be installed. &quot;</span>
-                <span class="s2">&quot;Please install it with command: </span><span class="se">\n</span><span class="s2"> pip install pynvml&quot;</span>
-            <span class="p">)</span>
-            <span class="c1"># Let&#39;s check available devices</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;This contrib module requires available GPU&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="kn">from</span> <span class="nn">pynvml.smi</span> <span class="kn">import</span> <span class="n">nvidia_smi</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;CustomPeriodicEvent is deprecated since 0.4.0 and will be removed in 0.5.0. Use filtered events instead.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="c1"># Let it fail if no libnvidia drivers or NMVL library found</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nvsmi</span> <span class="o">=</span> <span class="n">nvidia_smi</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GpuInfo</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">n_iterations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_iterations</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument n_iterations should be an integer&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">n_iterations</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Argument n_iterations should be positive&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GpuInfo.reset"><a class="viewcode-back" href="../../../../contrib/metrics.html#ignite.contrib.metrics.GpuInfo.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">pass</span></div>
+        <span class="k">if</span> <span class="n">n_epochs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Argument n_epochs should be an integer&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">n_epochs</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Argument n_epochs should be positive&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GpuInfo.update"><a class="viewcode-back" href="../../../../contrib/metrics.html#ignite.contrib.metrics.GpuInfo.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">pass</span></div>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n_iterations</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n_epochs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">n_iterations</span> <span class="ow">and</span> <span class="n">n_epochs</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either n_iterations or n_epochs should be defined&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GpuInfo.compute"><a class="viewcode-back" href="../../../../contrib/metrics.html#ignite.contrib.metrics.GpuInfo.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nvsmi</span><span class="o">.</span><span class="n">DeviceQuery</span><span class="p">(</span>
-            <span class="s2">&quot;memory.used, memory.total, utilization.gpu&quot;</span>
-        <span class="p">)</span>  <span class="c1"># type: Dict[str, List[Dict[str, Any]]]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;gpu&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No GPU information available&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">[]</span>
-        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;gpu&quot;</span><span class="p">]</span></div>
+        <span class="k">if</span> <span class="n">n_iterations</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;iterations&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span> <span class="o">=</span> <span class="s2">&quot;iteration&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">n_iterations</span>
 
-<div class="viewcode-block" id="GpuInfo.completed"><a class="viewcode-back" href="../../../../contrib/metrics.html#ignite.contrib.metrics.GpuInfo.completed">[docs]</a>    <span class="k">def</span> <span class="nf">completed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No GPU information available&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">n_epochs</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;epochs&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span> <span class="o">=</span> <span class="s2">&quot;epoch&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">n_epochs</span>
 
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data_by_rank</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-            <span class="n">mem_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> mem(%)&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
+        <span class="n">event_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;Events&quot;</span><span class="p">,</span>
+            <span class="n">EventEnum</span><span class="p">(</span><span class="s2">&quot;Events&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_STARTED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_COMPLETED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">)])),</span>
+        <span class="p">)</span>
 
-            <span class="k">if</span> <span class="s2">&quot;fb_memory_usage&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data_by_rank</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No GPU memory usage information available in </span><span class="si">{</span><span class="n">data_by_rank</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">continue</span>
-            <span class="n">mem_report</span> <span class="o">=</span> <span class="n">data_by_rank</span><span class="p">[</span><span class="s2">&quot;fb_memory_usage&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="s2">&quot;used&quot;</span> <span class="ow">in</span> <span class="n">mem_report</span> <span class="ow">and</span> <span class="s2">&quot;total&quot;</span> <span class="ow">in</span> <span class="n">mem_report</span><span class="p">):</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">&quot;GPU memory usage information does not provide used/total &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;memory consumption information in </span><span class="si">{</span><span class="n">mem_report</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
-                <span class="k">continue</span>
+        <span class="c1"># Update State.event_to_attr</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">:</span>
+            <span class="n">State</span><span class="o">.</span><span class="n">event_to_attr</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span>
 
-            <span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">mem_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mem_report</span><span class="p">[</span><span class="s2">&quot;used&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="n">mem_report</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">])</span>
+        <span class="c1"># Create aliases</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_started</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_STARTED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_completed</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_COMPLETED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">event_name</span><span class="p">))</span>
 
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data_by_rank</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-            <span class="n">util_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> util(%)&quot;</span>
-            <span class="k">if</span> <span class="s2">&quot;utilization&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data_by_rank</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No GPU utilization information available in </span><span class="si">{</span><span class="n">data_by_rank</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">continue</span>
-            <span class="n">util_report</span> <span class="o">=</span> <span class="n">data_by_rank</span><span class="p">[</span><span class="s2">&quot;utilization&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="s2">&quot;gpu_util&quot;</span> <span class="ow">in</span> <span class="n">util_report</span><span class="p">):</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU utilization information does not provide &#39;gpu_util&#39; information in </span><span class="si">{</span><span class="n">util_report</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="k">continue</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">util_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">util_report</span><span class="p">[</span><span class="s2">&quot;gpu_util&quot;</span><span class="p">])</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="c1"># Do not set GPU utilization information</span>
-                <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">_on_started</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="c1"># TODO: see issue https://github.com/pytorch/ignite/issues/1405</span>
-<div class="viewcode-block" id="GpuInfo.attach"><a class="viewcode-back" href="../../../../contrib/metrics.html#ignite.contrib.metrics.GpuInfo.attach">[docs]</a>    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gpu&quot;</span><span class="p">,</span> <span class="n">event_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EventEnum</span><span class="p">]</span> <span class="o">=</span> <span class="n">Events</span><span class="o">.</span><span class="n">ITERATION_COMPLETED</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div></div>
+    <span class="k">def</span> <span class="nf">_on_periodic_event_started</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_state_attr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">engine</span><span class="o">.</span><span class="n">fire_event</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_started</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_on_periodic_event_completed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">engine</span><span class="o">.</span><span class="n">fire_event</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_periodic_event_completed</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="n">engine</span><span class="o">.</span><span class="n">register_events</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Events</span><span class="p">)</span>
+
+        <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="n">Events</span><span class="o">.</span><span class="n">STARTED</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_started</span><span class="p">)</span>
+        <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_STARTED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="o">.</span><span class="n">upper</span><span class="p">())),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_periodic_event_started</span>
+        <span class="p">)</span>
+        <span class="n">engine</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">Events</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_COMPLETED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_attr</span><span class="o">.</span><span class="n">upper</span><span class="p">())),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_periodic_event_completed</span>
+        <span class="p">)</span></div>
 </pre></div>
 
              </article>

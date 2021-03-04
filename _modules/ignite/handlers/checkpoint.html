@@ -133,7 +133,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -197,7 +197,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -213,8 +213,7 @@
             <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
             <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
             <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
-            <dd><a href="../../../v0.4.4/_modules/ignite/handlers/checkpoint.html">v0.4.4</a></dd>
-            <dd><a href="../../../v0.4.4.post1/index.html">v0.4.4.post1</a></dd>
+            <dd><a href="../../../v0.4.4.post1/_modules/ignite/handlers/checkpoint.html">v0.4.4.post1</a></dd>
             <dd><a href="../../../v0.4rc.0.post1/index.html">v0.4rc.0.post1</a></dd>
         </dl>
         <dl>
@@ -386,6 +385,7 @@
 <span class="sd">            Input of the function is ``(engine, event_name)``. Output of function should be an integer.</span>
 <span class="sd">            Default is None, global_step based on attached engine. If provided, uses function output as global_step.</span>
 <span class="sd">            To setup global step from another engine, please use :meth:`~ignite.handlers.global_step_from_engine`.</span>
+<span class="sd">        archived: Deprecated argument as models saved by ``torch.save`` are already compressed.</span>
 <span class="sd">        filename_pattern: If ``filename_pattern`` is provided, this pattern will be used to render</span>
 <span class="sd">            checkpoint filenames. If the pattern is not defined, the default pattern would be used. See Note for</span>
 <span class="sd">            details.</span>
@@ -557,6 +557,7 @@
         <span class="n">score_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_saved</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">global_step_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">archived</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">filename_pattern</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_self</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">greater_or_equal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -584,6 +585,9 @@
 
         <span class="k">if</span> <span class="n">global_step_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">global_step_transform</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;global_step_transform should be a function, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">global_step_transform</span><span class="p">)</span><span class="si">}</span><span class="s2"> instead.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">archived</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Argument archived is deprecated and will be removed in 0.5.0&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">to_save</span> <span class="o">=</span> <span class="n">to_save</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename_prefix</span> <span class="o">=</span> <span class="n">filename_prefix</span>
@@ -1024,6 +1028,11 @@
 
 <span class="sd">        Behaviour of this class has been changed since v0.3.0.</span>
 
+<span class="sd">        Argument ``save_as_state_dict`` is deprecated and should not be used. It is considered as True.</span>
+
+<span class="sd">        Argument ``save_interval`` is deprecated and should not be used. Please, use events filtering instead, e.g.</span>
+<span class="sd">        :attr:`~ignite.engine.events.Events.ITERATION_STARTED(every=1000)`</span>
+
 <span class="sd">        There is no more internal counter that has been used to indicate the number of save actions. User could</span>
 <span class="sd">        see its value `step_number` in the filename, e.g. `{filename_prefix}_{name}_{step_number}.pt`. Actually,</span>
 <span class="sd">        `step_number` is replaced by current engine&#39;s epoch if `score_function` is specified and current iteration</span>
@@ -1052,7 +1061,12 @@
 <span class="sd">            Input of the function is `(engine, event_name)`. Output of function should be an integer.</span>
 <span class="sd">            Default is None, global_step based on attached engine. If provided, uses function output as global_step.</span>
 <span class="sd">            To setup global step from another engine, please use :meth:`~ignite.handlers.global_step_from_engine`.</span>
+<span class="sd">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span>
+<span class="sd">        archived (bool, optional): Deprecated argument as models saved by `torch.save` are already compressed.</span>
+<span class="sd">        include_self (bool): Whether to include the `state_dict` of this object in the checkpoint. If `True`, then</span>
+<span class="sd">=======</span>
 <span class="sd">        include_self: Whether to include the `state_dict` of this object in the checkpoint. If `True`, then</span>
+<span class="sd">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 7af45d7a... ignite.handlers: removed type annotations from docstring (#1672)</span>
 <span class="sd">            there must not be another object in ``to_save`` with key ``checkpointer``.</span>
 <span class="sd">        kwargs: Accepted keyword arguments for `torch.save` or `xm.save` in `DiskSaver`.</span>
 
@@ -1079,16 +1093,36 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dirname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">filename_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">save_interval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">score_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">score_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_saved</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">atomic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">require_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">create_dir</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">save_as_state_dict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">global_step_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">archived</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">include_self</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">save_as_state_dict</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Argument save_as_state_dict is deprecated and should be True.&quot;</span>
+                <span class="s2">&quot;This argument will be removed in 0.5.0.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">save_interval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Argument save_interval is deprecated and should be None. This argument will be removed in 0.5.0.&quot;</span>
+                <span class="s2">&quot;Please, use events filtering instead, e.g. Events.ITERATION_STARTED(every=1000)&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">save_interval</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Do not break for old version who used `save_interval=1`</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># No choice</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">disk_saver</span> <span class="o">=</span> <span class="n">DiskSaver</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">atomic</span><span class="o">=</span><span class="n">atomic</span><span class="p">,</span> <span class="n">create_dir</span><span class="o">=</span><span class="n">create_dir</span><span class="p">,</span> <span class="n">require_empty</span><span class="o">=</span><span class="n">require_empty</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -1100,6 +1134,7 @@
             <span class="n">score_name</span><span class="o">=</span><span class="n">score_name</span><span class="p">,</span>
             <span class="n">n_saved</span><span class="o">=</span><span class="n">n_saved</span><span class="p">,</span>
             <span class="n">global_step_transform</span><span class="o">=</span><span class="n">global_step_transform</span><span class="p">,</span>
+            <span class="n">archived</span><span class="o">=</span><span class="n">archived</span><span class="p">,</span>
             <span class="n">include_self</span><span class="o">=</span><span class="n">include_self</span><span class="p">,</span>
         <span class="p">)</span>
 

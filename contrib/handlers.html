@@ -135,7 +135,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -199,7 +199,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -215,7 +215,6 @@
             <dd><a href="../v0.4.1/contrib/handlers.html">v0.4.1</a></dd>
             <dd><a href="../v0.4.2/contrib/handlers.html">v0.4.2</a></dd>
             <dd><a href="../v0.4.3/contrib/handlers.html">v0.4.3</a></dd>
-            <dd><a href="../v0.4.4/contrib/handlers.html">v0.4.4</a></dd>
             <dd><a href="../v0.4.4.post1/contrib/handlers.html">v0.4.4.post1</a></dd>
             <dd><a href="../v0.4rc.0.post1/contrib/handlers.html">v0.4rc.0.post1</a></dd>
         </dl>
@@ -295,6 +294,58 @@
   <div class="section" id="ignite-contrib-handlers">
 <h1>ignite.contrib.handlers<a class="headerlink" href="#ignite-contrib-handlers" title="Permalink to this headline">¶</a></h1>
 <p>Contribution module of handlers</p>
+<div class="section" id="module-ignite.contrib.handlers.custom_events">
+<span id="custom-events"></span><h2>custom_events<a class="headerlink" href="#module-ignite.contrib.handlers.custom_events" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ignite.contrib.handlers.custom_events.CustomPeriodicEvent">
+<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.handlers.custom_events.</code><code class="sig-name descname">CustomPeriodicEvent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_iterations</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_epochs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/handlers/custom_events.html#CustomPeriodicEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.handlers.custom_events.CustomPeriodicEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED. Use filtered events instead.
+Handler to define a custom periodic events as a number of elapsed iterations/epochs
+for an engine.</p>
+<p>When custom periodic event is created and attached to an engine, the following events are fired:
+1) K iterations is specified:
+- <cite>Events.ITERATIONS_&lt;K&gt;_STARTED</cite>
+- <cite>Events.ITERATIONS_&lt;K&gt;_COMPLETED</cite></p>
+<p>1) K epochs is specified:
+- <cite>Events.EPOCHS_&lt;K&gt;_STARTED</cite>
+- <cite>Events.EPOCHS_&lt;K&gt;_COMPLETED</cite></p>
+<p>Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ignite.engine</span> <span class="kn">import</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">Events</span>
+<span class="kn">from</span> <span class="nn">ignite.contrib.handlers</span> <span class="kn">import</span> <span class="n">CustomPeriodicEvent</span>
+
+<span class="c1"># Let&#39;s define an event every 1000 iterations</span>
+<span class="n">cpe1</span> <span class="o">=</span> <span class="n">CustomPeriodicEvent</span><span class="p">(</span><span class="n">n_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">cpe1</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">trainer</span><span class="p">)</span>
+
+<span class="c1"># Let&#39;s define an event every 10 epochs</span>
+<span class="n">cpe2</span> <span class="o">=</span> <span class="n">CustomPeriodicEvent</span><span class="p">(</span><span class="n">n_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">cpe2</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">trainer</span><span class="p">)</span>
+
+<span class="nd">@trainer</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">cpe1</span><span class="o">.</span><span class="n">Events</span><span class="o">.</span><span class="n">ITERATIONS_1000_COMPLETED</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">on_every_1000_iterations</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="c1"># run a computation after 1000 iterations</span>
+    <span class="c1"># ...</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">iterations_1000</span><span class="p">)</span>
+
+<span class="nd">@trainer</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">cpe2</span><span class="o">.</span><span class="n">Events</span><span class="o">.</span><span class="n">EPOCHS_10_STARTED</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">on_every_10_epochs</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="c1"># run a computation every 10 epochs</span>
+    <span class="c1"># ...</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epochs_10</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_iterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – number iterations of the custom periodic event</p></li>
+<li><p><strong>n_epochs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – number iterations of the custom periodic event. Argument is optional, but only one,
+either n_iterations or n_epochs should defined.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="param-scheduler">
 <h2>param_scheduler<a class="headerlink" href="#param-scheduler" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
@@ -1044,9 +1095,9 @@ rates and what can be an optimal learning rate.</p>
 <code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">trainer</em>, <em class="sig-param">to_save</em>, <em class="sig-param">output_transform=&lt;function FastaiLRFinder.&lt;lambda&gt;&gt;</em>, <em class="sig-param">num_iter=None</em>, <em class="sig-param">end_lr=10.0</em>, <em class="sig-param">step_mode='exp'</em>, <em class="sig-param">smooth_f=0.05</em>, <em class="sig-param">diverge_th=5.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/handlers/lr_finder.html#FastaiLRFinder.attach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.handlers.lr_finder.FastaiLRFinder.attach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attaches lr_finder to a given trainer. It also resets model and optimizer at the end of the run.</p>
 <p>Usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">to_save</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="n">optimizer</span><span class="p">}</span>
-<span class="k">with</span> <span class="n">lr_finder</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">to_save</span><span class="o">=</span><span class="n">to_save</span><span class="p">)</span> <span class="k">as</span> <span class="n">trainer_with_lr_finder</span><span class="p">:</span>
-    <span class="n">trainer_with_lr_finder</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>to_save = {&quot;model&quot;: model, &quot;optimizer&quot;: optimizer}
+with lr_finder.attach(trainer, to_save=to_save) as trainer_with_lr_finder:
+    trainer_with_lr_finder.run(dataloader)`
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -5132,6 +5183,7 @@ This can be helpful for logging trainer epoch/iteration while output handler is 
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">ignite.contrib.handlers</a><ul>
+<li><a class="reference internal" href="#module-ignite.contrib.handlers.custom_events">custom_events</a></li>
 <li><a class="reference internal" href="#param-scheduler">param_scheduler</a></li>
 <li><a class="reference internal" href="#lr-finder">lr_finder</a></li>
 <li><a class="reference internal" href="#time-profilers">time_profilers</a></li>

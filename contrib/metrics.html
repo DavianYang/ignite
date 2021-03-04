@@ -135,7 +135,7 @@
               
               
                 <div class="version">
-                  0.4.4
+                  0.4.4.post1
                 </div>
               
             
@@ -199,7 +199,7 @@
       <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: v0.4.4
+        v: v0.4.4.post1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -215,7 +215,6 @@
             <dd><a href="../v0.4.1/contrib/metrics.html">v0.4.1</a></dd>
             <dd><a href="../v0.4.2/contrib/metrics.html">v0.4.2</a></dd>
             <dd><a href="../v0.4.3/contrib/metrics.html">v0.4.3</a></dd>
-            <dd><a href="../v0.4.4/contrib/metrics.html">v0.4.4</a></dd>
             <dd><a href="../v0.4.4.post1/contrib/metrics.html">v0.4.4.post1</a></dd>
             <dd><a href="../v0.4rc.0.post1/contrib/metrics.html">v0.4rc.0.post1</a></dd>
         </dl>
@@ -304,19 +303,16 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.AveragePrecision" title="ignite.contrib.metrics.AveragePrecision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AveragePrecision</span></code></a></p></td>
 <td><p>Computes Average Precision accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html#sklearn.metrics.average_precision_score">sklearn.metrics.average_precision_score</a> .</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.CohenKappa" title="ignite.contrib.metrics.CohenKappa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CohenKappa</span></code></a></p></td>
-<td><p>Compute different types of Cohen’s Kappa: Non-Wieghted, Linear, Quadratic.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GpuInfo</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.GpuInfo" title="ignite.contrib.metrics.GpuInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GpuInfo</span></code></a></p></td>
 <td><p>Provides GPU information: a) used memory percentage, b) gpu utilization percentage values as Metric on each iterations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.PrecisionRecallCurve" title="ignite.contrib.metrics.PrecisionRecallCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrecisionRecallCurve</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.PrecisionRecallCurve" title="ignite.contrib.metrics.PrecisionRecallCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrecisionRecallCurve</span></code></a></p></td>
 <td><p>Compute precision-recall pairs for different probability thresholds for binary classification task by accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve">sklearn.metrics.precision_recall_curve</a> .</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.ROC_AUC" title="ignite.contrib.metrics.ROC_AUC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROC_AUC</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.ROC_AUC" title="ignite.contrib.metrics.ROC_AUC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROC_AUC</span></code></a></p></td>
 <td><p>Computes Area Under the Receiver Operating Characteristic Curve (ROC AUC) accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html#sklearn.metrics.roc_auc_score">sklearn.metrics.roc_auc_score</a> .</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ignite.contrib.metrics.RocCurve" title="ignite.contrib.metrics.RocCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RocCurve</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ignite.contrib.metrics.RocCurve" title="ignite.contrib.metrics.RocCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RocCurve</span></code></a></p></td>
 <td><p>Compute Receiver operating characteristic (ROC) for binary classification task by accumulating predictions and the ground-truth during an epoch and applying <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve">sklearn.metrics.roc_curve</a> .</p></td>
 </tr>
 </tbody>
@@ -349,39 +345,6 @@ confidence values. To apply an activation to y_pred, use output_transform as sho
     <span class="k">return</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span>
 
 <span class="n">avg_precision</span> <span class="o">=</span> <span class="n">AveragePrecision</span><span class="p">(</span><span class="n">activated_output_transform</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py class">
-<dt id="ignite.contrib.metrics.CohenKappa">
-<em class="property">class </em><code class="sig-prename descclassname">ignite.contrib.metrics.</code><code class="sig-name descname">CohenKappa</code><span class="sig-paren">(</span><em class="sig-param">output_transform=&lt;function CohenKappa.&lt;lambda&gt;&gt;</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">check_compute_fn=False</em>, <em class="sig-param">device=device(type='cpu')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ignite/contrib/metrics/cohen_kappa.html#CohenKappa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ignite.contrib.metrics.CohenKappa" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute different types of Cohen’s Kappa: Non-Wieghted, Linear, Quadratic.
-Accumulating predictions and the ground-truth during an epoch and applying
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.cohen_kappa_score.html">sklearn.metrics.cohen_kappa_score</a> .</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_transform</strong> (<em>Callable</em>) – a callable that is used to transform the
-<a class="reference internal" href="../engine.html#ignite.engine.engine.Engine" title="ignite.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">Engine</span></code></a>’s <code class="docutils literal notranslate"><span class="pre">process_function</span></code>’s output into the
-form expected by the metric. This can be useful if, for example, you have a multi-output model and
-you want to compute the metric with respect to one of the outputs.</p></li>
-<li><p><strong>weights</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – a string is used to define the type of Cohen’s Kappa whether Non-Weighted or Linear
-or Quadratic. Default, None.</p></li>
-<li><p><strong>check_compute_fn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Default False. If True, <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.cohen_kappa_score.html">cohen_kappa_score</a>
-is run on the first batch of data to ensure there are
-no issues. User will be warned in case there are any issues computing the function.</p></li>
-<li><p><strong>device</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>torch.device</em><em>]</em>) – optional device specification for internal storage.</p></li>
-</ul>
-</dd>
-</dl>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">activated_output_transform</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
-    <span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">output</span>
-    <span class="k">return</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span>
-
-<span class="n">weights</span> <span class="o">=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">linear</span> <span class="ow">or</span> <span class="n">quadratic</span>
-
-<span class="n">cohen_kappa</span> <span class="o">=</span> <span class="n">CohenKappa</span><span class="p">(</span><span class="n">activated_output_transform</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
